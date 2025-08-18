@@ -27,9 +27,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/cas-parser-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/cas-parser-java.git")
-                    url.set("https://github.com/stainless-sdks/cas-parser-java")
+                    connection.set("scm:git:git://github.com/CASParser/cas-parser-java.git")
+                    developerConnection.set("scm:git:git://github.com/CASParser/cas-parser-java.git")
+                    url.set("https://github.com/CASParser/cas-parser-java")
                 }
 
                 versionMapping {
