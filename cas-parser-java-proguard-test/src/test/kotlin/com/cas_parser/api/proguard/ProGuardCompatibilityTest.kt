@@ -1,0 +1,265 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.cas_parser.api.proguard
+
+import com.cas_parser.api.client.okhttp.CasParserOkHttpClient
+import com.cas_parser.api.core.JsonValue
+import com.cas_parser.api.core.jsonMapper
+import com.cas_parser.api.models.casparser.UnifiedResponse
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import kotlin.reflect.full.memberFunctions
+import kotlin.reflect.jvm.javaMethod
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+internal class ProGuardCompatibilityTest {
+
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            // To debug that we're using the right JAR.
+            val jarPath = this::class.java.getProtectionDomain().codeSource.location
+            println("JAR being used: $jarPath")
+
+            // We have to manually run the test methods instead of using the JUnit runner because it
+            // seems impossible to get working with R8.
+            val test = ProGuardCompatibilityTest()
+            test::class
+                .memberFunctions
+                .asSequence()
+                .filter { function ->
+                    function.javaMethod?.isAnnotationPresent(Test::class.java) == true
+                }
+                .forEach { it.call(test) }
+        }
+    }
+
+    @Test
+    fun proguardRules() {
+        val rulesFile =
+            javaClass.classLoader.getResourceAsStream("META-INF/proguard/cas-parser-java-core.pro")
+
+        assertThat(rulesFile).isNotNull()
+    }
+
+    @Test
+    fun client() {
+        val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
+
+        assertThat(client).isNotNull()
+        assertThat(client.casParser()).isNotNull()
+        assertThat(client.casGenerator()).isNotNull()
+    }
+
+    @Test
+    fun unifiedResponseRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val unifiedResponse =
+            UnifiedResponse.builder()
+                .addDematAccount(
+                    UnifiedResponse.DematAccount.builder()
+                        .additionalInfo(
+                            UnifiedResponse.DematAccount.AdditionalInfo.builder()
+                                .boStatus("bo_status")
+                                .boSubStatus("bo_sub_status")
+                                .boType("bo_type")
+                                .bsda("bsda")
+                                .email("dev@stainless.com")
+                                .addLinkedPan("string")
+                                .nominee("nominee")
+                                .status("status")
+                                .build()
+                        )
+                        .boId("bo_id")
+                        .clientId("client_id")
+                        .dematType(UnifiedResponse.DematAccount.DematType.NSDL)
+                        .dpId("dp_id")
+                        .dpName("dp_name")
+                        .holdings(
+                            UnifiedResponse.DematAccount.Holdings.builder()
+                                .addAif(
+                                    UnifiedResponse.DematAccount.Holdings.Aif.builder()
+                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .isin("isin")
+                                        .name("name")
+                                        .units(0.0f)
+                                        .value(0.0f)
+                                        .build()
+                                )
+                                .addCorporateBond(
+                                    UnifiedResponse.DematAccount.Holdings.CorporateBond.builder()
+                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .isin("isin")
+                                        .name("name")
+                                        .units(0.0f)
+                                        .value(0.0f)
+                                        .build()
+                                )
+                                .addDematMutualFund(
+                                    UnifiedResponse.DematAccount.Holdings.DematMutualFund.builder()
+                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .isin("isin")
+                                        .name("name")
+                                        .units(0.0f)
+                                        .value(0.0f)
+                                        .build()
+                                )
+                                .addEquity(
+                                    UnifiedResponse.DematAccount.Holdings.Equity.builder()
+                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .isin("isin")
+                                        .name("name")
+                                        .units(0.0f)
+                                        .value(0.0f)
+                                        .build()
+                                )
+                                .addGovernmentSecurity(
+                                    UnifiedResponse.DematAccount.Holdings.GovernmentSecurity
+                                        .builder()
+                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .isin("isin")
+                                        .name("name")
+                                        .units(0.0f)
+                                        .value(0.0f)
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .value(0.0f)
+                        .build()
+                )
+                .insurance(
+                    UnifiedResponse.Insurance.builder()
+                        .addLifeInsurancePolicy(
+                            UnifiedResponse.Insurance.LifeInsurancePolicy.builder()
+                                .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                .lifeAssured("life_assured")
+                                .policyName("policy_name")
+                                .policyNumber("policy_number")
+                                .premiumAmount(0.0f)
+                                .premiumFrequency("premium_frequency")
+                                .provider("provider")
+                                .status("status")
+                                .sumAssured(0.0f)
+                                .build()
+                        )
+                        .build()
+                )
+                .investor(
+                    UnifiedResponse.Investor.builder()
+                        .address("address")
+                        .casId("cas_id")
+                        .email("dev@stainless.com")
+                        .mobile("mobile")
+                        .name("name")
+                        .pan("pan")
+                        .pincode("pincode")
+                        .build()
+                )
+                .meta(
+                    UnifiedResponse.Meta.builder()
+                        .casType(UnifiedResponse.Meta.CasType.NSDL)
+                        .generatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .statementPeriod(
+                            UnifiedResponse.Meta.StatementPeriod.builder()
+                                .from(LocalDate.parse("2019-12-27"))
+                                .to(LocalDate.parse("2019-12-27"))
+                                .build()
+                        )
+                        .build()
+                )
+                .addMutualFund(
+                    UnifiedResponse.MutualFund.builder()
+                        .additionalInfo(
+                            UnifiedResponse.MutualFund.AdditionalInfo.builder()
+                                .kyc("kyc")
+                                .pan("pan")
+                                .pankyc("pankyc")
+                                .build()
+                        )
+                        .amc("amc")
+                        .folioNumber("folio_number")
+                        .registrar("registrar")
+                        .addScheme(
+                            UnifiedResponse.MutualFund.Scheme.builder()
+                                .additionalInfo(
+                                    UnifiedResponse.MutualFund.Scheme.AdditionalInfo.builder()
+                                        .advisor("advisor")
+                                        .amfi("amfi")
+                                        .closeUnits(0.0f)
+                                        .openUnits(0.0f)
+                                        .rtaCode("rta_code")
+                                        .build()
+                                )
+                                .cost(0.0f)
+                                .gain(
+                                    UnifiedResponse.MutualFund.Scheme.Gain.builder()
+                                        .absolute(0.0f)
+                                        .percentage(0.0f)
+                                        .build()
+                                )
+                                .isin("isin")
+                                .name("name")
+                                .nav(0.0f)
+                                .addNominee("string")
+                                .addTransaction(
+                                    UnifiedResponse.MutualFund.Scheme.Transaction.builder()
+                                        .amount(0.0f)
+                                        .balance(0.0f)
+                                        .date(LocalDate.parse("2019-12-27"))
+                                        .description("description")
+                                        .dividendRate(0.0f)
+                                        .nav(0.0f)
+                                        .type("type")
+                                        .units(0.0f)
+                                        .build()
+                                )
+                                .type(UnifiedResponse.MutualFund.Scheme.Type.EQUITY)
+                                .units(0.0f)
+                                .value(0.0f)
+                                .build()
+                        )
+                        .value(0.0f)
+                        .build()
+                )
+                .summary(
+                    UnifiedResponse.Summary.builder()
+                        .accounts(
+                            UnifiedResponse.Summary.Accounts.builder()
+                                .demat(
+                                    UnifiedResponse.Summary.Accounts.Demat.builder()
+                                        .count(0L)
+                                        .totalValue(0.0f)
+                                        .build()
+                                )
+                                .insurance(
+                                    UnifiedResponse.Summary.Accounts.Insurance.builder()
+                                        .count(0L)
+                                        .totalValue(0.0f)
+                                        .build()
+                                )
+                                .mutualFunds(
+                                    UnifiedResponse.Summary.Accounts.MutualFunds.builder()
+                                        .count(0L)
+                                        .totalValue(0.0f)
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .totalValue(0.0f)
+                        .build()
+                )
+                .build()
+
+        val roundtrippedUnifiedResponse =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(unifiedResponse),
+                jacksonTypeRef<UnifiedResponse>(),
+            )
+
+        assertThat(roundtrippedUnifiedResponse).isEqualTo(unifiedResponse)
+    }
+}
