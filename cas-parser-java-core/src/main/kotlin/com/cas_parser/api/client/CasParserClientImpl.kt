@@ -46,7 +46,7 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
 
     override fun casGenerator(): CasGeneratorService = casGenerator
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         CasParserClient.WithRawResponse {
