@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.4 (2025-09-13)
+
+Full Changelog: [v0.0.3...v0.0.4](https://github.com/CASParser/cas-parser-java/compare/v0.0.3...v0.0.4)
+
+### Bug Fixes
+
+* **ci:** use java-version 21 for publish step ([29ae5b2](https://github.com/CASParser/cas-parser-java/commit/29ae5b284038528c2cde321ff2e74257755a7adb))
+
+
+### Chores
+
+* improve formatter performance ([2486fa4](https://github.com/CASParser/cas-parser-java/commit/2486fa43b6f0e0b1809d6155276d028c942d5a85))
+* **internal:** codegen related update ([14e49f9](https://github.com/CASParser/cas-parser-java/commit/14e49f9467da3e4c5f89e913820f7c6a34c41291))
+* **internal:** codegen related update ([b175f13](https://github.com/CASParser/cas-parser-java/commit/b175f13cdf092aef7f028737640db543ce6c62e5))
+
 ## 0.0.3 (2025-08-22)
 
 Full Changelog: [v0.0.2...v0.0.3](https://github.com/CASParser/cas-parser-java/compare/v0.0.2...v0.0.3)
