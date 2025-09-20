@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0 (2025-09-20)
+
+Full Changelog: [v0.0.4...v0.1.0](https://github.com/CASParser/cas-parser-java/compare/v0.0.4...v0.1.0)
+
+### Features
+
+* **client:** expose sleeper option ([482319f](https://github.com/CASParser/cas-parser-java/commit/482319f0e19023df4e3ba5414e38914f6ad037fa))
+
+
+### Bug Fixes
+
+* **client:** ensure single timer is created per client ([482319f](https://github.com/CASParser/cas-parser-java/commit/482319f0e19023df4e3ba5414e38914f6ad037fa))
+* **client:** incorrect `getPackageVersion` impl ([6772c5e](https://github.com/CASParser/cas-parser-java/commit/6772c5eeb5557a1e494852713cc55ec722b75145))
+
+
+### Chores
+
+* improve formatter performance ([692db64](https://github.com/CASParser/cas-parser-java/commit/692db64a36ef927e9c0ea23bd57192af99aaaf02))
+
 ## 0.0.4 (2025-09-13)
 
 Full Changelog: [v0.0.3...v0.0.4](https://github.com/CASParser/cas-parser-java/compare/v0.0.3...v0.0.4)
