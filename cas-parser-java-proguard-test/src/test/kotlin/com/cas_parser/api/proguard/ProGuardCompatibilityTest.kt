@@ -128,6 +128,12 @@ internal class ProGuardCompatibilityTest {
                                 )
                                 .build()
                         )
+                        .addLinkedHolder(
+                            UnifiedResponse.DematAccount.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
                         .value(0.0f)
                         .build()
                 )
@@ -182,6 +188,12 @@ internal class ProGuardCompatibilityTest {
                         )
                         .amc("amc")
                         .folioNumber("folio_number")
+                        .addLinkedHolder(
+                            UnifiedResponse.MutualFund.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
                         .registrar("registrar")
                         .addScheme(
                             UnifiedResponse.MutualFund.Scheme.builder()
@@ -225,6 +237,35 @@ internal class ProGuardCompatibilityTest {
                         .value(0.0f)
                         .build()
                 )
+                .addNp(
+                    UnifiedResponse.Np.builder()
+                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                        .cra("cra")
+                        .addFund(
+                            UnifiedResponse.Np.Fund.builder()
+                                .additionalInfo(
+                                    UnifiedResponse.Np.Fund.AdditionalInfo.builder()
+                                        .manager("manager")
+                                        .tier(UnifiedResponse.Np.Fund.AdditionalInfo.Tier._1)
+                                        .build()
+                                )
+                                .cost(0.0f)
+                                .name("name")
+                                .nav(0.0f)
+                                .units(0.0f)
+                                .value(0.0f)
+                                .build()
+                        )
+                        .addLinkedHolder(
+                            UnifiedResponse.Np.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
+                        .pran("pran")
+                        .value(0.0f)
+                        .build()
+                )
                 .summary(
                     UnifiedResponse.Summary.builder()
                         .accounts(
@@ -243,6 +284,12 @@ internal class ProGuardCompatibilityTest {
                                 )
                                 .mutualFunds(
                                     UnifiedResponse.Summary.Accounts.MutualFunds.builder()
+                                        .count(0L)
+                                        .totalValue(0.0f)
+                                        .build()
+                                )
+                                .nps(
+                                    UnifiedResponse.Summary.Accounts.Nps.builder()
                                         .count(0L)
                                         .totalValue(0.0f)
                                         .build()

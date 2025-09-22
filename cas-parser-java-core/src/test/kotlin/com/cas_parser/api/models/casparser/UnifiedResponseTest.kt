@@ -86,6 +86,12 @@ internal class UnifiedResponseTest {
                                 )
                                 .build()
                         )
+                        .addLinkedHolder(
+                            UnifiedResponse.DematAccount.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
                         .value(0.0f)
                         .build()
                 )
@@ -140,6 +146,12 @@ internal class UnifiedResponseTest {
                         )
                         .amc("amc")
                         .folioNumber("folio_number")
+                        .addLinkedHolder(
+                            UnifiedResponse.MutualFund.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
                         .registrar("registrar")
                         .addScheme(
                             UnifiedResponse.MutualFund.Scheme.builder()
@@ -183,6 +195,35 @@ internal class UnifiedResponseTest {
                         .value(0.0f)
                         .build()
                 )
+                .addNp(
+                    UnifiedResponse.Np.builder()
+                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                        .cra("cra")
+                        .addFund(
+                            UnifiedResponse.Np.Fund.builder()
+                                .additionalInfo(
+                                    UnifiedResponse.Np.Fund.AdditionalInfo.builder()
+                                        .manager("manager")
+                                        .tier(UnifiedResponse.Np.Fund.AdditionalInfo.Tier._1)
+                                        .build()
+                                )
+                                .cost(0.0f)
+                                .name("name")
+                                .nav(0.0f)
+                                .units(0.0f)
+                                .value(0.0f)
+                                .build()
+                        )
+                        .addLinkedHolder(
+                            UnifiedResponse.Np.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
+                        .pran("pran")
+                        .value(0.0f)
+                        .build()
+                )
                 .summary(
                     UnifiedResponse.Summary.builder()
                         .accounts(
@@ -201,6 +242,12 @@ internal class UnifiedResponseTest {
                                 )
                                 .mutualFunds(
                                     UnifiedResponse.Summary.Accounts.MutualFunds.builder()
+                                        .count(0L)
+                                        .totalValue(0.0f)
+                                        .build()
+                                )
+                                .nps(
+                                    UnifiedResponse.Summary.Accounts.Nps.builder()
                                         .count(0L)
                                         .totalValue(0.0f)
                                         .build()
@@ -281,6 +328,12 @@ internal class UnifiedResponseTest {
                             )
                             .build()
                     )
+                    .addLinkedHolder(
+                        UnifiedResponse.DematAccount.LinkedHolder.builder()
+                            .name("name")
+                            .pan("pan")
+                            .build()
+                    )
                     .value(0.0f)
                     .build()
             )
@@ -339,6 +392,12 @@ internal class UnifiedResponseTest {
                     )
                     .amc("amc")
                     .folioNumber("folio_number")
+                    .addLinkedHolder(
+                        UnifiedResponse.MutualFund.LinkedHolder.builder()
+                            .name("name")
+                            .pan("pan")
+                            .build()
+                    )
                     .registrar("registrar")
                     .addScheme(
                         UnifiedResponse.MutualFund.Scheme.builder()
@@ -382,6 +441,33 @@ internal class UnifiedResponseTest {
                     .value(0.0f)
                     .build()
             )
+        assertThat(unifiedResponse.nps().getOrNull())
+            .containsExactly(
+                UnifiedResponse.Np.builder()
+                    .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                    .cra("cra")
+                    .addFund(
+                        UnifiedResponse.Np.Fund.builder()
+                            .additionalInfo(
+                                UnifiedResponse.Np.Fund.AdditionalInfo.builder()
+                                    .manager("manager")
+                                    .tier(UnifiedResponse.Np.Fund.AdditionalInfo.Tier._1)
+                                    .build()
+                            )
+                            .cost(0.0f)
+                            .name("name")
+                            .nav(0.0f)
+                            .units(0.0f)
+                            .value(0.0f)
+                            .build()
+                    )
+                    .addLinkedHolder(
+                        UnifiedResponse.Np.LinkedHolder.builder().name("name").pan("pan").build()
+                    )
+                    .pran("pran")
+                    .value(0.0f)
+                    .build()
+            )
         assertThat(unifiedResponse.summary())
             .contains(
                 UnifiedResponse.Summary.builder()
@@ -401,6 +487,12 @@ internal class UnifiedResponseTest {
                             )
                             .mutualFunds(
                                 UnifiedResponse.Summary.Accounts.MutualFunds.builder()
+                                    .count(0L)
+                                    .totalValue(0.0f)
+                                    .build()
+                            )
+                            .nps(
+                                UnifiedResponse.Summary.Accounts.Nps.builder()
                                     .count(0L)
                                     .totalValue(0.0f)
                                     .build()
@@ -486,6 +578,12 @@ internal class UnifiedResponseTest {
                                 )
                                 .build()
                         )
+                        .addLinkedHolder(
+                            UnifiedResponse.DematAccount.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
                         .value(0.0f)
                         .build()
                 )
@@ -540,6 +638,12 @@ internal class UnifiedResponseTest {
                         )
                         .amc("amc")
                         .folioNumber("folio_number")
+                        .addLinkedHolder(
+                            UnifiedResponse.MutualFund.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
                         .registrar("registrar")
                         .addScheme(
                             UnifiedResponse.MutualFund.Scheme.builder()
@@ -583,6 +687,35 @@ internal class UnifiedResponseTest {
                         .value(0.0f)
                         .build()
                 )
+                .addNp(
+                    UnifiedResponse.Np.builder()
+                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                        .cra("cra")
+                        .addFund(
+                            UnifiedResponse.Np.Fund.builder()
+                                .additionalInfo(
+                                    UnifiedResponse.Np.Fund.AdditionalInfo.builder()
+                                        .manager("manager")
+                                        .tier(UnifiedResponse.Np.Fund.AdditionalInfo.Tier._1)
+                                        .build()
+                                )
+                                .cost(0.0f)
+                                .name("name")
+                                .nav(0.0f)
+                                .units(0.0f)
+                                .value(0.0f)
+                                .build()
+                        )
+                        .addLinkedHolder(
+                            UnifiedResponse.Np.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
+                        .pran("pran")
+                        .value(0.0f)
+                        .build()
+                )
                 .summary(
                     UnifiedResponse.Summary.builder()
                         .accounts(
@@ -601,6 +734,12 @@ internal class UnifiedResponseTest {
                                 )
                                 .mutualFunds(
                                     UnifiedResponse.Summary.Accounts.MutualFunds.builder()
+                                        .count(0L)
+                                        .totalValue(0.0f)
+                                        .build()
+                                )
+                                .nps(
+                                    UnifiedResponse.Summary.Accounts.Nps.builder()
                                         .count(0L)
                                         .totalValue(0.0f)
                                         .build()

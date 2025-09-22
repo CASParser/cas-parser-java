@@ -28,6 +28,7 @@ private constructor(
     private val investor: JsonField<Investor>,
     private val meta: JsonField<Meta>,
     private val mutualFunds: JsonField<List<MutualFund>>,
+    private val nps: JsonField<List<Np>>,
     private val summary: JsonField<Summary>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -45,8 +46,9 @@ private constructor(
         @JsonProperty("mutual_funds")
         @ExcludeMissing
         mutualFunds: JsonField<List<MutualFund>> = JsonMissing.of(),
+        @JsonProperty("nps") @ExcludeMissing nps: JsonField<List<Np>> = JsonMissing.of(),
         @JsonProperty("summary") @ExcludeMissing summary: JsonField<Summary> = JsonMissing.of(),
-    ) : this(dematAccounts, insurance, investor, meta, mutualFunds, summary, mutableMapOf())
+    ) : this(dematAccounts, insurance, investor, meta, mutualFunds, nps, summary, mutableMapOf())
 
     /**
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -77,6 +79,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun mutualFunds(): Optional<List<MutualFund>> = mutualFunds.getOptional("mutual_funds")
+
+    /**
+     * List of NPS accounts
+     *
+     * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun nps(): Optional<List<Np>> = nps.getOptional("nps")
 
     /**
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -124,6 +134,13 @@ private constructor(
     fun _mutualFunds(): JsonField<List<MutualFund>> = mutualFunds
 
     /**
+     * Returns the raw JSON value of [nps].
+     *
+     * Unlike [nps], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("nps") @ExcludeMissing fun _nps(): JsonField<List<Np>> = nps
+
+    /**
      * Returns the raw JSON value of [summary].
      *
      * Unlike [summary], this method doesn't throw if the JSON field has an unexpected type.
@@ -156,6 +173,7 @@ private constructor(
         private var investor: JsonField<Investor> = JsonMissing.of()
         private var meta: JsonField<Meta> = JsonMissing.of()
         private var mutualFunds: JsonField<MutableList<MutualFund>>? = null
+        private var nps: JsonField<MutableList<Np>>? = null
         private var summary: JsonField<Summary> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -166,6 +184,7 @@ private constructor(
             investor = unifiedResponse.investor
             meta = unifiedResponse.meta
             mutualFunds = unifiedResponse.mutualFunds.map { it.toMutableList() }
+            nps = unifiedResponse.nps.map { it.toMutableList() }
             summary = unifiedResponse.summary
             additionalProperties = unifiedResponse.additionalProperties.toMutableMap()
         }
@@ -253,6 +272,26 @@ private constructor(
                 }
         }
 
+        /** List of NPS accounts */
+        fun nps(nps: List<Np>) = nps(JsonField.of(nps))
+
+        /**
+         * Sets [Builder.nps] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nps] with a well-typed `List<Np>` value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun nps(nps: JsonField<List<Np>>) = apply { this.nps = nps.map { it.toMutableList() } }
+
+        /**
+         * Adds a single [Np] to [nps].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addNp(np: Np) = apply {
+            nps = (nps ?: JsonField.of(mutableListOf())).also { checkKnown("nps", it).add(np) }
+        }
+
         fun summary(summary: Summary) = summary(JsonField.of(summary))
 
         /**
@@ -294,6 +333,7 @@ private constructor(
                 investor,
                 meta,
                 (mutualFunds ?: JsonMissing.of()).map { it.toImmutable() },
+                (nps ?: JsonMissing.of()).map { it.toImmutable() },
                 summary,
                 additionalProperties.toMutableMap(),
             )
@@ -311,6 +351,7 @@ private constructor(
         investor().ifPresent { it.validate() }
         meta().ifPresent { it.validate() }
         mutualFunds().ifPresent { it.forEach { it.validate() } }
+        nps().ifPresent { it.forEach { it.validate() } }
         summary().ifPresent { it.validate() }
         validated = true
     }
@@ -335,6 +376,7 @@ private constructor(
             (investor.asKnown().getOrNull()?.validity() ?: 0) +
             (meta.asKnown().getOrNull()?.validity() ?: 0) +
             (mutualFunds.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (nps.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (summary.asKnown().getOrNull()?.validity() ?: 0)
 
     class DematAccount
@@ -346,6 +388,7 @@ private constructor(
         private val dpId: JsonField<String>,
         private val dpName: JsonField<String>,
         private val holdings: JsonField<Holdings>,
+        private val linkedHolders: JsonField<List<LinkedHolder>>,
         private val value: JsonField<Float>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -367,6 +410,9 @@ private constructor(
             @JsonProperty("holdings")
             @ExcludeMissing
             holdings: JsonField<Holdings> = JsonMissing.of(),
+            @JsonProperty("linked_holders")
+            @ExcludeMissing
+            linkedHolders: JsonField<List<LinkedHolder>> = JsonMissing.of(),
             @JsonProperty("value") @ExcludeMissing value: JsonField<Float> = JsonMissing.of(),
         ) : this(
             additionalInfo,
@@ -376,6 +422,7 @@ private constructor(
             dpId,
             dpName,
             holdings,
+            linkedHolders,
             value,
             mutableMapOf(),
         )
@@ -434,6 +481,15 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun holdings(): Optional<Holdings> = holdings.getOptional("holdings")
+
+        /**
+         * List of account holders linked to this demat account
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun linkedHolders(): Optional<List<LinkedHolder>> =
+            linkedHolders.getOptional("linked_holders")
 
         /**
          * Total value of the demat account
@@ -498,6 +554,16 @@ private constructor(
         @JsonProperty("holdings") @ExcludeMissing fun _holdings(): JsonField<Holdings> = holdings
 
         /**
+         * Returns the raw JSON value of [linkedHolders].
+         *
+         * Unlike [linkedHolders], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("linked_holders")
+        @ExcludeMissing
+        fun _linkedHolders(): JsonField<List<LinkedHolder>> = linkedHolders
+
+        /**
          * Returns the raw JSON value of [value].
          *
          * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
@@ -532,6 +598,7 @@ private constructor(
             private var dpId: JsonField<String> = JsonMissing.of()
             private var dpName: JsonField<String> = JsonMissing.of()
             private var holdings: JsonField<Holdings> = JsonMissing.of()
+            private var linkedHolders: JsonField<MutableList<LinkedHolder>>? = null
             private var value: JsonField<Float> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -544,6 +611,7 @@ private constructor(
                 dpId = dematAccount.dpId
                 dpName = dematAccount.dpName
                 holdings = dematAccount.holdings
+                linkedHolders = dematAccount.linkedHolders.map { it.toMutableList() }
                 value = dematAccount.value
                 additionalProperties = dematAccount.additionalProperties.toMutableMap()
             }
@@ -634,6 +702,33 @@ private constructor(
              */
             fun holdings(holdings: JsonField<Holdings>) = apply { this.holdings = holdings }
 
+            /** List of account holders linked to this demat account */
+            fun linkedHolders(linkedHolders: List<LinkedHolder>) =
+                linkedHolders(JsonField.of(linkedHolders))
+
+            /**
+             * Sets [Builder.linkedHolders] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.linkedHolders] with a well-typed
+             * `List<LinkedHolder>` value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun linkedHolders(linkedHolders: JsonField<List<LinkedHolder>>) = apply {
+                this.linkedHolders = linkedHolders.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [LinkedHolder] to [linkedHolders].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addLinkedHolder(linkedHolder: LinkedHolder) = apply {
+                linkedHolders =
+                    (linkedHolders ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("linkedHolders", it).add(linkedHolder)
+                    }
+            }
+
             /** Total value of the demat account */
             fun value(value: Float) = value(JsonField.of(value))
 
@@ -679,6 +774,7 @@ private constructor(
                     dpId,
                     dpName,
                     holdings,
+                    (linkedHolders ?: JsonMissing.of()).map { it.toImmutable() },
                     value,
                     additionalProperties.toMutableMap(),
                 )
@@ -698,6 +794,7 @@ private constructor(
             dpId()
             dpName()
             holdings().ifPresent { it.validate() }
+            linkedHolders().ifPresent { it.forEach { it.validate() } }
             value()
             validated = true
         }
@@ -725,6 +822,7 @@ private constructor(
                 (if (dpId.asKnown().isPresent) 1 else 0) +
                 (if (dpName.asKnown().isPresent) 1 else 0) +
                 (holdings.asKnown().getOrNull()?.validity() ?: 0) +
+                (linkedHolders.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (value.asKnown().isPresent) 1 else 0)
 
         /** Additional information specific to the demat account type */
@@ -3136,6 +3234,185 @@ private constructor(
                 "Holdings{aifs=$aifs, corporateBonds=$corporateBonds, dematMutualFunds=$dematMutualFunds, equities=$equities, governmentSecurities=$governmentSecurities, additionalProperties=$additionalProperties}"
         }
 
+        class LinkedHolder
+        private constructor(
+            private val name: JsonField<String>,
+            private val pan: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("pan") @ExcludeMissing pan: JsonField<String> = JsonMissing.of(),
+            ) : this(name, pan, mutableMapOf())
+
+            /**
+             * Name of the account holder
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * PAN of the account holder
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun pan(): Optional<String> = pan.getOptional("pan")
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [pan].
+             *
+             * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [LinkedHolder]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [LinkedHolder]. */
+            class Builder internal constructor() {
+
+                private var name: JsonField<String> = JsonMissing.of()
+                private var pan: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(linkedHolder: LinkedHolder) = apply {
+                    name = linkedHolder.name
+                    pan = linkedHolder.pan
+                    additionalProperties = linkedHolder.additionalProperties.toMutableMap()
+                }
+
+                /** Name of the account holder */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** PAN of the account holder */
+                fun pan(pan: String) = pan(JsonField.of(pan))
+
+                /**
+                 * Sets [Builder.pan] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.pan] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [LinkedHolder].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): LinkedHolder =
+                    LinkedHolder(name, pan, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): LinkedHolder = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                name()
+                pan()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: CasParserInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (name.asKnown().isPresent) 1 else 0) + (if (pan.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is LinkedHolder &&
+                    name == other.name &&
+                    pan == other.pan &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(name, pan, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "LinkedHolder{name=$name, pan=$pan, additionalProperties=$additionalProperties}"
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -3149,6 +3426,7 @@ private constructor(
                 dpId == other.dpId &&
                 dpName == other.dpName &&
                 holdings == other.holdings &&
+                linkedHolders == other.linkedHolders &&
                 value == other.value &&
                 additionalProperties == other.additionalProperties
         }
@@ -3162,6 +3440,7 @@ private constructor(
                 dpId,
                 dpName,
                 holdings,
+                linkedHolders,
                 value,
                 additionalProperties,
             )
@@ -3170,7 +3449,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "DematAccount{additionalInfo=$additionalInfo, boId=$boId, clientId=$clientId, dematType=$dematType, dpId=$dpId, dpName=$dpName, holdings=$holdings, value=$value, additionalProperties=$additionalProperties}"
+            "DematAccount{additionalInfo=$additionalInfo, boId=$boId, clientId=$clientId, dematType=$dematType, dpId=$dpId, dpName=$dpName, holdings=$holdings, linkedHolders=$linkedHolders, value=$value, additionalProperties=$additionalProperties}"
     }
 
     class Insurance
@@ -4733,6 +5012,7 @@ private constructor(
         private val additionalInfo: JsonField<AdditionalInfo>,
         private val amc: JsonField<String>,
         private val folioNumber: JsonField<String>,
+        private val linkedHolders: JsonField<List<LinkedHolder>>,
         private val registrar: JsonField<String>,
         private val schemes: JsonField<List<Scheme>>,
         private val value: JsonField<Float>,
@@ -4748,6 +5028,9 @@ private constructor(
             @JsonProperty("folio_number")
             @ExcludeMissing
             folioNumber: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("linked_holders")
+            @ExcludeMissing
+            linkedHolders: JsonField<List<LinkedHolder>> = JsonMissing.of(),
             @JsonProperty("registrar")
             @ExcludeMissing
             registrar: JsonField<String> = JsonMissing.of(),
@@ -4755,7 +5038,16 @@ private constructor(
             @ExcludeMissing
             schemes: JsonField<List<Scheme>> = JsonMissing.of(),
             @JsonProperty("value") @ExcludeMissing value: JsonField<Float> = JsonMissing.of(),
-        ) : this(additionalInfo, amc, folioNumber, registrar, schemes, value, mutableMapOf())
+        ) : this(
+            additionalInfo,
+            amc,
+            folioNumber,
+            linkedHolders,
+            registrar,
+            schemes,
+            value,
+            mutableMapOf(),
+        )
 
         /**
          * Additional folio information
@@ -4781,6 +5073,15 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun folioNumber(): Optional<String> = folioNumber.getOptional("folio_number")
+
+        /**
+         * List of account holders linked to this mutual fund folio
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun linkedHolders(): Optional<List<LinkedHolder>> =
+            linkedHolders.getOptional("linked_holders")
 
         /**
          * Registrar and Transfer Agent name
@@ -4831,6 +5132,16 @@ private constructor(
         fun _folioNumber(): JsonField<String> = folioNumber
 
         /**
+         * Returns the raw JSON value of [linkedHolders].
+         *
+         * Unlike [linkedHolders], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("linked_holders")
+        @ExcludeMissing
+        fun _linkedHolders(): JsonField<List<LinkedHolder>> = linkedHolders
+
+        /**
          * Returns the raw JSON value of [registrar].
          *
          * Unlike [registrar], this method doesn't throw if the JSON field has an unexpected type.
@@ -4875,6 +5186,7 @@ private constructor(
             private var additionalInfo: JsonField<AdditionalInfo> = JsonMissing.of()
             private var amc: JsonField<String> = JsonMissing.of()
             private var folioNumber: JsonField<String> = JsonMissing.of()
+            private var linkedHolders: JsonField<MutableList<LinkedHolder>>? = null
             private var registrar: JsonField<String> = JsonMissing.of()
             private var schemes: JsonField<MutableList<Scheme>>? = null
             private var value: JsonField<Float> = JsonMissing.of()
@@ -4885,6 +5197,7 @@ private constructor(
                 additionalInfo = mutualFund.additionalInfo
                 amc = mutualFund.amc
                 folioNumber = mutualFund.folioNumber
+                linkedHolders = mutualFund.linkedHolders.map { it.toMutableList() }
                 registrar = mutualFund.registrar
                 schemes = mutualFund.schemes.map { it.toMutableList() }
                 value = mutualFund.value
@@ -4930,6 +5243,33 @@ private constructor(
              */
             fun folioNumber(folioNumber: JsonField<String>) = apply {
                 this.folioNumber = folioNumber
+            }
+
+            /** List of account holders linked to this mutual fund folio */
+            fun linkedHolders(linkedHolders: List<LinkedHolder>) =
+                linkedHolders(JsonField.of(linkedHolders))
+
+            /**
+             * Sets [Builder.linkedHolders] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.linkedHolders] with a well-typed
+             * `List<LinkedHolder>` value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun linkedHolders(linkedHolders: JsonField<List<LinkedHolder>>) = apply {
+                this.linkedHolders = linkedHolders.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [LinkedHolder] to [linkedHolders].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addLinkedHolder(linkedHolder: LinkedHolder) = apply {
+                linkedHolders =
+                    (linkedHolders ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("linkedHolders", it).add(linkedHolder)
+                    }
             }
 
             /** Registrar and Transfer Agent name */
@@ -5010,6 +5350,7 @@ private constructor(
                     additionalInfo,
                     amc,
                     folioNumber,
+                    (linkedHolders ?: JsonMissing.of()).map { it.toImmutable() },
                     registrar,
                     (schemes ?: JsonMissing.of()).map { it.toImmutable() },
                     value,
@@ -5027,6 +5368,7 @@ private constructor(
             additionalInfo().ifPresent { it.validate() }
             amc()
             folioNumber()
+            linkedHolders().ifPresent { it.forEach { it.validate() } }
             registrar()
             schemes().ifPresent { it.forEach { it.validate() } }
             value()
@@ -5052,6 +5394,7 @@ private constructor(
             (additionalInfo.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (amc.asKnown().isPresent) 1 else 0) +
                 (if (folioNumber.asKnown().isPresent) 1 else 0) +
+                (linkedHolders.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (registrar.asKnown().isPresent) 1 else 0) +
                 (schemes.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (value.asKnown().isPresent) 1 else 0)
@@ -5271,6 +5614,185 @@ private constructor(
 
             override fun toString() =
                 "AdditionalInfo{kyc=$kyc, pan=$pan, pankyc=$pankyc, additionalProperties=$additionalProperties}"
+        }
+
+        class LinkedHolder
+        private constructor(
+            private val name: JsonField<String>,
+            private val pan: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("pan") @ExcludeMissing pan: JsonField<String> = JsonMissing.of(),
+            ) : this(name, pan, mutableMapOf())
+
+            /**
+             * Name of the account holder
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * PAN of the account holder
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun pan(): Optional<String> = pan.getOptional("pan")
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [pan].
+             *
+             * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [LinkedHolder]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [LinkedHolder]. */
+            class Builder internal constructor() {
+
+                private var name: JsonField<String> = JsonMissing.of()
+                private var pan: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(linkedHolder: LinkedHolder) = apply {
+                    name = linkedHolder.name
+                    pan = linkedHolder.pan
+                    additionalProperties = linkedHolder.additionalProperties.toMutableMap()
+                }
+
+                /** Name of the account holder */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** PAN of the account holder */
+                fun pan(pan: String) = pan(JsonField.of(pan))
+
+                /**
+                 * Sets [Builder.pan] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.pan] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [LinkedHolder].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): LinkedHolder =
+                    LinkedHolder(name, pan, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): LinkedHolder = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                name()
+                pan()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: CasParserInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (name.asKnown().isPresent) 1 else 0) + (if (pan.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is LinkedHolder &&
+                    name == other.name &&
+                    pan == other.pan &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(name, pan, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "LinkedHolder{name=$name, pan=$pan, additionalProperties=$additionalProperties}"
         }
 
         class Scheme
@@ -6968,6 +7490,7 @@ private constructor(
                 additionalInfo == other.additionalInfo &&
                 amc == other.amc &&
                 folioNumber == other.folioNumber &&
+                linkedHolders == other.linkedHolders &&
                 registrar == other.registrar &&
                 schemes == other.schemes &&
                 value == other.value &&
@@ -6979,6 +7502,7 @@ private constructor(
                 additionalInfo,
                 amc,
                 folioNumber,
+                linkedHolders,
                 registrar,
                 schemes,
                 value,
@@ -6989,7 +7513,1189 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "MutualFund{additionalInfo=$additionalInfo, amc=$amc, folioNumber=$folioNumber, registrar=$registrar, schemes=$schemes, value=$value, additionalProperties=$additionalProperties}"
+            "MutualFund{additionalInfo=$additionalInfo, amc=$amc, folioNumber=$folioNumber, linkedHolders=$linkedHolders, registrar=$registrar, schemes=$schemes, value=$value, additionalProperties=$additionalProperties}"
+    }
+
+    class Np
+    private constructor(
+        private val additionalInfo: JsonValue,
+        private val cra: JsonField<String>,
+        private val funds: JsonField<List<Fund>>,
+        private val linkedHolders: JsonField<List<LinkedHolder>>,
+        private val pran: JsonField<String>,
+        private val value: JsonField<Float>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("additional_info")
+            @ExcludeMissing
+            additionalInfo: JsonValue = JsonMissing.of(),
+            @JsonProperty("cra") @ExcludeMissing cra: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("funds") @ExcludeMissing funds: JsonField<List<Fund>> = JsonMissing.of(),
+            @JsonProperty("linked_holders")
+            @ExcludeMissing
+            linkedHolders: JsonField<List<LinkedHolder>> = JsonMissing.of(),
+            @JsonProperty("pran") @ExcludeMissing pran: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("value") @ExcludeMissing value: JsonField<Float> = JsonMissing.of(),
+        ) : this(additionalInfo, cra, funds, linkedHolders, pran, value, mutableMapOf())
+
+        /** Additional information specific to the NPS account */
+        @JsonProperty("additional_info")
+        @ExcludeMissing
+        fun _additionalInfo(): JsonValue = additionalInfo
+
+        /**
+         * Central Record Keeping Agency name
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun cra(): Optional<String> = cra.getOptional("cra")
+
+        /**
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun funds(): Optional<List<Fund>> = funds.getOptional("funds")
+
+        /**
+         * List of account holders linked to this NPS account
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun linkedHolders(): Optional<List<LinkedHolder>> =
+            linkedHolders.getOptional("linked_holders")
+
+        /**
+         * Permanent Retirement Account Number (PRAN)
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun pran(): Optional<String> = pran.getOptional("pran")
+
+        /**
+         * Total value of the NPS account
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun value(): Optional<Float> = value.getOptional("value")
+
+        /**
+         * Returns the raw JSON value of [cra].
+         *
+         * Unlike [cra], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("cra") @ExcludeMissing fun _cra(): JsonField<String> = cra
+
+        /**
+         * Returns the raw JSON value of [funds].
+         *
+         * Unlike [funds], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("funds") @ExcludeMissing fun _funds(): JsonField<List<Fund>> = funds
+
+        /**
+         * Returns the raw JSON value of [linkedHolders].
+         *
+         * Unlike [linkedHolders], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("linked_holders")
+        @ExcludeMissing
+        fun _linkedHolders(): JsonField<List<LinkedHolder>> = linkedHolders
+
+        /**
+         * Returns the raw JSON value of [pran].
+         *
+         * Unlike [pran], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("pran") @ExcludeMissing fun _pran(): JsonField<String> = pran
+
+        /**
+         * Returns the raw JSON value of [value].
+         *
+         * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<Float> = value
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Np]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Np]. */
+        class Builder internal constructor() {
+
+            private var additionalInfo: JsonValue = JsonMissing.of()
+            private var cra: JsonField<String> = JsonMissing.of()
+            private var funds: JsonField<MutableList<Fund>>? = null
+            private var linkedHolders: JsonField<MutableList<LinkedHolder>>? = null
+            private var pran: JsonField<String> = JsonMissing.of()
+            private var value: JsonField<Float> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(np: Np) = apply {
+                additionalInfo = np.additionalInfo
+                cra = np.cra
+                funds = np.funds.map { it.toMutableList() }
+                linkedHolders = np.linkedHolders.map { it.toMutableList() }
+                pran = np.pran
+                value = np.value
+                additionalProperties = np.additionalProperties.toMutableMap()
+            }
+
+            /** Additional information specific to the NPS account */
+            fun additionalInfo(additionalInfo: JsonValue) = apply {
+                this.additionalInfo = additionalInfo
+            }
+
+            /** Central Record Keeping Agency name */
+            fun cra(cra: String) = cra(JsonField.of(cra))
+
+            /**
+             * Sets [Builder.cra] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.cra] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun cra(cra: JsonField<String>) = apply { this.cra = cra }
+
+            fun funds(funds: List<Fund>) = funds(JsonField.of(funds))
+
+            /**
+             * Sets [Builder.funds] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.funds] with a well-typed `List<Fund>` value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun funds(funds: JsonField<List<Fund>>) = apply {
+                this.funds = funds.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [Fund] to [funds].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addFund(fund: Fund) = apply {
+                funds =
+                    (funds ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("funds", it).add(fund)
+                    }
+            }
+
+            /** List of account holders linked to this NPS account */
+            fun linkedHolders(linkedHolders: List<LinkedHolder>) =
+                linkedHolders(JsonField.of(linkedHolders))
+
+            /**
+             * Sets [Builder.linkedHolders] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.linkedHolders] with a well-typed
+             * `List<LinkedHolder>` value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun linkedHolders(linkedHolders: JsonField<List<LinkedHolder>>) = apply {
+                this.linkedHolders = linkedHolders.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [LinkedHolder] to [linkedHolders].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addLinkedHolder(linkedHolder: LinkedHolder) = apply {
+                linkedHolders =
+                    (linkedHolders ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("linkedHolders", it).add(linkedHolder)
+                    }
+            }
+
+            /** Permanent Retirement Account Number (PRAN) */
+            fun pran(pran: String) = pran(JsonField.of(pran))
+
+            /**
+             * Sets [Builder.pran] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pran] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun pran(pran: JsonField<String>) = apply { this.pran = pran }
+
+            /** Total value of the NPS account */
+            fun value(value: Float) = value(JsonField.of(value))
+
+            /**
+             * Sets [Builder.value] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.value] with a well-typed [Float] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun value(value: JsonField<Float>) = apply { this.value = value }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Np].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Np =
+                Np(
+                    additionalInfo,
+                    cra,
+                    (funds ?: JsonMissing.of()).map { it.toImmutable() },
+                    (linkedHolders ?: JsonMissing.of()).map { it.toImmutable() },
+                    pran,
+                    value,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Np = apply {
+            if (validated) {
+                return@apply
+            }
+
+            cra()
+            funds().ifPresent { it.forEach { it.validate() } }
+            linkedHolders().ifPresent { it.forEach { it.validate() } }
+            pran()
+            value()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: CasParserInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (cra.asKnown().isPresent) 1 else 0) +
+                (funds.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (linkedHolders.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (pran.asKnown().isPresent) 1 else 0) +
+                (if (value.asKnown().isPresent) 1 else 0)
+
+        class Fund
+        private constructor(
+            private val additionalInfo: JsonField<AdditionalInfo>,
+            private val cost: JsonField<Float>,
+            private val name: JsonField<String>,
+            private val nav: JsonField<Float>,
+            private val units: JsonField<Float>,
+            private val value: JsonField<Float>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("additional_info")
+                @ExcludeMissing
+                additionalInfo: JsonField<AdditionalInfo> = JsonMissing.of(),
+                @JsonProperty("cost") @ExcludeMissing cost: JsonField<Float> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("nav") @ExcludeMissing nav: JsonField<Float> = JsonMissing.of(),
+                @JsonProperty("units") @ExcludeMissing units: JsonField<Float> = JsonMissing.of(),
+                @JsonProperty("value") @ExcludeMissing value: JsonField<Float> = JsonMissing.of(),
+            ) : this(additionalInfo, cost, name, nav, units, value, mutableMapOf())
+
+            /**
+             * Additional information specific to the NPS fund
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun additionalInfo(): Optional<AdditionalInfo> =
+                additionalInfo.getOptional("additional_info")
+
+            /**
+             * Cost of investment
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun cost(): Optional<Float> = cost.getOptional("cost")
+
+            /**
+             * Name of the NPS fund
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * Net Asset Value per unit
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun nav(): Optional<Float> = nav.getOptional("nav")
+
+            /**
+             * Number of units held
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun units(): Optional<Float> = units.getOptional("units")
+
+            /**
+             * Current market value of the holding
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun value(): Optional<Float> = value.getOptional("value")
+
+            /**
+             * Returns the raw JSON value of [additionalInfo].
+             *
+             * Unlike [additionalInfo], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("additional_info")
+            @ExcludeMissing
+            fun _additionalInfo(): JsonField<AdditionalInfo> = additionalInfo
+
+            /**
+             * Returns the raw JSON value of [cost].
+             *
+             * Unlike [cost], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("cost") @ExcludeMissing fun _cost(): JsonField<Float> = cost
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [nav].
+             *
+             * Unlike [nav], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("nav") @ExcludeMissing fun _nav(): JsonField<Float> = nav
+
+            /**
+             * Returns the raw JSON value of [units].
+             *
+             * Unlike [units], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("units") @ExcludeMissing fun _units(): JsonField<Float> = units
+
+            /**
+             * Returns the raw JSON value of [value].
+             *
+             * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<Float> = value
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Fund]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Fund]. */
+            class Builder internal constructor() {
+
+                private var additionalInfo: JsonField<AdditionalInfo> = JsonMissing.of()
+                private var cost: JsonField<Float> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var nav: JsonField<Float> = JsonMissing.of()
+                private var units: JsonField<Float> = JsonMissing.of()
+                private var value: JsonField<Float> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(fund: Fund) = apply {
+                    additionalInfo = fund.additionalInfo
+                    cost = fund.cost
+                    name = fund.name
+                    nav = fund.nav
+                    units = fund.units
+                    value = fund.value
+                    additionalProperties = fund.additionalProperties.toMutableMap()
+                }
+
+                /** Additional information specific to the NPS fund */
+                fun additionalInfo(additionalInfo: AdditionalInfo) =
+                    additionalInfo(JsonField.of(additionalInfo))
+
+                /**
+                 * Sets [Builder.additionalInfo] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.additionalInfo] with a well-typed
+                 * [AdditionalInfo] value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
+                fun additionalInfo(additionalInfo: JsonField<AdditionalInfo>) = apply {
+                    this.additionalInfo = additionalInfo
+                }
+
+                /** Cost of investment */
+                fun cost(cost: Float) = cost(JsonField.of(cost))
+
+                /**
+                 * Sets [Builder.cost] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cost] with a well-typed [Float] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun cost(cost: JsonField<Float>) = apply { this.cost = cost }
+
+                /** Name of the NPS fund */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** Net Asset Value per unit */
+                fun nav(nav: Float) = nav(JsonField.of(nav))
+
+                /**
+                 * Sets [Builder.nav] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.nav] with a well-typed [Float] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun nav(nav: JsonField<Float>) = apply { this.nav = nav }
+
+                /** Number of units held */
+                fun units(units: Float) = units(JsonField.of(units))
+
+                /**
+                 * Sets [Builder.units] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.units] with a well-typed [Float] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun units(units: JsonField<Float>) = apply { this.units = units }
+
+                /** Current market value of the holding */
+                fun value(value: Float) = value(JsonField.of(value))
+
+                /**
+                 * Sets [Builder.value] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.value] with a well-typed [Float] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun value(value: JsonField<Float>) = apply { this.value = value }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Fund].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Fund =
+                    Fund(
+                        additionalInfo,
+                        cost,
+                        name,
+                        nav,
+                        units,
+                        value,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Fund = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                additionalInfo().ifPresent { it.validate() }
+                cost()
+                name()
+                nav()
+                units()
+                value()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: CasParserInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (additionalInfo.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (cost.asKnown().isPresent) 1 else 0) +
+                    (if (name.asKnown().isPresent) 1 else 0) +
+                    (if (nav.asKnown().isPresent) 1 else 0) +
+                    (if (units.asKnown().isPresent) 1 else 0) +
+                    (if (value.asKnown().isPresent) 1 else 0)
+
+            /** Additional information specific to the NPS fund */
+            class AdditionalInfo
+            private constructor(
+                private val manager: JsonField<String>,
+                private val tier: JsonField<Tier>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("manager")
+                    @ExcludeMissing
+                    manager: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("tier") @ExcludeMissing tier: JsonField<Tier> = JsonMissing.of(),
+                ) : this(manager, tier, mutableMapOf())
+
+                /**
+                 * Fund manager name
+                 *
+                 * @throws CasParserInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun manager(): Optional<String> = manager.getOptional("manager")
+
+                /**
+                 * NPS tier (Tier I or Tier II)
+                 *
+                 * @throws CasParserInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun tier(): Optional<Tier> = tier.getOptional("tier")
+
+                /**
+                 * Returns the raw JSON value of [manager].
+                 *
+                 * Unlike [manager], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("manager") @ExcludeMissing fun _manager(): JsonField<String> = manager
+
+                /**
+                 * Returns the raw JSON value of [tier].
+                 *
+                 * Unlike [tier], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("tier") @ExcludeMissing fun _tier(): JsonField<Tier> = tier
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /**
+                     * Returns a mutable builder for constructing an instance of [AdditionalInfo].
+                     */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [AdditionalInfo]. */
+                class Builder internal constructor() {
+
+                    private var manager: JsonField<String> = JsonMissing.of()
+                    private var tier: JsonField<Tier> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(additionalInfo: AdditionalInfo) = apply {
+                        manager = additionalInfo.manager
+                        tier = additionalInfo.tier
+                        additionalProperties = additionalInfo.additionalProperties.toMutableMap()
+                    }
+
+                    /** Fund manager name */
+                    fun manager(manager: String) = manager(JsonField.of(manager))
+
+                    /**
+                     * Sets [Builder.manager] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.manager] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun manager(manager: JsonField<String>) = apply { this.manager = manager }
+
+                    /** NPS tier (Tier I or Tier II) */
+                    fun tier(tier: Tier?) = tier(JsonField.ofNullable(tier))
+
+                    /** Alias for calling [Builder.tier] with `tier.orElse(null)`. */
+                    fun tier(tier: Optional<Tier>) = tier(tier.getOrNull())
+
+                    /**
+                     * Sets [Builder.tier] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.tier] with a well-typed [Tier] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun tier(tier: JsonField<Tier>) = apply { this.tier = tier }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [AdditionalInfo].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
+                    fun build(): AdditionalInfo =
+                        AdditionalInfo(manager, tier, additionalProperties.toMutableMap())
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): AdditionalInfo = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    manager()
+                    tier().ifPresent { it.validate() }
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: CasParserInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (manager.asKnown().isPresent) 1 else 0) +
+                        (tier.asKnown().getOrNull()?.validity() ?: 0)
+
+                /** NPS tier (Tier I or Tier II) */
+                class Tier @JsonCreator private constructor(private val value: JsonField<Double>) :
+                    Enum {
+
+                    /**
+                     * Returns this class instance's raw value.
+                     *
+                     * This is usually only useful if this instance was deserialized from data that
+                     * doesn't match any known member, and you want to know that value. For example,
+                     * if the SDK is on an older version than the API, then the API may respond with
+                     * new members that the SDK is unaware of.
+                     */
+                    @com.fasterxml.jackson.annotation.JsonValue
+                    fun _value(): JsonField<Double> = value
+
+                    companion object {
+
+                        @JvmField val _1 = of(1.0)
+
+                        @JvmField val _2 = of(2.0)
+
+                        @JvmStatic fun of(value: Double) = Tier(JsonField.of(value))
+                    }
+
+                    /** An enum containing [Tier]'s known values. */
+                    enum class Known {
+                        _1,
+                        _2,
+                    }
+
+                    /**
+                     * An enum containing [Tier]'s known values, as well as an [_UNKNOWN] member.
+                     *
+                     * An instance of [Tier] can contain an unknown value in a couple of cases:
+                     * - It was deserialized from data that doesn't match any known member. For
+                     *   example, if the SDK is on an older version than the API, then the API may
+                     *   respond with new members that the SDK is unaware of.
+                     * - It was constructed with an arbitrary value using the [of] method.
+                     */
+                    enum class Value {
+                        _1,
+                        _2,
+                        /**
+                         * An enum member indicating that [Tier] was instantiated with an unknown
+                         * value.
+                         */
+                        _UNKNOWN,
+                    }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value, or
+                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                     *
+                     * Use the [known] method instead if you're certain the value is always known or
+                     * if you want to throw for the unknown case.
+                     */
+                    fun value(): Value =
+                        when (this) {
+                            _1 -> Value._1
+                            _2 -> Value._2
+                            else -> Value._UNKNOWN
+                        }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value.
+                     *
+                     * Use the [value] method instead if you're uncertain the value is always known
+                     * and don't want to throw for the unknown case.
+                     *
+                     * @throws CasParserInvalidDataException if this class instance's value is a not
+                     *   a known member.
+                     */
+                    fun known(): Known =
+                        when (this) {
+                            _1 -> Known._1
+                            _2 -> Known._2
+                            else -> throw CasParserInvalidDataException("Unknown Tier: $value")
+                        }
+
+                    /**
+                     * Returns this class instance's primitive wire representation.
+                     *
+                     * @throws CasParserInvalidDataException if this class instance's value does not
+                     *   have the expected primitive type.
+                     */
+                    fun asDouble(): Double =
+                        _value().asNumber().getOrNull()?.toDouble()
+                            ?: throw CasParserInvalidDataException("Value is not a Double")
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Tier = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        known()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: CasParserInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Tier && value == other.value
+                    }
+
+                    override fun hashCode() = value.hashCode()
+
+                    override fun toString() = value.toString()
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is AdditionalInfo &&
+                        manager == other.manager &&
+                        tier == other.tier &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(manager, tier, additionalProperties)
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "AdditionalInfo{manager=$manager, tier=$tier, additionalProperties=$additionalProperties}"
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Fund &&
+                    additionalInfo == other.additionalInfo &&
+                    cost == other.cost &&
+                    name == other.name &&
+                    nav == other.nav &&
+                    units == other.units &&
+                    value == other.value &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(additionalInfo, cost, name, nav, units, value, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Fund{additionalInfo=$additionalInfo, cost=$cost, name=$name, nav=$nav, units=$units, value=$value, additionalProperties=$additionalProperties}"
+        }
+
+        class LinkedHolder
+        private constructor(
+            private val name: JsonField<String>,
+            private val pan: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("pan") @ExcludeMissing pan: JsonField<String> = JsonMissing.of(),
+            ) : this(name, pan, mutableMapOf())
+
+            /**
+             * Name of the account holder
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * PAN of the account holder
+             *
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun pan(): Optional<String> = pan.getOptional("pan")
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [pan].
+             *
+             * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [LinkedHolder]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [LinkedHolder]. */
+            class Builder internal constructor() {
+
+                private var name: JsonField<String> = JsonMissing.of()
+                private var pan: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(linkedHolder: LinkedHolder) = apply {
+                    name = linkedHolder.name
+                    pan = linkedHolder.pan
+                    additionalProperties = linkedHolder.additionalProperties.toMutableMap()
+                }
+
+                /** Name of the account holder */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** PAN of the account holder */
+                fun pan(pan: String) = pan(JsonField.of(pan))
+
+                /**
+                 * Sets [Builder.pan] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.pan] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [LinkedHolder].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): LinkedHolder =
+                    LinkedHolder(name, pan, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): LinkedHolder = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                name()
+                pan()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: CasParserInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (name.asKnown().isPresent) 1 else 0) + (if (pan.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is LinkedHolder &&
+                    name == other.name &&
+                    pan == other.pan &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(name, pan, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "LinkedHolder{name=$name, pan=$pan, additionalProperties=$additionalProperties}"
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Np &&
+                additionalInfo == other.additionalInfo &&
+                cra == other.cra &&
+                funds == other.funds &&
+                linkedHolders == other.linkedHolders &&
+                pran == other.pran &&
+                value == other.value &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                additionalInfo,
+                cra,
+                funds,
+                linkedHolders,
+                pran,
+                value,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Np{additionalInfo=$additionalInfo, cra=$cra, funds=$funds, linkedHolders=$linkedHolders, pran=$pran, value=$value, additionalProperties=$additionalProperties}"
     }
 
     class Summary
@@ -7158,6 +8864,7 @@ private constructor(
             private val demat: JsonField<Demat>,
             private val insurance: JsonField<Insurance>,
             private val mutualFunds: JsonField<MutualFunds>,
+            private val nps: JsonField<Nps>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -7170,7 +8877,8 @@ private constructor(
                 @JsonProperty("mutual_funds")
                 @ExcludeMissing
                 mutualFunds: JsonField<MutualFunds> = JsonMissing.of(),
-            ) : this(demat, insurance, mutualFunds, mutableMapOf())
+                @JsonProperty("nps") @ExcludeMissing nps: JsonField<Nps> = JsonMissing.of(),
+            ) : this(demat, insurance, mutualFunds, nps, mutableMapOf())
 
             /**
              * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
@@ -7189,6 +8897,12 @@ private constructor(
              *   if the server responded with an unexpected value).
              */
             fun mutualFunds(): Optional<MutualFunds> = mutualFunds.getOptional("mutual_funds")
+
+            /**
+             * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun nps(): Optional<Nps> = nps.getOptional("nps")
 
             /**
              * Returns the raw JSON value of [demat].
@@ -7217,6 +8931,13 @@ private constructor(
             @ExcludeMissing
             fun _mutualFunds(): JsonField<MutualFunds> = mutualFunds
 
+            /**
+             * Returns the raw JSON value of [nps].
+             *
+             * Unlike [nps], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("nps") @ExcludeMissing fun _nps(): JsonField<Nps> = nps
+
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -7241,6 +8962,7 @@ private constructor(
                 private var demat: JsonField<Demat> = JsonMissing.of()
                 private var insurance: JsonField<Insurance> = JsonMissing.of()
                 private var mutualFunds: JsonField<MutualFunds> = JsonMissing.of()
+                private var nps: JsonField<Nps> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -7248,6 +8970,7 @@ private constructor(
                     demat = accounts.demat
                     insurance = accounts.insurance
                     mutualFunds = accounts.mutualFunds
+                    nps = accounts.nps
                     additionalProperties = accounts.additionalProperties.toMutableMap()
                 }
 
@@ -7288,6 +9011,17 @@ private constructor(
                     this.mutualFunds = mutualFunds
                 }
 
+                fun nps(nps: Nps) = nps(JsonField.of(nps))
+
+                /**
+                 * Sets [Builder.nps] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.nps] with a well-typed [Nps] value instead. This
+                 * method is primarily for setting the field to an undocumented or not yet supported
+                 * value.
+                 */
+                fun nps(nps: JsonField<Nps>) = apply { this.nps = nps }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -7316,7 +9050,13 @@ private constructor(
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
                 fun build(): Accounts =
-                    Accounts(demat, insurance, mutualFunds, additionalProperties.toMutableMap())
+                    Accounts(
+                        demat,
+                        insurance,
+                        mutualFunds,
+                        nps,
+                        additionalProperties.toMutableMap(),
+                    )
             }
 
             private var validated: Boolean = false
@@ -7329,6 +9069,7 @@ private constructor(
                 demat().ifPresent { it.validate() }
                 insurance().ifPresent { it.validate() }
                 mutualFunds().ifPresent { it.validate() }
+                nps().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -7350,7 +9091,8 @@ private constructor(
             internal fun validity(): Int =
                 (demat.asKnown().getOrNull()?.validity() ?: 0) +
                     (insurance.asKnown().getOrNull()?.validity() ?: 0) +
-                    (mutualFunds.asKnown().getOrNull()?.validity() ?: 0)
+                    (mutualFunds.asKnown().getOrNull()?.validity() ?: 0) +
+                    (nps.asKnown().getOrNull()?.validity() ?: 0)
 
             class Demat
             private constructor(
@@ -7928,6 +9670,197 @@ private constructor(
                     "MutualFunds{count=$count, totalValue=$totalValue, additionalProperties=$additionalProperties}"
             }
 
+            class Nps
+            private constructor(
+                private val count: JsonField<Long>,
+                private val totalValue: JsonField<Float>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("count")
+                    @ExcludeMissing
+                    count: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("total_value")
+                    @ExcludeMissing
+                    totalValue: JsonField<Float> = JsonMissing.of(),
+                ) : this(count, totalValue, mutableMapOf())
+
+                /**
+                 * Number of NPS accounts
+                 *
+                 * @throws CasParserInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun count(): Optional<Long> = count.getOptional("count")
+
+                /**
+                 * Total value of NPS accounts
+                 *
+                 * @throws CasParserInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun totalValue(): Optional<Float> = totalValue.getOptional("total_value")
+
+                /**
+                 * Returns the raw JSON value of [count].
+                 *
+                 * Unlike [count], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("count") @ExcludeMissing fun _count(): JsonField<Long> = count
+
+                /**
+                 * Returns the raw JSON value of [totalValue].
+                 *
+                 * Unlike [totalValue], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("total_value")
+                @ExcludeMissing
+                fun _totalValue(): JsonField<Float> = totalValue
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /** Returns a mutable builder for constructing an instance of [Nps]. */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [Nps]. */
+                class Builder internal constructor() {
+
+                    private var count: JsonField<Long> = JsonMissing.of()
+                    private var totalValue: JsonField<Float> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(nps: Nps) = apply {
+                        count = nps.count
+                        totalValue = nps.totalValue
+                        additionalProperties = nps.additionalProperties.toMutableMap()
+                    }
+
+                    /** Number of NPS accounts */
+                    fun count(count: Long) = count(JsonField.of(count))
+
+                    /**
+                     * Sets [Builder.count] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.count] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun count(count: JsonField<Long>) = apply { this.count = count }
+
+                    /** Total value of NPS accounts */
+                    fun totalValue(totalValue: Float) = totalValue(JsonField.of(totalValue))
+
+                    /**
+                     * Sets [Builder.totalValue] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.totalValue] with a well-typed [Float] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun totalValue(totalValue: JsonField<Float>) = apply {
+                        this.totalValue = totalValue
+                    }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [Nps].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
+                    fun build(): Nps = Nps(count, totalValue, additionalProperties.toMutableMap())
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): Nps = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    count()
+                    totalValue()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: CasParserInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (count.asKnown().isPresent) 1 else 0) +
+                        (if (totalValue.asKnown().isPresent) 1 else 0)
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Nps &&
+                        count == other.count &&
+                        totalValue == other.totalValue &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(count, totalValue, additionalProperties)
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Nps{count=$count, totalValue=$totalValue, additionalProperties=$additionalProperties}"
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -7937,17 +9870,18 @@ private constructor(
                     demat == other.demat &&
                     insurance == other.insurance &&
                     mutualFunds == other.mutualFunds &&
+                    nps == other.nps &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(demat, insurance, mutualFunds, additionalProperties)
+                Objects.hash(demat, insurance, mutualFunds, nps, additionalProperties)
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Accounts{demat=$demat, insurance=$insurance, mutualFunds=$mutualFunds, additionalProperties=$additionalProperties}"
+                "Accounts{demat=$demat, insurance=$insurance, mutualFunds=$mutualFunds, nps=$nps, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -7982,6 +9916,7 @@ private constructor(
             investor == other.investor &&
             meta == other.meta &&
             mutualFunds == other.mutualFunds &&
+            nps == other.nps &&
             summary == other.summary &&
             additionalProperties == other.additionalProperties
     }
@@ -7993,6 +9928,7 @@ private constructor(
             investor,
             meta,
             mutualFunds,
+            nps,
             summary,
             additionalProperties,
         )
@@ -8001,5 +9937,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "UnifiedResponse{dematAccounts=$dematAccounts, insurance=$insurance, investor=$investor, meta=$meta, mutualFunds=$mutualFunds, summary=$summary, additionalProperties=$additionalProperties}"
+        "UnifiedResponse{dematAccounts=$dematAccounts, insurance=$insurance, investor=$investor, meta=$meta, mutualFunds=$mutualFunds, nps=$nps, summary=$summary, additionalProperties=$additionalProperties}"
 }
