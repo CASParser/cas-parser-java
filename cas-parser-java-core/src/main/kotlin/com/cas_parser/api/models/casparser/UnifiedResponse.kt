@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class UnifiedResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val dematAccounts: JsonField<List<DematAccount>>,
     private val insurance: JsonField<Insurance>,
@@ -380,6 +381,7 @@ private constructor(
             (summary.asKnown().getOrNull()?.validity() ?: 0)
 
     class DematAccount
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val additionalInfo: JsonField<AdditionalInfo>,
         private val boId: JsonField<String>,
@@ -827,6 +829,7 @@ private constructor(
 
         /** Additional information specific to the demat account type */
         class AdditionalInfo
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val boStatus: JsonField<String>,
             private val boSubStatus: JsonField<String>,
@@ -1408,6 +1411,7 @@ private constructor(
         }
 
         class Holdings
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val aifs: JsonField<List<Aif>>,
             private val corporateBonds: JsonField<List<CorporateBond>>,
@@ -1766,6 +1770,7 @@ private constructor(
                         ?: 0)
 
             class Aif
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val additionalInfo: JsonValue,
                 private val isin: JsonField<String>,
@@ -2052,6 +2057,7 @@ private constructor(
             }
 
             class CorporateBond
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val additionalInfo: JsonValue,
                 private val isin: JsonField<String>,
@@ -2340,6 +2346,7 @@ private constructor(
             }
 
             class DematMutualFund
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val additionalInfo: JsonValue,
                 private val isin: JsonField<String>,
@@ -2628,6 +2635,7 @@ private constructor(
             }
 
             class Equity
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val additionalInfo: JsonValue,
                 private val isin: JsonField<String>,
@@ -2914,6 +2922,7 @@ private constructor(
             }
 
             class GovernmentSecurity
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val additionalInfo: JsonValue,
                 private val isin: JsonField<String>,
@@ -3235,6 +3244,7 @@ private constructor(
         }
 
         class LinkedHolder
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val name: JsonField<String>,
             private val pan: JsonField<String>,
@@ -3453,6 +3463,7 @@ private constructor(
     }
 
     class Insurance
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val lifeInsurancePolicies: JsonField<List<LifeInsurancePolicy>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -3600,6 +3611,7 @@ private constructor(
             (lifeInsurancePolicies.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
         class LifeInsurancePolicy
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val additionalInfo: JsonValue,
             private val lifeAssured: JsonField<String>,
@@ -4107,6 +4119,7 @@ private constructor(
     }
 
     class Investor
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address: JsonField<String>,
         private val casId: JsonField<String>,
@@ -4465,6 +4478,7 @@ private constructor(
     }
 
     class Meta
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val casType: JsonField<CasType>,
         private val generatedAt: JsonField<OffsetDateTime>,
@@ -4807,6 +4821,7 @@ private constructor(
         }
 
         class StatementPeriod
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val from: JsonField<LocalDate>,
             private val to: JsonField<LocalDate>,
@@ -5008,6 +5023,7 @@ private constructor(
     }
 
     class MutualFund
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val additionalInfo: JsonField<AdditionalInfo>,
         private val amc: JsonField<String>,
@@ -5401,6 +5417,7 @@ private constructor(
 
         /** Additional folio information */
         class AdditionalInfo
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val kyc: JsonField<String>,
             private val pan: JsonField<String>,
@@ -5617,6 +5634,7 @@ private constructor(
         }
 
         class LinkedHolder
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val name: JsonField<String>,
             private val pan: JsonField<String>,
@@ -5796,6 +5814,7 @@ private constructor(
         }
 
         class Scheme
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val additionalInfo: JsonField<AdditionalInfo>,
             private val cost: JsonField<Float>,
@@ -6324,6 +6343,7 @@ private constructor(
 
             /** Additional information specific to the scheme */
             class AdditionalInfo
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val advisor: JsonField<String>,
                 private val amfi: JsonField<String>,
@@ -6649,6 +6669,7 @@ private constructor(
             }
 
             class Gain
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val absolute: JsonField<Float>,
                 private val percentage: JsonField<Float>,
@@ -6843,6 +6864,7 @@ private constructor(
             }
 
             class Transaction
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val amount: JsonField<Float>,
                 private val balance: JsonField<Float>,
@@ -7517,6 +7539,7 @@ private constructor(
     }
 
     class Np
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val additionalInfo: JsonValue,
         private val cra: JsonField<String>,
@@ -7830,6 +7853,7 @@ private constructor(
                 (if (value.asKnown().isPresent) 1 else 0)
 
         class Fund
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val additionalInfo: JsonField<AdditionalInfo>,
             private val cost: JsonField<Float>,
@@ -8141,6 +8165,7 @@ private constructor(
 
             /** Additional information specific to the NPS fund */
             class AdditionalInfo
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val manager: JsonField<String>,
                 private val tier: JsonField<Tier>,
@@ -8487,6 +8512,7 @@ private constructor(
         }
 
         class LinkedHolder
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val name: JsonField<String>,
             private val pan: JsonField<String>,
@@ -8699,6 +8725,7 @@ private constructor(
     }
 
     class Summary
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val accounts: JsonField<Accounts>,
         private val totalValue: JsonField<Float>,
@@ -8860,6 +8887,7 @@ private constructor(
                 (if (totalValue.asKnown().isPresent) 1 else 0)
 
         class Accounts
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val demat: JsonField<Demat>,
             private val insurance: JsonField<Insurance>,
@@ -9095,6 +9123,7 @@ private constructor(
                     (nps.asKnown().getOrNull()?.validity() ?: 0)
 
             class Demat
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val count: JsonField<Long>,
                 private val totalValue: JsonField<Float>,
@@ -9287,6 +9316,7 @@ private constructor(
             }
 
             class Insurance
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val count: JsonField<Long>,
                 private val totalValue: JsonField<Float>,
@@ -9479,6 +9509,7 @@ private constructor(
             }
 
             class MutualFunds
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val count: JsonField<Long>,
                 private val totalValue: JsonField<Float>,
@@ -9671,6 +9702,7 @@ private constructor(
             }
 
             class Nps
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val count: JsonField<Long>,
                 private val totalValue: JsonField<Float>,
