@@ -476,23 +476,6 @@ JsonValue complexValue = JsonValue.from(Map.of(
 ));
 ```
 
-Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
-
-To forcibly omit a required parameter or property, pass [`JsonMissing`](cas-parser-java-core/src/main/kotlin/com/cas_parser/api/core/Values.kt):
-
-```java
-import com.cas_parser.api.core.JsonMissing;
-import com.cas_parser.api.models.casgenerator.CasGeneratorGenerateCasParams;
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams;
-
-CasParserSmartParseParams params = CasGeneratorGenerateCasParams.builder()
-    .fromDate("2023-01-01")
-    .password("Abcdefghi12$")
-    .toDate("2023-12-31")
-    .email(JsonMissing.of())
-    .build();
-```
-
 ### Response properties
 
 To access undocumented response properties, call the `_additionalProperties()` method:
