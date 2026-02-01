@@ -11312,7 +11312,15 @@ private constructor(
                 mutableMapOf(),
             )
 
-            /** Additional information specific to the policy */
+            /**
+             * Additional information specific to the policy
+             *
+             * This arbitrary value can be deserialized into a custom type using the `convert`
+             * method:
+             * ```java
+             * MyClass myObject = lifeInsurancePolicy.additionalInfo().convert(MyClass.class);
+             * ```
+             */
             @JsonProperty("additional_info")
             @ExcludeMissing
             fun _additionalInfo(): JsonValue = additionalInfo
@@ -15959,7 +15967,14 @@ private constructor(
             @JsonProperty("value") @ExcludeMissing value: JsonField<Float> = JsonMissing.of(),
         ) : this(additionalInfo, cra, funds, linkedHolders, pran, value, mutableMapOf())
 
-        /** Additional information specific to the NPS account */
+        /**
+         * Additional information specific to the NPS account
+         *
+         * This arbitrary value can be deserialized into a custom type using the `convert` method:
+         * ```java
+         * MyClass myObject = np.additionalInfo().convert(MyClass.class);
+         * ```
+         */
         @JsonProperty("additional_info")
         @ExcludeMissing
         fun _additionalInfo(): JsonValue = additionalInfo
