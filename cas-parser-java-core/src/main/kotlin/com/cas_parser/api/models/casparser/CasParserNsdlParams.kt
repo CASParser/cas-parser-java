@@ -37,7 +37,7 @@ private constructor(
     fun password(): Optional<String> = body.password()
 
     /**
-     * Base64 encoded CAS PDF file
+     * Base64 encoded CAS PDF file (required if pdf_url not provided)
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -45,7 +45,7 @@ private constructor(
     fun pdfFile(): Optional<String> = body.pdfFile()
 
     /**
-     * URL to the CAS PDF file
+     * URL to the CAS PDF file (required if pdf_file not provided)
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -127,7 +127,7 @@ private constructor(
          */
         fun password(password: MultipartField<String>) = apply { body.password(password) }
 
-        /** Base64 encoded CAS PDF file */
+        /** Base64 encoded CAS PDF file (required if pdf_url not provided) */
         fun pdfFile(pdfFile: String) = apply { body.pdfFile(pdfFile) }
 
         /**
@@ -138,7 +138,7 @@ private constructor(
          */
         fun pdfFile(pdfFile: MultipartField<String>) = apply { body.pdfFile(pdfFile) }
 
-        /** URL to the CAS PDF file */
+        /** URL to the CAS PDF file (required if pdf_file not provided) */
         fun pdfUrl(pdfUrl: String) = apply { body.pdfUrl(pdfUrl) }
 
         /**
@@ -288,6 +288,7 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
+    /** Provide either `pdf_file` OR `pdf_url` (one is required) */
     class Body
     private constructor(
         private val password: MultipartField<String>,
@@ -305,7 +306,7 @@ private constructor(
         fun password(): Optional<String> = password.value.getOptional("password")
 
         /**
-         * Base64 encoded CAS PDF file
+         * Base64 encoded CAS PDF file (required if pdf_url not provided)
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -313,7 +314,7 @@ private constructor(
         fun pdfFile(): Optional<String> = pdfFile.value.getOptional("pdf_file")
 
         /**
-         * URL to the CAS PDF file
+         * URL to the CAS PDF file (required if pdf_file not provided)
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -389,7 +390,7 @@ private constructor(
              */
             fun password(password: MultipartField<String>) = apply { this.password = password }
 
-            /** Base64 encoded CAS PDF file */
+            /** Base64 encoded CAS PDF file (required if pdf_url not provided) */
             fun pdfFile(pdfFile: String) = pdfFile(MultipartField.of(pdfFile))
 
             /**
@@ -401,7 +402,7 @@ private constructor(
              */
             fun pdfFile(pdfFile: MultipartField<String>) = apply { this.pdfFile = pdfFile }
 
-            /** URL to the CAS PDF file */
+            /** URL to the CAS PDF file (required if pdf_file not provided) */
             fun pdfUrl(pdfUrl: String) = pdfUrl(MultipartField.of(pdfUrl))
 
             /**
