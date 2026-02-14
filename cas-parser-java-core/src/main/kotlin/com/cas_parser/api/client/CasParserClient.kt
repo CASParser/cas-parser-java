@@ -3,8 +3,17 @@
 package com.cas_parser.api.client
 
 import com.cas_parser.api.core.ClientOptions
-import com.cas_parser.api.services.blocking.CasGeneratorService
-import com.cas_parser.api.services.blocking.CasParserService
+import com.cas_parser.api.services.blocking.AccessTokenService
+import com.cas_parser.api.services.blocking.CamsKfintechService
+import com.cas_parser.api.services.blocking.CdslService
+import com.cas_parser.api.services.blocking.ContractNoteService
+import com.cas_parser.api.services.blocking.CreditService
+import com.cas_parser.api.services.blocking.InboxService
+import com.cas_parser.api.services.blocking.KfintechService
+import com.cas_parser.api.services.blocking.LogService
+import com.cas_parser.api.services.blocking.NsdlService
+import com.cas_parser.api.services.blocking.SmartService
+import com.cas_parser.api.services.blocking.VerifyTokenService
 import java.util.function.Consumer
 
 /**
@@ -43,9 +52,27 @@ interface CasParserClient {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): CasParserClient
 
-    fun casParser(): CasParserService
+    fun credits(): CreditService
 
-    fun casGenerator(): CasGeneratorService
+    fun logs(): LogService
+
+    fun accessToken(): AccessTokenService
+
+    fun verifyToken(): VerifyTokenService
+
+    fun camsKfintech(): CamsKfintechService
+
+    fun cdsl(): CdslService
+
+    fun contractNote(): ContractNoteService
+
+    fun inbox(): InboxService
+
+    fun kfintech(): KfintechService
+
+    fun nsdl(): NsdlService
+
+    fun smart(): SmartService
 
     /**
      * Closes this client, relinquishing any underlying resources.
@@ -70,8 +97,26 @@ interface CasParserClient {
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): CasParserClient.WithRawResponse
 
-        fun casParser(): CasParserService.WithRawResponse
+        fun credits(): CreditService.WithRawResponse
 
-        fun casGenerator(): CasGeneratorService.WithRawResponse
+        fun logs(): LogService.WithRawResponse
+
+        fun accessToken(): AccessTokenService.WithRawResponse
+
+        fun verifyToken(): VerifyTokenService.WithRawResponse
+
+        fun camsKfintech(): CamsKfintechService.WithRawResponse
+
+        fun cdsl(): CdslService.WithRawResponse
+
+        fun contractNote(): ContractNoteService.WithRawResponse
+
+        fun inbox(): InboxService.WithRawResponse
+
+        fun kfintech(): KfintechService.WithRawResponse
+
+        fun nsdl(): NsdlService.WithRawResponse
+
+        fun smart(): SmartService.WithRawResponse
     }
 }

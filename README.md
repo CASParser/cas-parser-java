@@ -2,12 +2,12 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.cas_parser.api/cas-parser-java)](https://central.sonatype.com/artifact/com.cas_parser.api/cas-parser-java/0.1.0)
-[![javadoc](https://javadoc.io/badge2/com.cas_parser.api/cas-parser-java/0.1.0/javadoc.svg)](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.1.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.cas_parser.api/cas-parser-java)](https://central.sonatype.com/artifact/com.cas_parser.api/cas-parser-java/0.2.0)
+[![javadoc](https://javadoc.io/badge2/com.cas_parser.api/cas-parser-java/0.2.0/javadoc.svg)](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.2.0)
 
 <!-- x-release-please-end -->
 
-The Cas Parser Java SDK provides convenient access to the [Cas Parser REST API](https://docs.casparser.in/reference) from applications written in Java.
+The Cas Parser Java SDK provides convenient access to the Cas Parser REST API from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -15,14 +15,14 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 Use the Cas Parser MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=cas-parser-node-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImNhcy1wYXJzZXItbm9kZS1tY3AiXSwiZW52Ijp7IkNBU19QQVJTRVJfQVBJX0tFWSI6Ik15IEFQSSBLZXkifX0)
-[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22cas-parser-node-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22cas-parser-node-mcp%22%5D%2C%22env%22%3A%7B%22CAS_PARSER_API_KEY%22%3A%22My%20API%20Key%22%7D%7D)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=cas-parser-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImNhcy1wYXJzZXItbWNwIl0sImVudiI6eyJDQVNfUEFSU0VSX0FQSV9LRVkiOiJNeSBBUEkgS2V5In19)
+[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22cas-parser-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22cas-parser-mcp%22%5D%2C%22env%22%3A%7B%22CAS_PARSER_API_KEY%22%3A%22My%20API%20Key%22%7D%7D)
 
 > Note: You may need to set environment variables in your MCP client.
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.casparser.in](https://docs.casparser.in/reference). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.1.0).
+Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.2.0).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [docs.casparser.in](https://docs.casp
 ### Gradle
 
 ```kotlin
-implementation("com.cas_parser.api:cas-parser-java:0.1.0")
+implementation("com.cas_parser.api:cas-parser-java:0.2.0")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("com.cas_parser.api:cas-parser-java:0.1.0")
 <dependency>
   <groupId>com.cas_parser.api</groupId>
   <artifactId>cas-parser-java</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
@@ -57,18 +57,14 @@ This library requires Java 8 or later.
 ```java
 import com.cas_parser.api.client.CasParserClient;
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient;
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams;
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
 // Configures using the `casparser.apiKey` and `casparser.baseUrl` system properties
 // Or configures using the `CAS_PARSER_API_KEY` and `CAS_PARSER_BASE_URL` environment variables
 CasParserClient client = CasParserOkHttpClient.fromEnv();
 
-CasParserSmartParseParams params = CasParserSmartParseParams.builder()
-    .password("ABCDF")
-    .pdfUrl("https://your-cas-pdf-url-here.com")
-    .build();
-UnifiedResponse unifiedResponse = client.casParser().smartParse(params);
+CreditCheckResponse response = client.credits().check();
 ```
 
 ## Client configuration
@@ -141,7 +137,7 @@ The `withOptions()` method does not affect the original client or service.
 
 To send a request to the Cas Parser API, build an instance of some `Params` class and pass it to the corresponding client method. When the response is received, it will be deserialized into an instance of a Java class.
 
-For example, `client.casParser().smartParse(...)` should be called with an instance of `CasParserSmartParseParams`, and it will return an instance of `UnifiedResponse`.
+For example, `client.credits().check(...)` should be called with an instance of `CreditCheckParams`, and it will return an instance of `CreditCheckResponse`.
 
 ## Immutability
 
@@ -158,19 +154,15 @@ The default client is synchronous. To switch to asynchronous execution, call the
 ```java
 import com.cas_parser.api.client.CasParserClient;
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient;
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams;
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `casparser.apiKey` and `casparser.baseUrl` system properties
 // Or configures using the `CAS_PARSER_API_KEY` and `CAS_PARSER_BASE_URL` environment variables
 CasParserClient client = CasParserOkHttpClient.fromEnv();
 
-CasParserSmartParseParams params = CasParserSmartParseParams.builder()
-    .password("ABCDF")
-    .pdfUrl("https://your-cas-pdf-url-here.com")
-    .build();
-CompletableFuture<UnifiedResponse> unifiedResponse = client.async().casParser().smartParse(params);
+CompletableFuture<CreditCheckResponse> response = client.async().credits().check();
 ```
 
 Or create an asynchronous client from the beginning:
@@ -178,19 +170,15 @@ Or create an asynchronous client from the beginning:
 ```java
 import com.cas_parser.api.client.CasParserClientAsync;
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClientAsync;
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams;
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `casparser.apiKey` and `casparser.baseUrl` system properties
 // Or configures using the `CAS_PARSER_API_KEY` and `CAS_PARSER_BASE_URL` environment variables
 CasParserClientAsync client = CasParserOkHttpClientAsync.fromEnv();
 
-CasParserSmartParseParams params = CasParserSmartParseParams.builder()
-    .password("ABCDF")
-    .pdfUrl("https://your-cas-pdf-url-here.com")
-    .build();
-CompletableFuture<UnifiedResponse> unifiedResponse = client.casParser().smartParse(params);
+CompletableFuture<CreditCheckResponse> response = client.credits().check();
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
@@ -204,25 +192,21 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```java
 import com.cas_parser.api.core.http.Headers;
 import com.cas_parser.api.core.http.HttpResponseFor;
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams;
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-CasParserSmartParseParams params = CasParserSmartParseParams.builder()
-    .password("ABCDF")
-    .pdfUrl("https://you-cas-pdf-url-here.com")
-    .build();
-HttpResponseFor<UnifiedResponse> unifiedResponse = client.casParser().withRawResponse().smartParse(params);
+HttpResponseFor<CreditCheckResponse> response = client.credits().withRawResponse().check();
 
-int statusCode = unifiedResponse.statusCode();
-Headers headers = unifiedResponse.headers();
+int statusCode = response.statusCode();
+Headers headers = response.headers();
 ```
 
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse parsedUnifiedResponse = unifiedResponse.parse();
+CreditCheckResponse parsedResponse = response.parse();
 ```
 
 ## Error handling
@@ -320,9 +304,9 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse unifiedResponse = client.casParser().smartParse(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
+CreditCheckResponse response = client.credits().check(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:
@@ -379,6 +363,21 @@ CasParserClient client = CasParserOkHttpClient.builder()
     .build();
 ```
 
+### Environments
+
+The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
+
+```java
+import com.cas_parser.api.client.CasParserClient;
+import com.cas_parser.api.client.okhttp.CasParserOkHttpClient;
+
+CasParserClient client = CasParserOkHttpClient.builder()
+    .fromEnv()
+    // Other options include `environment2`
+    .environment1()
+    .build();
+```
+
 ### Custom HTTP client
 
 The SDK consists of three artifacts:
@@ -425,9 +424,9 @@ To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQu
 
 ```java
 import com.cas_parser.api.core.JsonValue;
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams;
+import com.cas_parser.api.models.credits.CreditCheckParams;
 
-CasParserSmartParseParams params = CasParserSmartParseParams.builder()
+CreditCheckParams params = CreditCheckParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
     .putAdditionalQueryParam("secret_query_param", "42")
     .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
@@ -439,13 +438,9 @@ These can be accessed on the built object later using the `_additionalHeaders()`
 To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](cas-parser-java-core/src/main/kotlin/com/cas_parser/api/core/Values.kt) object to its setter:
 
 ```java
-import com.cas_parser.api.core.JsonValue;
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams;
+import com.cas_parser.api.models.credits.CreditCheckParams;
 
-CasParserSmartParseParams params = CasParserSmartParseParams.builder()
-    .password(JsonValue.from(42))
-    .pdfUrl("https://your-cas-pdf-url-here.com")
-    .build();
+CreditCheckParams params = CreditCheckParams.builder().build();
 ```
 
 The most straightforward way to create a [`JsonValue`](cas-parser-java-core/src/main/kotlin/com/cas_parser/api/core/Values.kt) is using its `from(...)` method:
@@ -487,6 +482,22 @@ JsonValue complexValue = JsonValue.from(Map.of(
 ));
 ```
 
+Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
+
+To forcibly omit a required parameter or property, pass [`JsonMissing`](cas-parser-java-core/src/main/kotlin/com/cas_parser/api/core/Values.kt):
+
+```java
+import com.cas_parser.api.core.JsonMissing;
+import com.cas_parser.api.models.cdsl.fetch.FetchRequestOtpParams;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+
+CreditCheckParams params = FetchRequestOtpParams.builder()
+    .dob("1990-01-15")
+    .pan("ABCDE1234F")
+    .boId(JsonMissing.of())
+    .build();
+```
+
 ### Response properties
 
 To access undocumented response properties, call the `_additionalProperties()` method:
@@ -495,7 +506,7 @@ To access undocumented response properties, call the `_additionalProperties()` m
 import com.cas_parser.api.core.JsonValue;
 import java.util.Map;
 
-Map<String, JsonValue> additionalProperties = client.casParser().smartParse(params)._additionalProperties();
+Map<String, JsonValue> additionalProperties = client.credits().check(params)._additionalProperties();
 JsonValue secretPropertyValue = additionalProperties.get("secretProperty");
 
 String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
@@ -525,19 +536,19 @@ To access a property's raw JSON value, which may be undocumented, call its `_` p
 import com.cas_parser.api.core.JsonField;
 import java.util.Optional;
 
-JsonField<String> password = client.casParser().smartParse(params)._password();
+JsonField<Object> field = client.credits().check(params)._field();
 
-if (password.isMissing()) {
+if (field.isMissing()) {
   // The property is absent from the JSON response
-} else if (password.isNull()) {
+} else if (field.isNull()) {
   // The property was set to literal null
 } else {
   // Check if value was provided as a string
   // Other methods include `asNumber()`, `asBoolean()`, etc.
-  Optional<String> jsonString = password.asString();
+  Optional<String> jsonString = field.asString();
 
   // Try to deserialize into a custom type
-  MyClass myObject = password.asUnknown().orElseThrow().convert(MyClass.class);
+  MyClass myObject = field.asUnknown().orElseThrow().convert(MyClass.class);
 }
 ```
 
@@ -550,17 +561,17 @@ By default, the SDK will not throw an exception in this case. It will throw [`Ca
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse unifiedResponse = client.casParser().smartParse(params).validate();
+CreditCheckResponse response = client.credits().check(params).validate();
 ```
 
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.cas_parser.api.models.casparser.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse unifiedResponse = client.casParser().smartParse(RequestOptions.builder().responseValidation(true).build());
+CreditCheckResponse response = client.credits().check(RequestOptions.builder().responseValidation(true).build());
 ```
 
 Or configure the default for all method calls at the client level:
