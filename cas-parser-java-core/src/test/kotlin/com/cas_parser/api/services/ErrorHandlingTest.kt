@@ -16,7 +16,6 @@ import com.cas_parser.api.errors.RateLimitException
 import com.cas_parser.api.errors.UnauthorizedException
 import com.cas_parser.api.errors.UnexpectedStatusCodeException
 import com.cas_parser.api.errors.UnprocessableEntityException
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.status
@@ -59,8 +58,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse400() {
-        val casParserService = client.casParser()
+    fun creditsCheck400() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -68,16 +67,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<BadRequestException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<BadRequestException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -85,8 +75,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse400WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck400WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -94,16 +84,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<BadRequestException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<BadRequestException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -111,8 +92,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse401() {
-        val casParserService = client.casParser()
+    fun creditsCheck401() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -120,16 +101,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnauthorizedException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnauthorizedException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -137,8 +109,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse401WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck401WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -146,16 +118,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnauthorizedException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnauthorizedException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -163,8 +126,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse403() {
-        val casParserService = client.casParser()
+    fun creditsCheck403() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -172,16 +135,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<PermissionDeniedException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<PermissionDeniedException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -189,8 +143,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse403WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck403WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -198,16 +152,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<PermissionDeniedException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<PermissionDeniedException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -215,8 +160,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse404() {
-        val casParserService = client.casParser()
+    fun creditsCheck404() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -224,16 +169,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<NotFoundException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<NotFoundException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -241,8 +177,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse404WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck404WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -250,16 +186,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<NotFoundException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<NotFoundException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -267,8 +194,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse422() {
-        val casParserService = client.casParser()
+    fun creditsCheck422() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -276,16 +203,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnprocessableEntityException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnprocessableEntityException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -293,8 +211,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse422WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck422WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -302,16 +220,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnprocessableEntityException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnprocessableEntityException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -319,8 +228,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse429() {
-        val casParserService = client.casParser()
+    fun creditsCheck429() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -328,16 +237,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<RateLimitException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<RateLimitException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -345,8 +245,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse429WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck429WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -354,16 +254,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<RateLimitException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<RateLimitException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -371,8 +262,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse500() {
-        val casParserService = client.casParser()
+    fun creditsCheck500() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -380,16 +271,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<InternalServerException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<InternalServerException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -397,8 +279,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse500WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck500WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -406,16 +288,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<InternalServerException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<InternalServerException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -423,8 +296,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse999() {
-        val casParserService = client.casParser()
+    fun creditsCheck999() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -432,16 +305,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnexpectedStatusCodeException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnexpectedStatusCodeException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -449,8 +313,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParse999WithRawResponse() {
-        val casParserService = client.casParser().withRawResponse()
+    fun creditsCheck999WithRawResponse() {
+        val creditService = client.credits().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -458,16 +322,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnexpectedStatusCodeException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<UnexpectedStatusCodeException> { creditService.check() }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -475,23 +330,14 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun casParserSmartParseInvalidJsonBody() {
-        val casParserService = client.casParser()
+    fun creditsCheckInvalidJsonBody() {
+        val creditService = client.credits()
         stubFor(
             post(anyUrl())
                 .willReturn(status(200).withHeader(HEADER_NAME, HEADER_VALUE).withBody(NOT_JSON))
         )
 
-        val e =
-            assertThrows<CasParserException> {
-                casParserService.smartParse(
-                    CasParserSmartParseParams.builder()
-                        .password("password")
-                        .pdfFile("pdf_file")
-                        .pdfUrl("https://example.com")
-                        .build()
-                )
-            }
+        val e = assertThrows<CasParserException> { creditService.check() }
 
         assertThat(e).hasMessage("Error reading response")
     }
