@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 (2026-02-14)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/CASParser/cas-parser-java/compare/v0.2.0...v0.2.1)
+
+### Chores
+
+* update SDK settings ([7b597b2](https://github.com/CASParser/cas-parser-java/commit/7b597b27dcff7cb18315637ed650a3e9e96a2da3))
+
 ## 0.2.0 (2026-02-14)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/CASParser/cas-parser-java/compare/v0.1.0...v0.2.0)
