@@ -107,6 +107,10 @@ private constructor(
      * The base URL to use for every request.
      *
      * Defaults to the production environment: `https://portfolio-parser.api.casparser.in`.
+     *
+     * The following other environments, with dedicated builder methods, are available:
+     * - environment_1: `https://client-apis.casparser.in`
+     * - environment_2: `http://localhost:5000`
      */
     fun baseUrl(): String = baseUrl ?: PRODUCTION_URL
 
@@ -115,6 +119,10 @@ private constructor(
     companion object {
 
         const val PRODUCTION_URL = "https://portfolio-parser.api.casparser.in"
+
+        const val ENVIRONMENT_1_URL = "https://client-apis.casparser.in"
+
+        const val ENVIRONMENT_2_URL = "http://localhost:5000"
 
         /**
          * Returns a mutable builder for constructing an instance of [ClientOptions].
@@ -221,11 +229,21 @@ private constructor(
          * The base URL to use for every request.
          *
          * Defaults to the production environment: `https://portfolio-parser.api.casparser.in`.
+         *
+         * The following other environments, with dedicated builder methods, are available:
+         * - environment_1: `https://client-apis.casparser.in`
+         * - environment_2: `http://localhost:5000`
          */
         fun baseUrl(baseUrl: String?) = apply { this.baseUrl = baseUrl }
 
         /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
         fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
+
+        /** Sets [baseUrl] to `https://client-apis.casparser.in`. */
+        fun environment1() = baseUrl(ENVIRONMENT_1_URL)
+
+        /** Sets [baseUrl] to `http://localhost:5000`. */
+        fun environment2() = baseUrl(ENVIRONMENT_2_URL)
 
         /**
          * Whether to call `validate` on every response before returning it.

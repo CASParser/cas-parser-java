@@ -5,7 +5,7 @@ package com.cas_parser.api.services
 import com.cas_parser.api.client.CasParserClient
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient
 import com.cas_parser.api.core.JsonValue
-import com.cas_parser.api.models.casparser.CasParserSmartParseParams
+import com.cas_parser.api.models.credits.CreditCheckParams
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.matchingJsonPath
@@ -38,15 +38,12 @@ internal class ServiceParamsTest {
 
     @Disabled("Prism tests are disabled")
     @Test
-    fun smartParse() {
-        val casParserService = client.casParser()
+    fun check() {
+        val creditService = client.credits()
         stubFor(post(anyUrl()).willReturn(ok("{}")))
 
-        casParserService.smartParse(
-            CasParserSmartParseParams.builder()
-                .password("password")
-                .pdfFile("pdf_file")
-                .pdfUrl("https://example.com")
+        creditService.check(
+            CreditCheckParams.builder()
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")
                 .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))

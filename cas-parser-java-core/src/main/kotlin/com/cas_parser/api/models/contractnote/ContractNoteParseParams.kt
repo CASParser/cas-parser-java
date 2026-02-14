@@ -1,0 +1,742 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.cas_parser.api.models.contractnote
+
+import com.cas_parser.api.core.Enum
+import com.cas_parser.api.core.ExcludeMissing
+import com.cas_parser.api.core.JsonField
+import com.cas_parser.api.core.JsonValue
+import com.cas_parser.api.core.MultipartField
+import com.cas_parser.api.core.Params
+import com.cas_parser.api.core.http.Headers
+import com.cas_parser.api.core.http.QueryParams
+import com.cas_parser.api.core.toImmutable
+import com.cas_parser.api.errors.CasParserInvalidDataException
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.Collections
+import java.util.Objects
+import java.util.Optional
+
+/**
+ * This endpoint parses Contract Note PDF files from various brokers including Zerodha, Groww,
+ * Upstox, ICICI Securities, and others.
+ *
+ * **What is a Contract Note?** A contract note is a legal document that provides details of all
+ * trades executed by an investor. It includes:
+ * - Trade details with timestamps, quantities, and prices
+ * - Brokerage and charges breakdown
+ * - Settlement information
+ * - Regulatory compliance details
+ *
+ * **Supported Brokers:**
+ * - Zerodha Broking Limited
+ * - Groww Invest Tech Private Limited
+ * - Upstox (RKSV Securities)
+ * - ICICI Securities Limited
+ * - Auto-detection for unknown brokers
+ *
+ * **Key Features:**
+ * - **Auto-detection**: Automatically identifies broker type from PDF content
+ * - **Comprehensive parsing**: Extracts equity transactions, derivatives transactions, detailed
+ *   trades, and charges
+ * - **Flexible input**: Accepts both file upload and URL-based PDF input
+ * - **Password protection**: Supports password-protected PDFs
+ *
+ * The API returns structured data including contract note information, client details, transaction
+ * summaries, and detailed trade-by-trade breakdowns.
+ */
+class ContractNoteParseParams
+private constructor(
+    private val body: Body,
+    private val additionalHeaders: Headers,
+    private val additionalQueryParams: QueryParams,
+) : Params {
+
+    /**
+     * Optional broker type override. If not provided, system will auto-detect.
+     *
+     * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun brokerType(): Optional<BrokerType> = body.brokerType()
+
+    /**
+     * Password for the PDF file (usually PAN number for Zerodha)
+     *
+     * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun password(): Optional<String> = body.password()
+
+    /**
+     * Base64 encoded contract note PDF file
+     *
+     * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun pdfFile(): Optional<String> = body.pdfFile()
+
+    /**
+     * URL to the contract note PDF file
+     *
+     * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun pdfUrl(): Optional<String> = body.pdfUrl()
+
+    /**
+     * Returns the raw multipart value of [brokerType].
+     *
+     * Unlike [brokerType], this method doesn't throw if the multipart field has an unexpected type.
+     */
+    fun _brokerType(): MultipartField<BrokerType> = body._brokerType()
+
+    /**
+     * Returns the raw multipart value of [password].
+     *
+     * Unlike [password], this method doesn't throw if the multipart field has an unexpected type.
+     */
+    fun _password(): MultipartField<String> = body._password()
+
+    /**
+     * Returns the raw multipart value of [pdfFile].
+     *
+     * Unlike [pdfFile], this method doesn't throw if the multipart field has an unexpected type.
+     */
+    fun _pdfFile(): MultipartField<String> = body._pdfFile()
+
+    /**
+     * Returns the raw multipart value of [pdfUrl].
+     *
+     * Unlike [pdfUrl], this method doesn't throw if the multipart field has an unexpected type.
+     */
+    fun _pdfUrl(): MultipartField<String> = body._pdfUrl()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
+    /** Additional headers to send with the request. */
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    /** Additional query param to send with the request. */
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun toBuilder() = Builder().from(this)
+
+    companion object {
+
+        @JvmStatic fun none(): ContractNoteParseParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [ContractNoteParseParams]. */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [ContractNoteParseParams]. */
+    class Builder internal constructor() {
+
+        private var body: Body.Builder = Body.builder()
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
+
+        @JvmSynthetic
+        internal fun from(contractNoteParseParams: ContractNoteParseParams) = apply {
+            body = contractNoteParseParams.body.toBuilder()
+            additionalHeaders = contractNoteParseParams.additionalHeaders.toBuilder()
+            additionalQueryParams = contractNoteParseParams.additionalQueryParams.toBuilder()
+        }
+
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [brokerType]
+         * - [password]
+         * - [pdfFile]
+         * - [pdfUrl]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /** Optional broker type override. If not provided, system will auto-detect. */
+        fun brokerType(brokerType: BrokerType) = apply { body.brokerType(brokerType) }
+
+        /**
+         * Sets [Builder.brokerType] to an arbitrary multipart value.
+         *
+         * You should usually call [Builder.brokerType] with a well-typed [BrokerType] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun brokerType(brokerType: MultipartField<BrokerType>) = apply {
+            body.brokerType(brokerType)
+        }
+
+        /** Password for the PDF file (usually PAN number for Zerodha) */
+        fun password(password: String) = apply { body.password(password) }
+
+        /**
+         * Sets [Builder.password] to an arbitrary multipart value.
+         *
+         * You should usually call [Builder.password] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun password(password: MultipartField<String>) = apply { body.password(password) }
+
+        /** Base64 encoded contract note PDF file */
+        fun pdfFile(pdfFile: String) = apply { body.pdfFile(pdfFile) }
+
+        /**
+         * Sets [Builder.pdfFile] to an arbitrary multipart value.
+         *
+         * You should usually call [Builder.pdfFile] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun pdfFile(pdfFile: MultipartField<String>) = apply { body.pdfFile(pdfFile) }
+
+        /** URL to the contract note PDF file */
+        fun pdfUrl(pdfUrl: String) = apply { body.pdfUrl(pdfUrl) }
+
+        /**
+         * Sets [Builder.pdfUrl] to an arbitrary multipart value.
+         *
+         * You should usually call [Builder.pdfUrl] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun pdfUrl(pdfUrl: MultipartField<String>) = apply { body.pdfUrl(pdfUrl) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
+
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun putAdditionalHeader(name: String, value: String) = apply {
+            additionalHeaders.put(name, value)
+        }
+
+        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.put(name, values)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun replaceAdditionalHeaders(name: String, value: String) = apply {
+            additionalHeaders.replace(name, value)
+        }
+
+        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+
+        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun putAdditionalQueryParam(key: String, value: String) = apply {
+            additionalQueryParams.put(key, value)
+        }
+
+        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
+
+        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
+            additionalQueryParams.replace(key, value)
+        }
+
+        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
+            }
+
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+
+        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
+            additionalQueryParams.removeAll(keys)
+        }
+
+        /**
+         * Returns an immutable instance of [ContractNoteParseParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
+        fun build(): ContractNoteParseParams =
+            ContractNoteParseParams(
+                body.build(),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
+    }
+
+    fun _body(): Map<String, MultipartField<*>> =
+        (mapOf(
+                "broker_type" to _brokerType(),
+                "password" to _password(),
+                "pdf_file" to _pdfFile(),
+                "pdf_url" to _pdfUrl(),
+            ) + _additionalBodyProperties().mapValues { (_, value) -> MultipartField.of(value) })
+            .toImmutable()
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val brokerType: MultipartField<BrokerType>,
+        private val password: MultipartField<String>,
+        private val pdfFile: MultipartField<String>,
+        private val pdfUrl: MultipartField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        /**
+         * Optional broker type override. If not provided, system will auto-detect.
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun brokerType(): Optional<BrokerType> = brokerType.value.getOptional("broker_type")
+
+        /**
+         * Password for the PDF file (usually PAN number for Zerodha)
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun password(): Optional<String> = password.value.getOptional("password")
+
+        /**
+         * Base64 encoded contract note PDF file
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun pdfFile(): Optional<String> = pdfFile.value.getOptional("pdf_file")
+
+        /**
+         * URL to the contract note PDF file
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun pdfUrl(): Optional<String> = pdfUrl.value.getOptional("pdf_url")
+
+        /**
+         * Returns the raw multipart value of [brokerType].
+         *
+         * Unlike [brokerType], this method doesn't throw if the multipart field has an unexpected
+         * type.
+         */
+        @JsonProperty("broker_type")
+        @ExcludeMissing
+        fun _brokerType(): MultipartField<BrokerType> = brokerType
+
+        /**
+         * Returns the raw multipart value of [password].
+         *
+         * Unlike [password], this method doesn't throw if the multipart field has an unexpected
+         * type.
+         */
+        @JsonProperty("password") @ExcludeMissing fun _password(): MultipartField<String> = password
+
+        /**
+         * Returns the raw multipart value of [pdfFile].
+         *
+         * Unlike [pdfFile], this method doesn't throw if the multipart field has an unexpected
+         * type.
+         */
+        @JsonProperty("pdf_file") @ExcludeMissing fun _pdfFile(): MultipartField<String> = pdfFile
+
+        /**
+         * Returns the raw multipart value of [pdfUrl].
+         *
+         * Unlike [pdfUrl], this method doesn't throw if the multipart field has an unexpected type.
+         */
+        @JsonProperty("pdf_url") @ExcludeMissing fun _pdfUrl(): MultipartField<String> = pdfUrl
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Body]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var brokerType: MultipartField<BrokerType> = MultipartField.of(null)
+            private var password: MultipartField<String> = MultipartField.of(null)
+            private var pdfFile: MultipartField<String> = MultipartField.of(null)
+            private var pdfUrl: MultipartField<String> = MultipartField.of(null)
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                brokerType = body.brokerType
+                password = body.password
+                pdfFile = body.pdfFile
+                pdfUrl = body.pdfUrl
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /** Optional broker type override. If not provided, system will auto-detect. */
+            fun brokerType(brokerType: BrokerType) = brokerType(MultipartField.of(brokerType))
+
+            /**
+             * Sets [Builder.brokerType] to an arbitrary multipart value.
+             *
+             * You should usually call [Builder.brokerType] with a well-typed [BrokerType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun brokerType(brokerType: MultipartField<BrokerType>) = apply {
+                this.brokerType = brokerType
+            }
+
+            /** Password for the PDF file (usually PAN number for Zerodha) */
+            fun password(password: String) = password(MultipartField.of(password))
+
+            /**
+             * Sets [Builder.password] to an arbitrary multipart value.
+             *
+             * You should usually call [Builder.password] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun password(password: MultipartField<String>) = apply { this.password = password }
+
+            /** Base64 encoded contract note PDF file */
+            fun pdfFile(pdfFile: String) = pdfFile(MultipartField.of(pdfFile))
+
+            /**
+             * Sets [Builder.pdfFile] to an arbitrary multipart value.
+             *
+             * You should usually call [Builder.pdfFile] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun pdfFile(pdfFile: MultipartField<String>) = apply { this.pdfFile = pdfFile }
+
+            /** URL to the contract note PDF file */
+            fun pdfUrl(pdfUrl: String) = pdfUrl(MultipartField.of(pdfUrl))
+
+            /**
+             * Sets [Builder.pdfUrl] to an arbitrary multipart value.
+             *
+             * You should usually call [Builder.pdfUrl] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun pdfUrl(pdfUrl: MultipartField<String>) = apply { this.pdfUrl = pdfUrl }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Body =
+                Body(brokerType, password, pdfFile, pdfUrl, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            brokerType().ifPresent { it.validate() }
+            password()
+            pdfFile()
+            pdfUrl()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: CasParserInvalidDataException) {
+                false
+            }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Body &&
+                brokerType == other.brokerType &&
+                password == other.password &&
+                pdfFile == other.pdfFile &&
+                pdfUrl == other.pdfUrl &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(brokerType, password, pdfFile, pdfUrl, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{brokerType=$brokerType, password=$password, pdfFile=$pdfFile, pdfUrl=$pdfUrl, additionalProperties=$additionalProperties}"
+    }
+
+    /** Optional broker type override. If not provided, system will auto-detect. */
+    class BrokerType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val ZERODHA = of("zerodha")
+
+            @JvmField val GROWW = of("groww")
+
+            @JvmField val UPSTOX = of("upstox")
+
+            @JvmField val ICICI = of("icici")
+
+            @JvmStatic fun of(value: String) = BrokerType(JsonField.of(value))
+        }
+
+        /** An enum containing [BrokerType]'s known values. */
+        enum class Known {
+            ZERODHA,
+            GROWW,
+            UPSTOX,
+            ICICI,
+        }
+
+        /**
+         * An enum containing [BrokerType]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [BrokerType] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            ZERODHA,
+            GROWW,
+            UPSTOX,
+            ICICI,
+            /**
+             * An enum member indicating that [BrokerType] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                ZERODHA -> Value.ZERODHA
+                GROWW -> Value.GROWW
+                UPSTOX -> Value.UPSTOX
+                ICICI -> Value.ICICI
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws CasParserInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                ZERODHA -> Known.ZERODHA
+                GROWW -> Known.GROWW
+                UPSTOX -> Known.UPSTOX
+                ICICI -> Known.ICICI
+                else -> throw CasParserInvalidDataException("Unknown BrokerType: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws CasParserInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                CasParserInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): BrokerType = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: CasParserInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is BrokerType && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ContractNoteParseParams &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
+    }
+
+    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
+
+    override fun toString() =
+        "ContractNoteParseParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+}

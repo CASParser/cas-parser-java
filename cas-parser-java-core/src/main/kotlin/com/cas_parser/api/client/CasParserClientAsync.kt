@@ -3,8 +3,17 @@
 package com.cas_parser.api.client
 
 import com.cas_parser.api.core.ClientOptions
-import com.cas_parser.api.services.async.CasGeneratorServiceAsync
-import com.cas_parser.api.services.async.CasParserServiceAsync
+import com.cas_parser.api.services.async.AccessTokenServiceAsync
+import com.cas_parser.api.services.async.CamsKfintechServiceAsync
+import com.cas_parser.api.services.async.CdslServiceAsync
+import com.cas_parser.api.services.async.ContractNoteServiceAsync
+import com.cas_parser.api.services.async.CreditServiceAsync
+import com.cas_parser.api.services.async.InboxServiceAsync
+import com.cas_parser.api.services.async.KfintechServiceAsync
+import com.cas_parser.api.services.async.LogServiceAsync
+import com.cas_parser.api.services.async.NsdlServiceAsync
+import com.cas_parser.api.services.async.SmartServiceAsync
+import com.cas_parser.api.services.async.VerifyTokenServiceAsync
 import java.util.function.Consumer
 
 /**
@@ -43,9 +52,27 @@ interface CasParserClientAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): CasParserClientAsync
 
-    fun casParser(): CasParserServiceAsync
+    fun credits(): CreditServiceAsync
 
-    fun casGenerator(): CasGeneratorServiceAsync
+    fun logs(): LogServiceAsync
+
+    fun accessToken(): AccessTokenServiceAsync
+
+    fun verifyToken(): VerifyTokenServiceAsync
+
+    fun camsKfintech(): CamsKfintechServiceAsync
+
+    fun cdsl(): CdslServiceAsync
+
+    fun contractNote(): ContractNoteServiceAsync
+
+    fun inbox(): InboxServiceAsync
+
+    fun kfintech(): KfintechServiceAsync
+
+    fun nsdl(): NsdlServiceAsync
+
+    fun smart(): SmartServiceAsync
 
     /**
      * Closes this client, relinquishing any underlying resources.
@@ -74,8 +101,26 @@ interface CasParserClientAsync {
             modifier: Consumer<ClientOptions.Builder>
         ): CasParserClientAsync.WithRawResponse
 
-        fun casParser(): CasParserServiceAsync.WithRawResponse
+        fun credits(): CreditServiceAsync.WithRawResponse
 
-        fun casGenerator(): CasGeneratorServiceAsync.WithRawResponse
+        fun logs(): LogServiceAsync.WithRawResponse
+
+        fun accessToken(): AccessTokenServiceAsync.WithRawResponse
+
+        fun verifyToken(): VerifyTokenServiceAsync.WithRawResponse
+
+        fun camsKfintech(): CamsKfintechServiceAsync.WithRawResponse
+
+        fun cdsl(): CdslServiceAsync.WithRawResponse
+
+        fun contractNote(): ContractNoteServiceAsync.WithRawResponse
+
+        fun inbox(): InboxServiceAsync.WithRawResponse
+
+        fun kfintech(): KfintechServiceAsync.WithRawResponse
+
+        fun nsdl(): NsdlServiceAsync.WithRawResponse
+
+        fun smart(): SmartServiceAsync.WithRawResponse
     }
 }

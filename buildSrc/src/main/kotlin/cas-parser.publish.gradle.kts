@@ -11,7 +11,7 @@ configure<PublishingExtension> {
             pom {
                 name.set("CAS Parser - Track Portfolios from CDSL, NSDL, CAMS, KFintech")
                 description.set("API for parsing and analyzing CAS (Consolidated Account Statement) PDF files\nfrom NSDL, CDSL, and CAMS/KFintech, with a unified response format")
-                url.set("https://docs.casparser.in/reference")
+                url.set("https://www.github.com/stainless-sdks/cas-parser-java")
 
                 licenses {
                     license {
@@ -27,9 +27,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/CASParser/cas-parser-java.git")
-                    developerConnection.set("scm:git:git://github.com/CASParser/cas-parser-java.git")
-                    url.set("https://github.com/CASParser/cas-parser-java")
+                    connection.set("scm:git:git://github.com/stainless-sdks/cas-parser-java.git")
+                    developerConnection.set("scm:git:git://github.com/stainless-sdks/cas-parser-java.git")
+                    url.set("https://github.com/stainless-sdks/cas-parser-java")
                 }
 
                 versionMapping {
