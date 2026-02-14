@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.1.0 (2026-02-14)
+
+Full Changelog: [v0.0.4...v0.1.0](https://github.com/CASParser/cas-parser-java/compare/v0.0.4...v0.1.0)
+
+### Features
+
+* **api:** api update ([9d3c390](https://github.com/CASParser/cas-parser-java/commit/9d3c390cfba81d59d55980edd7948059b308d752))
+* **api:** api update ([5fb8812](https://github.com/CASParser/cas-parser-java/commit/5fb8812e08528a570e5f5a7f8c0b044b2fc65879))
+* **api:** api update ([1c7a4f1](https://github.com/CASParser/cas-parser-java/commit/1c7a4f1eebb4b336dc85f73a0319b48d568bf06c))
+* **api:** api update ([2e6c34f](https://github.com/CASParser/cas-parser-java/commit/2e6c34fbe30670c8ae1a74eb7f0f8fc5e8bb1890))
+* **api:** api update ([91a54b7](https://github.com/CASParser/cas-parser-java/commit/91a54b7acbf164ad459293fe697a4b0c9a795758))
+* **api:** api update ([557721f](https://github.com/CASParser/cas-parser-java/commit/557721f0775228db057005e912d8f820f512fcca))
+* **client:** expose sleeper option ([482319f](https://github.com/CASParser/cas-parser-java/commit/482319f0e19023df4e3ba5414e38914f6ad037fa))
+
+
+### Bug Fixes
+
+* **client:** deserialization of empty objects ([ce29632](https://github.com/CASParser/cas-parser-java/commit/ce29632f7f03c172ad042bbaa68e431ab2fd7fa7))
+* **client:** ensure single timer is created per client ([482319f](https://github.com/CASParser/cas-parser-java/commit/482319f0e19023df4e3ba5414e38914f6ad037fa))
+* **client:** incorrect `getPackageVersion` impl ([6772c5e](https://github.com/CASParser/cas-parser-java/commit/6772c5eeb5557a1e494852713cc55ec722b75145))
+
+
+### Chores
+
+* improve formatter performance ([692db64](https://github.com/CASParser/cas-parser-java/commit/692db64a36ef927e9c0ea23bd57192af99aaaf02))
+* update SDK settings ([3350016](https://github.com/CASParser/cas-parser-java/commit/335001679aefb7b54602216202e4dc404799e42c))
+
 ## 0.0.4 (2025-09-13)
 
 Full Changelog: [v0.0.3...v0.0.4](https://github.com/CASParser/cas-parser-java/compare/v0.0.3...v0.0.4)

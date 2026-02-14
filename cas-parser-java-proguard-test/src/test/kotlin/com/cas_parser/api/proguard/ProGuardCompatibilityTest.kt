@@ -82,36 +82,197 @@ internal class ProGuardCompatibilityTest {
                             UnifiedResponse.DematAccount.Holdings.builder()
                                 .addAif(
                                     UnifiedResponse.DematAccount.Holdings.Aif.builder()
-                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .additionalInfo(
+                                            UnifiedResponse.DematAccount.Holdings.Aif.AdditionalInfo
+                                                .builder()
+                                                .closeUnits(0.0f)
+                                                .openUnits(0.0f)
+                                                .build()
+                                        )
                                         .isin("isin")
                                         .name("name")
+                                        .addTransaction(
+                                            UnifiedResponse.DematAccount.Holdings.Aif.Transaction
+                                                .builder()
+                                                .additionalInfo(
+                                                    UnifiedResponse.DematAccount.Holdings.Aif
+                                                        .Transaction
+                                                        .AdditionalInfo
+                                                        .builder()
+                                                        .capitalWithdrawal(0.0f)
+                                                        .credit(0.0f)
+                                                        .debit(0.0f)
+                                                        .incomeDistribution(0.0f)
+                                                        .orderNo("order_no")
+                                                        .price(0.0f)
+                                                        .stampDuty(0.0f)
+                                                        .build()
+                                                )
+                                                .amount(0.0f)
+                                                .balance(0.0f)
+                                                .date(LocalDate.parse("2019-12-27"))
+                                                .description("description")
+                                                .dividendRate(0.0f)
+                                                .nav(0.0f)
+                                                .type(
+                                                    UnifiedResponse.DematAccount.Holdings.Aif
+                                                        .Transaction
+                                                        .Type
+                                                        .PURCHASE
+                                                )
+                                                .units(0.0f)
+                                                .build()
+                                        )
                                         .units(0.0f)
                                         .value(0.0f)
                                         .build()
                                 )
                                 .addCorporateBond(
                                     UnifiedResponse.DematAccount.Holdings.CorporateBond.builder()
-                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .additionalInfo(
+                                            UnifiedResponse.DematAccount.Holdings.CorporateBond
+                                                .AdditionalInfo
+                                                .builder()
+                                                .closeUnits(0.0f)
+                                                .openUnits(0.0f)
+                                                .build()
+                                        )
                                         .isin("isin")
                                         .name("name")
+                                        .addTransaction(
+                                            UnifiedResponse.DematAccount.Holdings.CorporateBond
+                                                .Transaction
+                                                .builder()
+                                                .additionalInfo(
+                                                    UnifiedResponse.DematAccount.Holdings
+                                                        .CorporateBond
+                                                        .Transaction
+                                                        .AdditionalInfo
+                                                        .builder()
+                                                        .capitalWithdrawal(0.0f)
+                                                        .credit(0.0f)
+                                                        .debit(0.0f)
+                                                        .incomeDistribution(0.0f)
+                                                        .orderNo("order_no")
+                                                        .price(0.0f)
+                                                        .stampDuty(0.0f)
+                                                        .build()
+                                                )
+                                                .amount(0.0f)
+                                                .balance(0.0f)
+                                                .date(LocalDate.parse("2019-12-27"))
+                                                .description("description")
+                                                .dividendRate(0.0f)
+                                                .nav(0.0f)
+                                                .type(
+                                                    UnifiedResponse.DematAccount.Holdings
+                                                        .CorporateBond
+                                                        .Transaction
+                                                        .Type
+                                                        .PURCHASE
+                                                )
+                                                .units(0.0f)
+                                                .build()
+                                        )
                                         .units(0.0f)
                                         .value(0.0f)
                                         .build()
                                 )
                                 .addDematMutualFund(
                                     UnifiedResponse.DematAccount.Holdings.DematMutualFund.builder()
-                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .additionalInfo(
+                                            UnifiedResponse.DematAccount.Holdings.DematMutualFund
+                                                .AdditionalInfo
+                                                .builder()
+                                                .closeUnits(0.0f)
+                                                .openUnits(0.0f)
+                                                .build()
+                                        )
                                         .isin("isin")
                                         .name("name")
+                                        .addTransaction(
+                                            UnifiedResponse.DematAccount.Holdings.DematMutualFund
+                                                .Transaction
+                                                .builder()
+                                                .additionalInfo(
+                                                    UnifiedResponse.DematAccount.Holdings
+                                                        .DematMutualFund
+                                                        .Transaction
+                                                        .AdditionalInfo
+                                                        .builder()
+                                                        .capitalWithdrawal(0.0f)
+                                                        .credit(0.0f)
+                                                        .debit(0.0f)
+                                                        .incomeDistribution(0.0f)
+                                                        .orderNo("order_no")
+                                                        .price(0.0f)
+                                                        .stampDuty(0.0f)
+                                                        .build()
+                                                )
+                                                .amount(0.0f)
+                                                .balance(0.0f)
+                                                .date(LocalDate.parse("2019-12-27"))
+                                                .description("description")
+                                                .dividendRate(0.0f)
+                                                .nav(0.0f)
+                                                .type(
+                                                    UnifiedResponse.DematAccount.Holdings
+                                                        .DematMutualFund
+                                                        .Transaction
+                                                        .Type
+                                                        .PURCHASE
+                                                )
+                                                .units(0.0f)
+                                                .build()
+                                        )
                                         .units(0.0f)
                                         .value(0.0f)
                                         .build()
                                 )
                                 .addEquity(
                                     UnifiedResponse.DematAccount.Holdings.Equity.builder()
-                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .additionalInfo(
+                                            UnifiedResponse.DematAccount.Holdings.Equity
+                                                .AdditionalInfo
+                                                .builder()
+                                                .closeUnits(0.0f)
+                                                .openUnits(0.0f)
+                                                .build()
+                                        )
                                         .isin("isin")
                                         .name("name")
+                                        .addTransaction(
+                                            UnifiedResponse.DematAccount.Holdings.Equity.Transaction
+                                                .builder()
+                                                .additionalInfo(
+                                                    UnifiedResponse.DematAccount.Holdings.Equity
+                                                        .Transaction
+                                                        .AdditionalInfo
+                                                        .builder()
+                                                        .capitalWithdrawal(0.0f)
+                                                        .credit(0.0f)
+                                                        .debit(0.0f)
+                                                        .incomeDistribution(0.0f)
+                                                        .orderNo("order_no")
+                                                        .price(0.0f)
+                                                        .stampDuty(0.0f)
+                                                        .build()
+                                                )
+                                                .amount(0.0f)
+                                                .balance(0.0f)
+                                                .date(LocalDate.parse("2019-12-27"))
+                                                .description("description")
+                                                .dividendRate(0.0f)
+                                                .nav(0.0f)
+                                                .type(
+                                                    UnifiedResponse.DematAccount.Holdings.Equity
+                                                        .Transaction
+                                                        .Type
+                                                        .PURCHASE
+                                                )
+                                                .units(0.0f)
+                                                .build()
+                                        )
                                         .units(0.0f)
                                         .value(0.0f)
                                         .build()
@@ -119,13 +280,61 @@ internal class ProGuardCompatibilityTest {
                                 .addGovernmentSecurity(
                                     UnifiedResponse.DematAccount.Holdings.GovernmentSecurity
                                         .builder()
-                                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                                        .additionalInfo(
+                                            UnifiedResponse.DematAccount.Holdings.GovernmentSecurity
+                                                .AdditionalInfo
+                                                .builder()
+                                                .closeUnits(0.0f)
+                                                .openUnits(0.0f)
+                                                .build()
+                                        )
                                         .isin("isin")
                                         .name("name")
+                                        .addTransaction(
+                                            UnifiedResponse.DematAccount.Holdings.GovernmentSecurity
+                                                .Transaction
+                                                .builder()
+                                                .additionalInfo(
+                                                    UnifiedResponse.DematAccount.Holdings
+                                                        .GovernmentSecurity
+                                                        .Transaction
+                                                        .AdditionalInfo
+                                                        .builder()
+                                                        .capitalWithdrawal(0.0f)
+                                                        .credit(0.0f)
+                                                        .debit(0.0f)
+                                                        .incomeDistribution(0.0f)
+                                                        .orderNo("order_no")
+                                                        .price(0.0f)
+                                                        .stampDuty(0.0f)
+                                                        .build()
+                                                )
+                                                .amount(0.0f)
+                                                .balance(0.0f)
+                                                .date(LocalDate.parse("2019-12-27"))
+                                                .description("description")
+                                                .dividendRate(0.0f)
+                                                .nav(0.0f)
+                                                .type(
+                                                    UnifiedResponse.DematAccount.Holdings
+                                                        .GovernmentSecurity
+                                                        .Transaction
+                                                        .Type
+                                                        .PURCHASE
+                                                )
+                                                .units(0.0f)
+                                                .build()
+                                        )
                                         .units(0.0f)
                                         .value(0.0f)
                                         .build()
                                 )
+                                .build()
+                        )
+                        .addLinkedHolder(
+                            UnifiedResponse.DematAccount.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
                                 .build()
                         )
                         .value(0.0f)
@@ -182,6 +391,12 @@ internal class ProGuardCompatibilityTest {
                         )
                         .amc("amc")
                         .folioNumber("folio_number")
+                        .addLinkedHolder(
+                            UnifiedResponse.MutualFund.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
                         .registrar("registrar")
                         .addScheme(
                             UnifiedResponse.MutualFund.Scheme.builder()
@@ -207,13 +422,29 @@ internal class ProGuardCompatibilityTest {
                                 .addNominee("string")
                                 .addTransaction(
                                     UnifiedResponse.MutualFund.Scheme.Transaction.builder()
+                                        .additionalInfo(
+                                            UnifiedResponse.MutualFund.Scheme.Transaction
+                                                .AdditionalInfo
+                                                .builder()
+                                                .capitalWithdrawal(0.0f)
+                                                .credit(0.0f)
+                                                .debit(0.0f)
+                                                .incomeDistribution(0.0f)
+                                                .orderNo("order_no")
+                                                .price(0.0f)
+                                                .stampDuty(0.0f)
+                                                .build()
+                                        )
                                         .amount(0.0f)
                                         .balance(0.0f)
                                         .date(LocalDate.parse("2019-12-27"))
                                         .description("description")
                                         .dividendRate(0.0f)
                                         .nav(0.0f)
-                                        .type("type")
+                                        .type(
+                                            UnifiedResponse.MutualFund.Scheme.Transaction.Type
+                                                .PURCHASE
+                                        )
                                         .units(0.0f)
                                         .build()
                                 )
@@ -222,6 +453,35 @@ internal class ProGuardCompatibilityTest {
                                 .value(0.0f)
                                 .build()
                         )
+                        .value(0.0f)
+                        .build()
+                )
+                .addNp(
+                    UnifiedResponse.Np.builder()
+                        .additionalInfo(JsonValue.from(mapOf<String, Any>()))
+                        .cra("cra")
+                        .addFund(
+                            UnifiedResponse.Np.Fund.builder()
+                                .additionalInfo(
+                                    UnifiedResponse.Np.Fund.AdditionalInfo.builder()
+                                        .manager("manager")
+                                        .tier(UnifiedResponse.Np.Fund.AdditionalInfo.Tier._1)
+                                        .build()
+                                )
+                                .cost(0.0f)
+                                .name("name")
+                                .nav(0.0f)
+                                .units(0.0f)
+                                .value(0.0f)
+                                .build()
+                        )
+                        .addLinkedHolder(
+                            UnifiedResponse.Np.LinkedHolder.builder()
+                                .name("name")
+                                .pan("pan")
+                                .build()
+                        )
+                        .pran("pran")
                         .value(0.0f)
                         .build()
                 )
@@ -243,6 +503,12 @@ internal class ProGuardCompatibilityTest {
                                 )
                                 .mutualFunds(
                                     UnifiedResponse.Summary.Accounts.MutualFunds.builder()
+                                        .count(0L)
+                                        .totalValue(0.0f)
+                                        .build()
+                                )
+                                .nps(
+                                    UnifiedResponse.Summary.Accounts.Nps.builder()
                                         .count(0L)
                                         .totalValue(0.0f)
                                         .build()
