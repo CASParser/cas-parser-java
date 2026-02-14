@@ -7,7 +7,7 @@
 
 <!-- x-release-please-end -->
 
-The Cas Parser Java SDK provides convenient access to the Cas Parser REST API from applications written in Java.
+The Cas Parser Java SDK provides convenient access to the [Cas Parser REST API](https://docs.casparser.in) from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -22,7 +22,7 @@ Use the Cas Parser MCP Server to enable AI assistants to interact with this API,
 
 <!-- x-release-please-start-version -->
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.2.1).
+The REST API documentation can be found on [docs.casparser.in](https://docs.casparser.in). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.2.1).
 
 <!-- x-release-please-end -->
 
