@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 internal class CamsKfintechServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun parse() {
         val client = CasParserOkHttpClientAsync.builder().apiKey("My API Key").build()

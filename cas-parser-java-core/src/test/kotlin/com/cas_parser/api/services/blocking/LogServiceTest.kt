@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class LogServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
@@ -29,7 +29,7 @@ internal class LogServiceTest {
         log.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getSummary() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
