@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 internal class InboxServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun checkConnectionStatus() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
@@ -27,7 +27,7 @@ internal class InboxServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun connectEmail() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
@@ -44,7 +44,7 @@ internal class InboxServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun disconnectEmail() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
@@ -58,7 +58,7 @@ internal class InboxServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun listCasFiles() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()

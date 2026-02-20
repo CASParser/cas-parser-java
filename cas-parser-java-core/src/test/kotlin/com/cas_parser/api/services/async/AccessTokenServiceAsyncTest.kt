@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 internal class AccessTokenServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
         val client = CasParserOkHttpClientAsync.builder().apiKey("My API Key").build()

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class FetchServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun requestOtp() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
@@ -28,7 +28,7 @@ internal class FetchServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun verifyOtp() {
         val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
