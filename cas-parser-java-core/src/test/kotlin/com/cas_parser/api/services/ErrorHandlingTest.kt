@@ -16,6 +16,7 @@ import com.cas_parser.api.errors.RateLimitException
 import com.cas_parser.api.errors.UnauthorizedException
 import com.cas_parser.api.errors.UnexpectedStatusCodeException
 import com.cas_parser.api.errors.UnprocessableEntityException
+import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.status
@@ -58,8 +59,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck400() {
-        val creditService = client.credits()
+    fun camsKfintechParse400() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -67,7 +68,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<BadRequestException> { creditService.check() }
+        val e =
+            assertThrows<BadRequestException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -75,8 +85,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck400WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse400WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -84,7 +94,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<BadRequestException> { creditService.check() }
+        val e =
+            assertThrows<BadRequestException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -92,8 +111,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck401() {
-        val creditService = client.credits()
+    fun camsKfintechParse401() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -101,7 +120,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnauthorizedException> { creditService.check() }
+        val e =
+            assertThrows<UnauthorizedException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -109,8 +137,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck401WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse401WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -118,7 +146,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnauthorizedException> { creditService.check() }
+        val e =
+            assertThrows<UnauthorizedException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -126,8 +163,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck403() {
-        val creditService = client.credits()
+    fun camsKfintechParse403() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -135,7 +172,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<PermissionDeniedException> { creditService.check() }
+        val e =
+            assertThrows<PermissionDeniedException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -143,8 +189,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck403WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse403WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -152,7 +198,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<PermissionDeniedException> { creditService.check() }
+        val e =
+            assertThrows<PermissionDeniedException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -160,8 +215,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck404() {
-        val creditService = client.credits()
+    fun camsKfintechParse404() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -169,7 +224,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<NotFoundException> { creditService.check() }
+        val e =
+            assertThrows<NotFoundException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -177,8 +241,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck404WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse404WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -186,7 +250,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<NotFoundException> { creditService.check() }
+        val e =
+            assertThrows<NotFoundException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -194,8 +267,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck422() {
-        val creditService = client.credits()
+    fun camsKfintechParse422() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -203,7 +276,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnprocessableEntityException> { creditService.check() }
+        val e =
+            assertThrows<UnprocessableEntityException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -211,8 +293,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck422WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse422WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -220,7 +302,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnprocessableEntityException> { creditService.check() }
+        val e =
+            assertThrows<UnprocessableEntityException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -228,8 +319,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck429() {
-        val creditService = client.credits()
+    fun camsKfintechParse429() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -237,7 +328,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<RateLimitException> { creditService.check() }
+        val e =
+            assertThrows<RateLimitException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -245,8 +345,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck429WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse429WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -254,7 +354,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<RateLimitException> { creditService.check() }
+        val e =
+            assertThrows<RateLimitException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -262,8 +371,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck500() {
-        val creditService = client.credits()
+    fun camsKfintechParse500() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -271,7 +380,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<InternalServerException> { creditService.check() }
+        val e =
+            assertThrows<InternalServerException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -279,8 +397,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck500WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse500WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -288,7 +406,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<InternalServerException> { creditService.check() }
+        val e =
+            assertThrows<InternalServerException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -296,8 +423,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck999() {
-        val creditService = client.credits()
+    fun camsKfintechParse999() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -305,7 +432,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnexpectedStatusCodeException> { creditService.check() }
+        val e =
+            assertThrows<UnexpectedStatusCodeException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -313,8 +449,8 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheck999WithRawResponse() {
-        val creditService = client.credits().withRawResponse()
+    fun camsKfintechParse999WithRawResponse() {
+        val camsKfintechService = client.camsKfintech().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -322,7 +458,16 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnexpectedStatusCodeException> { creditService.check() }
+        val e =
+            assertThrows<UnexpectedStatusCodeException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -330,14 +475,23 @@ internal class ErrorHandlingTest {
     }
 
     @Test
-    fun creditsCheckInvalidJsonBody() {
-        val creditService = client.credits()
+    fun camsKfintechParseInvalidJsonBody() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(
             post(anyUrl())
                 .willReturn(status(200).withHeader(HEADER_NAME, HEADER_VALUE).withBody(NOT_JSON))
         )
 
-        val e = assertThrows<CasParserException> { creditService.check() }
+        val e =
+            assertThrows<CasParserException> {
+                camsKfintechService.parse(
+                    CamsKfintechParseParams.builder()
+                        .password("password")
+                        .pdfFile("pdf_file")
+                        .pdfUrl("https://example.com")
+                        .build()
+                )
+            }
 
         assertThat(e).hasMessage("Error reading response")
     }
