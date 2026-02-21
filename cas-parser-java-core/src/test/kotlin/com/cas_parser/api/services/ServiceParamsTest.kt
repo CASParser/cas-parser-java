@@ -5,7 +5,7 @@ package com.cas_parser.api.services
 import com.cas_parser.api.client.CasParserClient
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient
 import com.cas_parser.api.core.JsonValue
-import com.cas_parser.api.models.credits.CreditCheckParams
+import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.matchingJsonPath
@@ -38,12 +38,15 @@ internal class ServiceParamsTest {
 
     @Disabled("Mock server tests are disabled")
     @Test
-    fun check() {
-        val creditService = client.credits()
+    fun parse() {
+        val camsKfintechService = client.camsKfintech()
         stubFor(post(anyUrl()).willReturn(ok("{}")))
 
-        creditService.check(
-            CreditCheckParams.builder()
+        camsKfintechService.parse(
+            CamsKfintechParseParams.builder()
+                .password("password")
+                .pdfFile("pdf_file")
+                .pdfUrl("https://example.com")
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")
                 .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
