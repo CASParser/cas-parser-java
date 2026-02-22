@@ -232,6 +232,7 @@ private constructor(
         private val messageDate: JsonField<LocalDate>,
         private val messageId: JsonField<String>,
         private val originalFilename: JsonField<String>,
+        private val senderEmail: JsonField<String>,
         private val size: JsonField<Long>,
         private val url: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -257,6 +258,9 @@ private constructor(
             @JsonProperty("original_filename")
             @ExcludeMissing
             originalFilename: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("sender_email")
+            @ExcludeMissing
+            senderEmail: JsonField<String> = JsonMissing.of(),
             @JsonProperty("size") @ExcludeMissing size: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
         ) : this(
@@ -266,6 +270,7 @@ private constructor(
             messageDate,
             messageId,
             originalFilename,
+            senderEmail,
             size,
             url,
             mutableMapOf(),
@@ -318,6 +323,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun originalFilename(): Optional<String> = originalFilename.getOptional("original_filename")
+
+        /**
+         * Email address of the CAS authority who sent this
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun senderEmail(): Optional<String> = senderEmail.getOptional("sender_email")
 
         /**
          * File size in bytes
@@ -383,6 +396,15 @@ private constructor(
         fun _originalFilename(): JsonField<String> = originalFilename
 
         /**
+         * Returns the raw JSON value of [senderEmail].
+         *
+         * Unlike [senderEmail], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("sender_email")
+        @ExcludeMissing
+        fun _senderEmail(): JsonField<String> = senderEmail
+
+        /**
          * Returns the raw JSON value of [size].
          *
          * Unlike [size], this method doesn't throw if the JSON field has an unexpected type.
@@ -423,6 +445,7 @@ private constructor(
             private var messageDate: JsonField<LocalDate> = JsonMissing.of()
             private var messageId: JsonField<String> = JsonMissing.of()
             private var originalFilename: JsonField<String> = JsonMissing.of()
+            private var senderEmail: JsonField<String> = JsonMissing.of()
             private var size: JsonField<Long> = JsonMissing.of()
             private var url: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -435,6 +458,7 @@ private constructor(
                 messageDate = file.messageDate
                 messageId = file.messageId
                 originalFilename = file.originalFilename
+                senderEmail = file.senderEmail
                 size = file.size
                 url = file.url
                 additionalProperties = file.additionalProperties.toMutableMap()
@@ -517,6 +541,20 @@ private constructor(
                 this.originalFilename = originalFilename
             }
 
+            /** Email address of the CAS authority who sent this */
+            fun senderEmail(senderEmail: String) = senderEmail(JsonField.of(senderEmail))
+
+            /**
+             * Sets [Builder.senderEmail] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.senderEmail] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun senderEmail(senderEmail: JsonField<String>) = apply {
+                this.senderEmail = senderEmail
+            }
+
             /** File size in bytes */
             fun size(size: Long) = size(JsonField.of(size))
 
@@ -573,6 +611,7 @@ private constructor(
                     messageDate,
                     messageId,
                     originalFilename,
+                    senderEmail,
                     size,
                     url,
                     additionalProperties.toMutableMap(),
@@ -592,6 +631,7 @@ private constructor(
             messageDate()
             messageId()
             originalFilename()
+            senderEmail()
             size()
             url()
             validated = true
@@ -619,6 +659,7 @@ private constructor(
                 (if (messageDate.asKnown().isPresent) 1 else 0) +
                 (if (messageId.asKnown().isPresent) 1 else 0) +
                 (if (originalFilename.asKnown().isPresent) 1 else 0) +
+                (if (senderEmail.asKnown().isPresent) 1 else 0) +
                 (if (size.asKnown().isPresent) 1 else 0) +
                 (if (url.asKnown().isPresent) 1 else 0)
 
@@ -777,6 +818,7 @@ private constructor(
                 messageDate == other.messageDate &&
                 messageId == other.messageId &&
                 originalFilename == other.originalFilename &&
+                senderEmail == other.senderEmail &&
                 size == other.size &&
                 url == other.url &&
                 additionalProperties == other.additionalProperties
@@ -790,6 +832,7 @@ private constructor(
                 messageDate,
                 messageId,
                 originalFilename,
+                senderEmail,
                 size,
                 url,
                 additionalProperties,
@@ -799,7 +842,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "File{casType=$casType, expiresIn=$expiresIn, filename=$filename, messageDate=$messageDate, messageId=$messageId, originalFilename=$originalFilename, size=$size, url=$url, additionalProperties=$additionalProperties}"
+            "File{casType=$casType, expiresIn=$expiresIn, filename=$filename, messageDate=$messageDate, messageId=$messageId, originalFilename=$originalFilename, senderEmail=$senderEmail, size=$size, url=$url, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
