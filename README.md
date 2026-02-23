@@ -57,14 +57,14 @@ This library requires Java 8 or later.
 ```java
 import com.cas_parser.api.client.CasParserClient;
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient;
-import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams;
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
 // Configures using the `casparser.apiKey` and `casparser.baseUrl` system properties
 // Or configures using the `CAS_PARSER_API_KEY` and `CAS_PARSER_BASE_URL` environment variables
 CasParserClient client = CasParserOkHttpClient.fromEnv();
 
-UnifiedResponse unifiedResponse = client.camsKfintech().parse();
+CreditCheckResponse response = client.credits().check();
 ```
 
 ## Client configuration
@@ -137,7 +137,7 @@ The `withOptions()` method does not affect the original client or service.
 
 To send a request to the Cas Parser API, build an instance of some `Params` class and pass it to the corresponding client method. When the response is received, it will be deserialized into an instance of a Java class.
 
-For example, `client.camsKfintech().parse(...)` should be called with an instance of `CamsKfintechParseParams`, and it will return an instance of `UnifiedResponse`.
+For example, `client.credits().check(...)` should be called with an instance of `CreditCheckParams`, and it will return an instance of `CreditCheckResponse`.
 
 ## Immutability
 
@@ -154,15 +154,15 @@ The default client is synchronous. To switch to asynchronous execution, call the
 ```java
 import com.cas_parser.api.client.CasParserClient;
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient;
-import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams;
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `casparser.apiKey` and `casparser.baseUrl` system properties
 // Or configures using the `CAS_PARSER_API_KEY` and `CAS_PARSER_BASE_URL` environment variables
 CasParserClient client = CasParserOkHttpClient.fromEnv();
 
-CompletableFuture<UnifiedResponse> unifiedResponse = client.async().camsKfintech().parse();
+CompletableFuture<CreditCheckResponse> response = client.async().credits().check();
 ```
 
 Or create an asynchronous client from the beginning:
@@ -170,15 +170,15 @@ Or create an asynchronous client from the beginning:
 ```java
 import com.cas_parser.api.client.CasParserClientAsync;
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClientAsync;
-import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams;
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `casparser.apiKey` and `casparser.baseUrl` system properties
 // Or configures using the `CAS_PARSER_API_KEY` and `CAS_PARSER_BASE_URL` environment variables
 CasParserClientAsync client = CasParserOkHttpClientAsync.fromEnv();
 
-CompletableFuture<UnifiedResponse> unifiedResponse = client.camsKfintech().parse();
+CompletableFuture<CreditCheckResponse> response = client.credits().check();
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
@@ -192,21 +192,21 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```java
 import com.cas_parser.api.core.http.Headers;
 import com.cas_parser.api.core.http.HttpResponseFor;
-import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams;
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckParams;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-HttpResponseFor<UnifiedResponse> unifiedResponse = client.camsKfintech().withRawResponse().parse();
+HttpResponseFor<CreditCheckResponse> response = client.credits().withRawResponse().check();
 
-int statusCode = unifiedResponse.statusCode();
-Headers headers = unifiedResponse.headers();
+int statusCode = response.statusCode();
+Headers headers = response.headers();
 ```
 
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse parsedUnifiedResponse = unifiedResponse.parse();
+CreditCheckResponse parsedResponse = response.parse();
 ```
 
 ## Error handling
@@ -304,9 +304,9 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse unifiedResponse = client.camsKfintech().parse(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
+CreditCheckResponse response = client.credits().check(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:
@@ -443,9 +443,9 @@ To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQu
 
 ```java
 import com.cas_parser.api.core.JsonValue;
-import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams;
+import com.cas_parser.api.models.credits.CreditCheckParams;
 
-CamsKfintechParseParams params = CamsKfintechParseParams.builder()
+CreditCheckParams params = CreditCheckParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
     .putAdditionalQueryParam("secret_query_param", "42")
     .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
@@ -457,9 +457,9 @@ These can be accessed on the built object later using the `_additionalHeaders()`
 To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](cas-parser-java-core/src/main/kotlin/com/cas_parser/api/core/Values.kt) object to its setter:
 
 ```java
-import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams;
+import com.cas_parser.api.models.credits.CreditCheckParams;
 
-CamsKfintechParseParams params = CamsKfintechParseParams.builder().build();
+CreditCheckParams params = CreditCheckParams.builder().build();
 ```
 
 The most straightforward way to create a [`JsonValue`](cas-parser-java-core/src/main/kotlin/com/cas_parser/api/core/Values.kt) is using its `from(...)` method:
@@ -507,10 +507,10 @@ To forcibly omit a required parameter or property, pass [`JsonMissing`](cas-pars
 
 ```java
 import com.cas_parser.api.core.JsonMissing;
-import com.cas_parser.api.models.camskfintech.CamsKfintechParseParams;
 import com.cas_parser.api.models.cdsl.fetch.FetchRequestOtpParams;
+import com.cas_parser.api.models.credits.CreditCheckParams;
 
-CamsKfintechParseParams params = FetchRequestOtpParams.builder()
+CreditCheckParams params = FetchRequestOtpParams.builder()
     .dob("1990-01-15")
     .pan("ABCDE1234F")
     .boId(JsonMissing.of())
@@ -525,7 +525,7 @@ To access undocumented response properties, call the `_additionalProperties()` m
 import com.cas_parser.api.core.JsonValue;
 import java.util.Map;
 
-Map<String, JsonValue> additionalProperties = client.camsKfintech().parse(params)._additionalProperties();
+Map<String, JsonValue> additionalProperties = client.credits().check(params)._additionalProperties();
 JsonValue secretPropertyValue = additionalProperties.get("secretProperty");
 
 String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
@@ -555,19 +555,19 @@ To access a property's raw JSON value, which may be undocumented, call its `_` p
 import com.cas_parser.api.core.JsonField;
 import java.util.Optional;
 
-JsonField<String> password = client.camsKfintech().parse(params)._password();
+JsonField<Object> field = client.credits().check(params)._field();
 
-if (password.isMissing()) {
+if (field.isMissing()) {
   // The property is absent from the JSON response
-} else if (password.isNull()) {
+} else if (field.isNull()) {
   // The property was set to literal null
 } else {
   // Check if value was provided as a string
   // Other methods include `asNumber()`, `asBoolean()`, etc.
-  Optional<String> jsonString = password.asString();
+  Optional<String> jsonString = field.asString();
 
   // Try to deserialize into a custom type
-  MyClass myObject = password.asUnknown().orElseThrow().convert(MyClass.class);
+  MyClass myObject = field.asUnknown().orElseThrow().convert(MyClass.class);
 }
 ```
 
@@ -580,17 +580,17 @@ By default, the SDK will not throw an exception in this case. It will throw [`Ca
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse unifiedResponse = client.camsKfintech().parse(params).validate();
+CreditCheckResponse response = client.credits().check(params).validate();
 ```
 
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.cas_parser.api.models.camskfintech.UnifiedResponse;
+import com.cas_parser.api.models.credits.CreditCheckResponse;
 
-UnifiedResponse unifiedResponse = client.camsKfintech().parse(RequestOptions.builder().responseValidation(true).build());
+CreditCheckResponse response = client.credits().check(RequestOptions.builder().responseValidation(true).build());
 ```
 
 Or configure the default for all method calls at the client level:
