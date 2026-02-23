@@ -207,22 +207,12 @@ class CasParserOkHttpClientAsync private constructor() {
         /**
          * The base URL to use for every request.
          *
-         * Defaults to the production environment: `https://portfolio-parser.api.casparser.in`.
-         *
-         * The following other environments, with dedicated builder methods, are available:
-         * - environment_1: `https://client-apis.casparser.in`
-         * - environment_2: `http://localhost:5000`
+         * Defaults to the production environment: `https://api.casparser.in`.
          */
         fun baseUrl(baseUrl: String?) = apply { clientOptions.baseUrl(baseUrl) }
 
         /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
         fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
-
-        /** Sets [baseUrl] to `https://client-apis.casparser.in`. */
-        fun environment1() = apply { clientOptions.environment1() }
-
-        /** Sets [baseUrl] to `http://localhost:5000`. */
-        fun environment2() = apply { clientOptions.environment2() }
 
         /**
          * Whether to call `validate` on every response before returning it.

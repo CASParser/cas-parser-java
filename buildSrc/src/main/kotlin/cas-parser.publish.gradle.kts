@@ -11,7 +11,7 @@ configure<PublishingExtension> {
             pom {
                 name.set("CAS Parser - Track Portfolios from CDSL, NSDL, CAMS, KFintech")
                 description.set("API for parsing and analyzing CAS (Consolidated Account Statement) PDF files\nfrom NSDL, CDSL, and CAMS/KFintech, with a unified response format")
-                url.set("https://docs.casparser.in")
+                url.set("https://casparser.in/docs")
 
                 licenses {
                     license {
