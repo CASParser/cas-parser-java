@@ -14,6 +14,8 @@ import com.cas_parser.api.services.blocking.ContractNoteService
 import com.cas_parser.api.services.blocking.ContractNoteServiceImpl
 import com.cas_parser.api.services.blocking.CreditService
 import com.cas_parser.api.services.blocking.CreditServiceImpl
+import com.cas_parser.api.services.blocking.InboundEmailService
+import com.cas_parser.api.services.blocking.InboundEmailServiceImpl
 import com.cas_parser.api.services.blocking.InboxService
 import com.cas_parser.api.services.blocking.InboxServiceImpl
 import com.cas_parser.api.services.blocking.KfintechService
@@ -77,6 +79,10 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
 
     private val smart: SmartService by lazy { SmartServiceImpl(clientOptionsWithUserAgent) }
 
+    private val inboundEmail: InboundEmailService by lazy {
+        InboundEmailServiceImpl(clientOptionsWithUserAgent)
+    }
+
     override fun async(): CasParserClientAsync = async
 
     override fun withRawResponse(): CasParserClient.WithRawResponse = withRawResponse
@@ -105,6 +111,8 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
     override fun nsdl(): NsdlService = nsdl
 
     override fun smart(): SmartService = smart
+
+    override fun inboundEmail(): InboundEmailService = inboundEmail
 
     override fun close() = clientOptions.close()
 
@@ -155,6 +163,10 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
             SmartServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val inboundEmail: InboundEmailService.WithRawResponse by lazy {
+            InboundEmailServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): CasParserClient.WithRawResponse =
@@ -183,5 +195,7 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
         override fun nsdl(): NsdlService.WithRawResponse = nsdl
 
         override fun smart(): SmartService.WithRawResponse = smart
+
+        override fun inboundEmail(): InboundEmailService.WithRawResponse = inboundEmail
     }
 }

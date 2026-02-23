@@ -2,25 +2,18 @@
 
 package com.cas_parser.api.services.async.cdsl
 
-import com.cas_parser.api.TestServerExtension
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClientAsync
 import com.cas_parser.api.models.cdsl.fetch.FetchRequestOtpParams
 import com.cas_parser.api.models.cdsl.fetch.FetchVerifyOtpParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class FetchServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun requestOtp() {
-        val client =
-            CasParserOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = CasParserOkHttpClientAsync.builder().apiKey("My API Key").build()
         val fetchServiceAsync = client.cdsl().fetch()
 
         val responseFuture =
@@ -36,14 +29,10 @@ internal class FetchServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun verifyOtp() {
-        val client =
-            CasParserOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = CasParserOkHttpClientAsync.builder().apiKey("My API Key").build()
         val fetchServiceAsync = client.cdsl().fetch()
 
         val responseFuture =

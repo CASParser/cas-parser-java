@@ -2,24 +2,17 @@
 
 package com.cas_parser.api.services.async
 
-import com.cas_parser.api.TestServerExtension
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClientAsync
 import com.cas_parser.api.models.nsdl.NsdlParseParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class NsdlServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun parse() {
-        val client =
-            CasParserOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = CasParserOkHttpClientAsync.builder().apiKey("My API Key").build()
         val nsdlServiceAsync = client.nsdl()
 
         val unifiedResponseFuture =

@@ -35,7 +35,7 @@ class AccessTokenServiceImpl internal constructor(private val clientOptions: Cli
         params: AccessTokenCreateParams,
         requestOptions: RequestOptions,
     ): AccessTokenCreateResponse =
-        // post /v1/access-token
+        // post /v1/token
         withRawResponse().create(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -62,7 +62,7 @@ class AccessTokenServiceImpl internal constructor(private val clientOptions: Cli
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("v1", "access-token")
+                    .addPathSegments("v1", "token")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)

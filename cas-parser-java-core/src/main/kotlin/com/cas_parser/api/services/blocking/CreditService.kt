@@ -61,7 +61,7 @@ interface CreditService {
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): CreditService.WithRawResponse
 
         /**
-         * Returns a raw HTTP response for `post /credits`, but is otherwise the same as
+         * Returns a raw HTTP response for `post /v1/credits`, but is otherwise the same as
          * [CreditService.check].
          */
         @MustBeClosed

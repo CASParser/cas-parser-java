@@ -31,6 +31,8 @@ interface LogService {
      *
      * Returns a list of API calls with timestamps, features used, status codes, and credits
      * consumed. Useful for monitoring usage patterns and debugging.
+     *
+     * **Legacy path:** `/logs` (still supported)
      */
     fun create(): LogCreateResponse = create(LogCreateParams.none())
 
@@ -52,6 +54,8 @@ interface LogService {
      * Get aggregated usage statistics grouped by feature.
      *
      * Useful for understanding which API features are being used most and tracking usage trends.
+     *
+     * **Legacy path:** `/logs/summary` (still supported)
      */
     fun getSummary(): LogGetSummaryResponse = getSummary(LogGetSummaryParams.none())
 
@@ -81,7 +85,7 @@ interface LogService {
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): LogService.WithRawResponse
 
         /**
-         * Returns a raw HTTP response for `post /logs`, but is otherwise the same as
+         * Returns a raw HTTP response for `post /v1/usage`, but is otherwise the same as
          * [LogService.create].
          */
         @MustBeClosed
@@ -106,7 +110,7 @@ interface LogService {
             create(LogCreateParams.none(), requestOptions)
 
         /**
-         * Returns a raw HTTP response for `post /logs/summary`, but is otherwise the same as
+         * Returns a raw HTTP response for `post /v1/usage/summary`, but is otherwise the same as
          * [LogService.getSummary].
          */
         @MustBeClosed

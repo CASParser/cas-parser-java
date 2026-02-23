@@ -2,26 +2,19 @@
 
 package com.cas_parser.api.services.blocking
 
-import com.cas_parser.api.TestServerExtension
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient
 import com.cas_parser.api.models.logs.LogCreateParams
 import com.cas_parser.api.models.logs.LogGetSummaryParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class LogServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
-        val client =
-            CasParserOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
         val logService = client.logs()
 
         val log =
@@ -36,14 +29,10 @@ internal class LogServiceTest {
         log.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getSummary() {
-        val client =
-            CasParserOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = CasParserOkHttpClient.builder().apiKey("My API Key").build()
         val logService = client.logs()
 
         val response =

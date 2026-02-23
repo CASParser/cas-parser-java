@@ -30,6 +30,8 @@ interface AccessTokenService {
      * **Use this endpoint from your backend** to create tokens that can be safely passed to
      * frontend/SDK.
      *
+     * **Legacy path:** `/v1/access-token` (still supported)
+     *
      * Access tokens:
      * - Are prefixed with `at_` for easy identification
      * - Valid for up to 60 minutes
@@ -68,7 +70,7 @@ interface AccessTokenService {
         ): AccessTokenService.WithRawResponse
 
         /**
-         * Returns a raw HTTP response for `post /v1/access-token`, but is otherwise the same as
+         * Returns a raw HTTP response for `post /v1/token`, but is otherwise the same as
          * [AccessTokenService.create].
          */
         @MustBeClosed

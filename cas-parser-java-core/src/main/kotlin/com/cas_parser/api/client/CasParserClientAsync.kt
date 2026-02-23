@@ -8,6 +8,7 @@ import com.cas_parser.api.services.async.CamsKfintechServiceAsync
 import com.cas_parser.api.services.async.CdslServiceAsync
 import com.cas_parser.api.services.async.ContractNoteServiceAsync
 import com.cas_parser.api.services.async.CreditServiceAsync
+import com.cas_parser.api.services.async.InboundEmailServiceAsync
 import com.cas_parser.api.services.async.InboxServiceAsync
 import com.cas_parser.api.services.async.KfintechServiceAsync
 import com.cas_parser.api.services.async.LogServiceAsync
@@ -74,6 +75,8 @@ interface CasParserClientAsync {
 
     fun smart(): SmartServiceAsync
 
+    fun inboundEmail(): InboundEmailServiceAsync
+
     /**
      * Closes this client, relinquishing any underlying resources.
      *
@@ -122,5 +125,7 @@ interface CasParserClientAsync {
         fun nsdl(): NsdlServiceAsync.WithRawResponse
 
         fun smart(): SmartServiceAsync.WithRawResponse
+
+        fun inboundEmail(): InboundEmailServiceAsync.WithRawResponse
     }
 }

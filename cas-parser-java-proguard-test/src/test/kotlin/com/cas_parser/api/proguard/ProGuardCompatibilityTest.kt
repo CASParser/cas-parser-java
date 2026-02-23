@@ -59,6 +59,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.kfintech()).isNotNull()
         assertThat(client.nsdl()).isNotNull()
         assertThat(client.smart()).isNotNull()
+        assertThat(client.inboundEmail()).isNotNull()
     }
 
     @Test

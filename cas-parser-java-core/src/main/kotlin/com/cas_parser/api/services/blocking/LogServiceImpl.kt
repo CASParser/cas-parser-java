@@ -36,14 +36,14 @@ class LogServiceImpl internal constructor(private val clientOptions: ClientOptio
         params: LogCreateParams,
         requestOptions: RequestOptions,
     ): LogCreateResponse =
-        // post /logs
+        // post /v1/usage
         withRawResponse().create(params, requestOptions).parse()
 
     override fun getSummary(
         params: LogGetSummaryParams,
         requestOptions: RequestOptions,
     ): LogGetSummaryResponse =
-        // post /logs/summary
+        // post /v1/usage/summary
         withRawResponse().getSummary(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -70,7 +70,7 @@ class LogServiceImpl internal constructor(private val clientOptions: ClientOptio
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("logs")
+                    .addPathSegments("v1", "usage")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)
@@ -98,7 +98,7 @@ class LogServiceImpl internal constructor(private val clientOptions: ClientOptio
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("logs", "summary")
+                    .addPathSegments("v1", "usage", "summary")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)

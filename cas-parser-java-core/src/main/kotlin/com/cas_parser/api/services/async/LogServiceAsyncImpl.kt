@@ -38,14 +38,14 @@ class LogServiceAsyncImpl internal constructor(private val clientOptions: Client
         params: LogCreateParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<LogCreateResponse> =
-        // post /logs
+        // post /v1/usage
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
     override fun getSummary(
         params: LogGetSummaryParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<LogGetSummaryResponse> =
-        // post /logs/summary
+        // post /v1/usage/summary
         withRawResponse().getSummary(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -72,7 +72,7 @@ class LogServiceAsyncImpl internal constructor(private val clientOptions: Client
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("logs")
+                    .addPathSegments("v1", "usage")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -103,7 +103,7 @@ class LogServiceAsyncImpl internal constructor(private val clientOptions: Client
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("logs", "summary")
+                    .addPathSegments("v1", "usage", "summary")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)

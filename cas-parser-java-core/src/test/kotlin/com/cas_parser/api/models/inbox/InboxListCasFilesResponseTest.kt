@@ -24,6 +24,7 @@ internal class InboxListCasFilesResponseTest {
                         .messageDate(LocalDate.parse("2025-01-15"))
                         .messageId("18d4a2b3c4d5e6f7")
                         .originalFilename("CDSL_CAS_Statement.pdf")
+                        .senderEmail("eCAS@cdslstatement.com")
                         .size(245000L)
                         .url(
                             "https://cdn.casparser.in/email-cas/user123/cdsl_20250115_a1b2c3d4.pdf"
@@ -43,6 +44,7 @@ internal class InboxListCasFilesResponseTest {
                     .messageDate(LocalDate.parse("2025-01-15"))
                     .messageId("18d4a2b3c4d5e6f7")
                     .originalFilename("CDSL_CAS_Statement.pdf")
+                    .senderEmail("eCAS@cdslstatement.com")
                     .size(245000L)
                     .url("https://cdn.casparser.in/email-cas/user123/cdsl_20250115_a1b2c3d4.pdf")
                     .build()
@@ -64,6 +66,7 @@ internal class InboxListCasFilesResponseTest {
                         .messageDate(LocalDate.parse("2025-01-15"))
                         .messageId("18d4a2b3c4d5e6f7")
                         .originalFilename("CDSL_CAS_Statement.pdf")
+                        .senderEmail("eCAS@cdslstatement.com")
                         .size(245000L)
                         .url(
                             "https://cdn.casparser.in/email-cas/user123/cdsl_20250115_a1b2c3d4.pdf"

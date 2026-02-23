@@ -36,7 +36,7 @@ class CreditServiceAsyncImpl internal constructor(private val clientOptions: Cli
         params: CreditCheckParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<CreditCheckResponse> =
-        // post /credits
+        // post /v1/credits
         withRawResponse().check(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -63,7 +63,7 @@ class CreditServiceAsyncImpl internal constructor(private val clientOptions: Cli
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("credits")
+                    .addPathSegments("v1", "credits")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepareAsync(clientOptions, params)

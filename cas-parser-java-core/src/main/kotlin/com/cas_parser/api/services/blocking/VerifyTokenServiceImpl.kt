@@ -35,7 +35,7 @@ class VerifyTokenServiceImpl internal constructor(private val clientOptions: Cli
         params: VerifyTokenVerifyParams,
         requestOptions: RequestOptions,
     ): VerifyTokenVerifyResponse =
-        // post /v1/verify-token
+        // post /v1/token/verify
         withRawResponse().verify(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -62,7 +62,7 @@ class VerifyTokenServiceImpl internal constructor(private val clientOptions: Cli
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("v1", "verify-token")
+                    .addPathSegments("v1", "token", "verify")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepare(clientOptions, params)

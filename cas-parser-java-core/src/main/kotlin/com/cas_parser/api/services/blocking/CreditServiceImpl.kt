@@ -35,7 +35,7 @@ class CreditServiceImpl internal constructor(private val clientOptions: ClientOp
         params: CreditCheckParams,
         requestOptions: RequestOptions,
     ): CreditCheckResponse =
-        // post /credits
+        // post /v1/credits
         withRawResponse().check(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -62,7 +62,7 @@ class CreditServiceImpl internal constructor(private val clientOptions: ClientOp
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("credits")
+                    .addPathSegments("v1", "credits")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepare(clientOptions, params)

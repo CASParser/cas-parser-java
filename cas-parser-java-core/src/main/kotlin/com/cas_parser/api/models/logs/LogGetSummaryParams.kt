@@ -23,6 +23,8 @@ import java.util.Optional
  * Get aggregated usage statistics grouped by feature.
  *
  * Useful for understanding which API features are being used most and tracking usage trends.
+ *
+ * **Legacy path:** `/logs/summary` (still supported)
  */
 class LogGetSummaryParams
 private constructor(

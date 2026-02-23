@@ -59,7 +59,7 @@ interface VerifyTokenServiceAsync {
         ): VerifyTokenServiceAsync.WithRawResponse
 
         /**
-         * Returns a raw HTTP response for `post /v1/verify-token`, but is otherwise the same as
+         * Returns a raw HTTP response for `post /v1/token/verify`, but is otherwise the same as
          * [VerifyTokenServiceAsync.verify].
          */
         fun verify(): CompletableFuture<HttpResponseFor<VerifyTokenVerifyResponse>> =

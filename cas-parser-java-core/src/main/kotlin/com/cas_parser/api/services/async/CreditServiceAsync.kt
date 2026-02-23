@@ -66,7 +66,7 @@ interface CreditServiceAsync {
         ): CreditServiceAsync.WithRawResponse
 
         /**
-         * Returns a raw HTTP response for `post /credits`, but is otherwise the same as
+         * Returns a raw HTTP response for `post /v1/credits`, but is otherwise the same as
          * [CreditServiceAsync.check].
          */
         fun check(): CompletableFuture<HttpResponseFor<CreditCheckResponse>> =

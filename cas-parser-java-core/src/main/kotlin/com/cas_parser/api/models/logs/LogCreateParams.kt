@@ -24,6 +24,8 @@ import java.util.Optional
  *
  * Returns a list of API calls with timestamps, features used, status codes, and credits consumed.
  * Useful for monitoring usage patterns and debugging.
+ *
+ * **Legacy path:** `/logs` (still supported)
  */
 class LogCreateParams
 private constructor(
