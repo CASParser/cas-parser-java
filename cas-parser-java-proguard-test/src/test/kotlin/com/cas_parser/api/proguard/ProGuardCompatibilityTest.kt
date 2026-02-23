@@ -4,8 +4,9 @@ package com.cas_parser.api.proguard
 
 import com.cas_parser.api.client.okhttp.CasParserOkHttpClient
 import com.cas_parser.api.core.jsonMapper
-import com.cas_parser.api.models.camskfintech.LinkedHolder
+import com.cas_parser.api.models.credits.CreditCheckResponse
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.OffsetDateTime
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.jvm.javaMethod
 import org.assertj.core.api.Assertions.assertThat
@@ -58,19 +59,30 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.kfintech()).isNotNull()
         assertThat(client.nsdl()).isNotNull()
         assertThat(client.smart()).isNotNull()
+        assertThat(client.inboundEmail()).isNotNull()
     }
 
     @Test
-    fun linkedHolderRoundtrip() {
+    fun creditCheckResponseRoundtrip() {
         val jsonMapper = jsonMapper()
-        val linkedHolder = LinkedHolder.builder().name("name").pan("pan").build()
+        val creditCheckResponse =
+            CreditCheckResponse.builder()
+                .enabledFeatures(
+                    listOf("cams_kfintech_cas_parser", "cdsl_cas_parser", "nsdl_cas_parser")
+                )
+                .isUnlimited(false)
+                .limit(50L)
+                .remaining(35.0)
+                .resetsAt(OffsetDateTime.parse("2026-02-15T00:00:00Z"))
+                .used(15.0)
+                .build()
 
-        val roundtrippedLinkedHolder =
+        val roundtrippedCreditCheckResponse =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(linkedHolder),
-                jacksonTypeRef<LinkedHolder>(),
+                jsonMapper.writeValueAsString(creditCheckResponse),
+                jacksonTypeRef<CreditCheckResponse>(),
             )
 
-        assertThat(roundtrippedLinkedHolder).isEqualTo(linkedHolder)
+        assertThat(roundtrippedCreditCheckResponse).isEqualTo(creditCheckResponse)
     }
 }

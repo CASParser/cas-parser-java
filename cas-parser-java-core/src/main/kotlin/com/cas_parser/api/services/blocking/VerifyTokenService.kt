@@ -3,6 +3,11 @@
 package com.cas_parser.api.services.blocking
 
 import com.cas_parser.api.core.ClientOptions
+import com.cas_parser.api.core.RequestOptions
+import com.cas_parser.api.core.http.HttpResponseFor
+import com.cas_parser.api.models.verifytoken.VerifyTokenVerifyParams
+import com.cas_parser.api.models.verifytoken.VerifyTokenVerifyResponse
+import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
 interface VerifyTokenService {
@@ -19,6 +24,24 @@ interface VerifyTokenService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): VerifyTokenService
 
+    /** Verify an access token and check if it's still valid. Useful for debugging token issues. */
+    fun verify(): VerifyTokenVerifyResponse = verify(VerifyTokenVerifyParams.none())
+
+    /** @see verify */
+    fun verify(
+        params: VerifyTokenVerifyParams = VerifyTokenVerifyParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): VerifyTokenVerifyResponse
+
+    /** @see verify */
+    fun verify(
+        params: VerifyTokenVerifyParams = VerifyTokenVerifyParams.none()
+    ): VerifyTokenVerifyResponse = verify(params, RequestOptions.none())
+
+    /** @see verify */
+    fun verify(requestOptions: RequestOptions): VerifyTokenVerifyResponse =
+        verify(VerifyTokenVerifyParams.none(), requestOptions)
+
     /**
      * A view of [VerifyTokenService] that provides access to raw HTTP responses for each method.
      */
@@ -32,5 +55,31 @@ interface VerifyTokenService {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): VerifyTokenService.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /v1/token/verify`, but is otherwise the same as
+         * [VerifyTokenService.verify].
+         */
+        @MustBeClosed
+        fun verify(): HttpResponseFor<VerifyTokenVerifyResponse> =
+            verify(VerifyTokenVerifyParams.none())
+
+        /** @see verify */
+        @MustBeClosed
+        fun verify(
+            params: VerifyTokenVerifyParams = VerifyTokenVerifyParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<VerifyTokenVerifyResponse>
+
+        /** @see verify */
+        @MustBeClosed
+        fun verify(
+            params: VerifyTokenVerifyParams = VerifyTokenVerifyParams.none()
+        ): HttpResponseFor<VerifyTokenVerifyResponse> = verify(params, RequestOptions.none())
+
+        /** @see verify */
+        @MustBeClosed
+        fun verify(requestOptions: RequestOptions): HttpResponseFor<VerifyTokenVerifyResponse> =
+            verify(VerifyTokenVerifyParams.none(), requestOptions)
     }
 }
