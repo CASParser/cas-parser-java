@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.4.0 (2026-02-23)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/CASParser/cas-parser-java/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** api update ([b23e224](https://github.com/CASParser/cas-parser-java/commit/b23e22466dac01c31d286182542dc8146d5fac7d))
+* **api:** api update ([cfdb276](https://github.com/CASParser/cas-parser-java/commit/cfdb276b8126bf167b489ded6fc13d84ad876dad))
+* **api:** api update ([8d2cb43](https://github.com/CASParser/cas-parser-java/commit/8d2cb43b11b1923624fdc32f7433115f5b20cf37))
+* **api:** manual updates ([2bb349e](https://github.com/CASParser/cas-parser-java/commit/2bb349ef8822aeda2d8d47d5f0c27994f9624446))
+* **client:** add connection pooling option ([3ad0fbc](https://github.com/CASParser/cas-parser-java/commit/3ad0fbcafa782f6f7dfcead9d4c4646aedd4e681))
+
+
+### Chores
+
+* **internal:** make `OkHttp` constructor internal ([1939ec1](https://github.com/CASParser/cas-parser-java/commit/1939ec1346feeb7a1ea45db385d6f8b7f8daacf6))
+* **internal:** remove mock server code ([0bdc28f](https://github.com/CASParser/cas-parser-java/commit/0bdc28fc1a9ae2e735d2c40d9cf86c1dc00461ae))
+* **internal:** update `TestServerExtension` comment ([ff77ead](https://github.com/CASParser/cas-parser-java/commit/ff77ead512a0b13377c61c0e92cc478586e7a67e))
+* update mock server docs ([e7286da](https://github.com/CASParser/cas-parser-java/commit/e7286da78e71c2750514686fb39e2b1a0b5140af))
+
 ## 0.3.0 (2026-02-14)
 
 Full Changelog: [v0.2.1...v0.3.0](https://github.com/CASParser/cas-parser-java/compare/v0.2.1...v0.3.0)
