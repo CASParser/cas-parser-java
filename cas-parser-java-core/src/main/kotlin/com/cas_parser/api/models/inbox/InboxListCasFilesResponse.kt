@@ -325,7 +325,8 @@ private constructor(
         fun originalFilename(): Optional<String> = originalFilename.getOptional("original_filename")
 
         /**
-         * Email address of the CAS authority who sent this
+         * Email address of the CAS authority (CDSL, NSDL, CAMS, or KFintech) who originally sent
+         * this statement
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -541,7 +542,10 @@ private constructor(
                 this.originalFilename = originalFilename
             }
 
-            /** Email address of the CAS authority who sent this */
+            /**
+             * Email address of the CAS authority (CDSL, NSDL, CAMS, or KFintech) who originally
+             * sent this statement
+             */
             fun senderEmail(senderEmail: String) = senderEmail(JsonField.of(senderEmail))
 
             /**
