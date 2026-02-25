@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.1 (2026-02-25)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/CASParser/cas-parser-java/compare/v0.5.0...v0.5.1)
+
+### Chores
+
+* drop apache dependency ([2ea7ec5](https://github.com/CASParser/cas-parser-java/commit/2ea7ec51ef82bacadd0df76d7886e7c52e1ab902))
+* **internal:** expand imports ([fdca7cd](https://github.com/CASParser/cas-parser-java/commit/fdca7cd3a6a27f31b5b163b456eccf5c956db18f))
+* make `Properties` more resilient to `null` ([72f0c67](https://github.com/CASParser/cas-parser-java/commit/72f0c67cb321fb2ee5832c9c3f775d0b82353a0d))
+
 ## 0.5.0 (2026-02-23)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/CASParser/cas-parser-java/compare/v0.4.0...v0.5.0)
