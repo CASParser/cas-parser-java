@@ -10,6 +10,10 @@ import com.cas_parser.api.models.contractnote.ContractNoteParseResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * Endpoints for parsing Contract Note PDF files from various SEBI brokers like Zerodha, Groww,
+ * Upstox, ICICI etc.
+ */
 interface ContractNoteServiceAsync {
 
     /**

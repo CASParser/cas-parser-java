@@ -21,6 +21,10 @@ import com.cas_parser.api.models.logs.LogGetSummaryParams
 import com.cas_parser.api.models.logs.LogGetSummaryResponse
 import java.util.function.Consumer
 
+/**
+ * Endpoints for checking API quota and credits usage. These endpoints help you monitor your API
+ * usage and remaining quota.
+ */
 class LogServiceImpl internal constructor(private val clientOptions: ClientOptions) : LogService {
 
     private val withRawResponse: LogService.WithRawResponse by lazy {

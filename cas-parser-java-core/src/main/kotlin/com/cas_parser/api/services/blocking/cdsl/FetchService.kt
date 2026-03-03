@@ -12,6 +12,10 @@ import com.cas_parser.api.models.cdsl.fetch.FetchVerifyOtpResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
+/**
+ * Endpoints for fetching CAS documents with instant download. Currently supports CDSL via OTP
+ * authentication.
+ */
 interface FetchService {
 
     /**

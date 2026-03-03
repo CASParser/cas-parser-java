@@ -10,6 +10,7 @@ import com.cas_parser.api.models.kfintech.KfintechGenerateCasResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
+/** Endpoints for generating new CAS documents via email mailback (KFintech). */
 interface KfintechService {
 
     /**
