@@ -20,6 +20,7 @@ import com.cas_parser.api.models.camskfintech.UnifiedResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Endpoints for parsing CAS PDF files from different sources. */
 class CamsKfintechServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     CamsKfintechServiceAsync {
 

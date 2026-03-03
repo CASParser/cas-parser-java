@@ -20,6 +20,7 @@ import com.cas_parser.api.models.kfintech.KfintechGenerateCasResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Endpoints for generating new CAS documents via email mailback (KFintech). */
 class KfintechServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     KfintechServiceAsync {
 

@@ -19,6 +19,7 @@ import com.cas_parser.api.models.camskfintech.UnifiedResponse
 import com.cas_parser.api.models.nsdl.NsdlParseParams
 import java.util.function.Consumer
 
+/** Endpoints for parsing CAS PDF files from different sources. */
 class NsdlServiceImpl internal constructor(private val clientOptions: ClientOptions) : NsdlService {
 
     private val withRawResponse: NsdlService.WithRawResponse by lazy {

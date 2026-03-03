@@ -10,6 +10,10 @@ import com.cas_parser.api.models.credits.CreditCheckResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
+/**
+ * Endpoints for checking API quota and credits usage. These endpoints help you monitor your API
+ * usage and remaining quota.
+ */
 interface CreditService {
 
     /**
