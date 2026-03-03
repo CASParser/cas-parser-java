@@ -90,28 +90,97 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CasParserClient =
         CasParserClientImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * Endpoints for checking API quota and credits usage. These endpoints help you monitor your API
+     * usage and remaining quota.
+     */
     override fun credits(): CreditService = credits
 
+    /**
+     * Endpoints for checking API quota and credits usage. These endpoints help you monitor your API
+     * usage and remaining quota.
+     */
     override fun logs(): LogService = logs
 
+    /**
+     * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+     * short-lived `at_` prefixed tokens that can be safely passed to frontend applications. Access
+     * tokens can be used in place of API keys on all v4 endpoints.
+     */
     override fun accessToken(): AccessTokenService = accessToken
 
+    /**
+     * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+     * short-lived `at_` prefixed tokens that can be safely passed to frontend applications. Access
+     * tokens can be used in place of API keys on all v4 endpoints.
+     */
     override fun verifyToken(): VerifyTokenService = verifyToken
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     override fun camsKfintech(): CamsKfintechService = camsKfintech
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     override fun cdsl(): CdslService = cdsl
 
+    /**
+     * Endpoints for parsing Contract Note PDF files from various SEBI brokers like Zerodha, Groww,
+     * Upstox, ICICI etc.
+     */
     override fun contractNote(): ContractNoteService = contractNote
 
+    /**
+     * Endpoints for importing CAS files directly from user email inboxes.
+     *
+     * **Supported Providers:** Gmail (more coming soon)
+     *
+     * **How it works:**
+     * 1. Call `POST /v4/inbox/connect` to get an OAuth URL
+     * 2. Redirect user to the OAuth URL for consent
+     * 3. User is redirected back to your `redirect_uri` with an encrypted `inbox_token`
+     * 4. Use the token to list/fetch CAS files from their inbox (`/v4/inbox/cas`)
+     * 5. Files are uploaded to temporary cloud storage (URLs expire in 24 hours)
+     *
+     * **Security:**
+     * - Read-only access (we cannot send emails)
+     * - Tokens are encrypted with server-side secret
+     * - User can revoke access anytime via `/v4/inbox/disconnect`
+     */
     override fun inbox(): InboxService = inbox
 
+    /** Endpoints for generating new CAS documents via email mailback (KFintech). */
     override fun kfintech(): KfintechService = kfintech
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     override fun nsdl(): NsdlService = nsdl
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     override fun smart(): SmartService = smart
 
+    /**
+     * Create dedicated inbound email addresses for investors to forward their CAS statements.
+     *
+     * **Use Case:** Your app wants to collect CAS statements from users without requiring OAuth or
+     * file upload.
+     *
+     * **How it works:**
+     * 1. Call `POST /v4/inbound-email` to create a unique inbound email address
+     * 2. Display this email to your user: "Forward your CAS statement to
+     *    ie_xxx@import.casparser.in"
+     * 3. When user forwards a CAS email, we verify sender authenticity (SPF/DKIM) and call your
+     *    webhook
+     * 4. Your webhook receives email metadata + attachment download URLs
+     *
+     * **Sender Validation:**
+     * - Only emails from verified CAS authorities are processed:
+     *     - CDSL: `eCAS@cdslstatement.com`
+     *     - NSDL: `NSDL-CAS@nsdl.co.in`
+     *     - CAMS: `donotreply@camsonline.com`
+     *     - KFintech: `samfS@kfintech.com`
+     * - Emails failing SPF/DKIM/DMARC are rejected
+     * - Forwarded emails must contain the original sender in headers
+     *
+     * **Billing:** 0.2 credits per successfully processed valid email
+     */
     override fun inboundEmail(): InboundEmailService = inboundEmail
 
     override fun close() = clientOptions.close()
@@ -174,28 +243,97 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * Endpoints for checking API quota and credits usage. These endpoints help you monitor your
+         * API usage and remaining quota.
+         */
         override fun credits(): CreditService.WithRawResponse = credits
 
+        /**
+         * Endpoints for checking API quota and credits usage. These endpoints help you monitor your
+         * API usage and remaining quota.
+         */
         override fun logs(): LogService.WithRawResponse = logs
 
+        /**
+         * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+         * short-lived `at_` prefixed tokens that can be safely passed to frontend applications.
+         * Access tokens can be used in place of API keys on all v4 endpoints.
+         */
         override fun accessToken(): AccessTokenService.WithRawResponse = accessToken
 
+        /**
+         * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+         * short-lived `at_` prefixed tokens that can be safely passed to frontend applications.
+         * Access tokens can be used in place of API keys on all v4 endpoints.
+         */
         override fun verifyToken(): VerifyTokenService.WithRawResponse = verifyToken
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         override fun camsKfintech(): CamsKfintechService.WithRawResponse = camsKfintech
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         override fun cdsl(): CdslService.WithRawResponse = cdsl
 
+        /**
+         * Endpoints for parsing Contract Note PDF files from various SEBI brokers like Zerodha,
+         * Groww, Upstox, ICICI etc.
+         */
         override fun contractNote(): ContractNoteService.WithRawResponse = contractNote
 
+        /**
+         * Endpoints for importing CAS files directly from user email inboxes.
+         *
+         * **Supported Providers:** Gmail (more coming soon)
+         *
+         * **How it works:**
+         * 1. Call `POST /v4/inbox/connect` to get an OAuth URL
+         * 2. Redirect user to the OAuth URL for consent
+         * 3. User is redirected back to your `redirect_uri` with an encrypted `inbox_token`
+         * 4. Use the token to list/fetch CAS files from their inbox (`/v4/inbox/cas`)
+         * 5. Files are uploaded to temporary cloud storage (URLs expire in 24 hours)
+         *
+         * **Security:**
+         * - Read-only access (we cannot send emails)
+         * - Tokens are encrypted with server-side secret
+         * - User can revoke access anytime via `/v4/inbox/disconnect`
+         */
         override fun inbox(): InboxService.WithRawResponse = inbox
 
+        /** Endpoints for generating new CAS documents via email mailback (KFintech). */
         override fun kfintech(): KfintechService.WithRawResponse = kfintech
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         override fun nsdl(): NsdlService.WithRawResponse = nsdl
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         override fun smart(): SmartService.WithRawResponse = smart
 
+        /**
+         * Create dedicated inbound email addresses for investors to forward their CAS statements.
+         *
+         * **Use Case:** Your app wants to collect CAS statements from users without requiring OAuth
+         * or file upload.
+         *
+         * **How it works:**
+         * 1. Call `POST /v4/inbound-email` to create a unique inbound email address
+         * 2. Display this email to your user: "Forward your CAS statement to
+         *    ie_xxx@import.casparser.in"
+         * 3. When user forwards a CAS email, we verify sender authenticity (SPF/DKIM) and call your
+         *    webhook
+         * 4. Your webhook receives email metadata + attachment download URLs
+         *
+         * **Sender Validation:**
+         * - Only emails from verified CAS authorities are processed:
+         *     - CDSL: `eCAS@cdslstatement.com`
+         *     - NSDL: `NSDL-CAS@nsdl.co.in`
+         *     - CAMS: `donotreply@camsonline.com`
+         *     - KFintech: `samfS@kfintech.com`
+         * - Emails failing SPF/DKIM/DMARC are rejected
+         * - Forwarded emails must contain the original sender in headers
+         *
+         * **Billing:** 0.2 credits per successfully processed valid email
+         */
         override fun inboundEmail(): InboundEmailService.WithRawResponse = inboundEmail
     }
 }

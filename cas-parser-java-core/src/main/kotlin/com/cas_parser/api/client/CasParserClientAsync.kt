@@ -53,28 +53,97 @@ interface CasParserClientAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): CasParserClientAsync
 
+    /**
+     * Endpoints for checking API quota and credits usage. These endpoints help you monitor your API
+     * usage and remaining quota.
+     */
     fun credits(): CreditServiceAsync
 
+    /**
+     * Endpoints for checking API quota and credits usage. These endpoints help you monitor your API
+     * usage and remaining quota.
+     */
     fun logs(): LogServiceAsync
 
+    /**
+     * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+     * short-lived `at_` prefixed tokens that can be safely passed to frontend applications. Access
+     * tokens can be used in place of API keys on all v4 endpoints.
+     */
     fun accessToken(): AccessTokenServiceAsync
 
+    /**
+     * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+     * short-lived `at_` prefixed tokens that can be safely passed to frontend applications. Access
+     * tokens can be used in place of API keys on all v4 endpoints.
+     */
     fun verifyToken(): VerifyTokenServiceAsync
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     fun camsKfintech(): CamsKfintechServiceAsync
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     fun cdsl(): CdslServiceAsync
 
+    /**
+     * Endpoints for parsing Contract Note PDF files from various SEBI brokers like Zerodha, Groww,
+     * Upstox, ICICI etc.
+     */
     fun contractNote(): ContractNoteServiceAsync
 
+    /**
+     * Endpoints for importing CAS files directly from user email inboxes.
+     *
+     * **Supported Providers:** Gmail (more coming soon)
+     *
+     * **How it works:**
+     * 1. Call `POST /v4/inbox/connect` to get an OAuth URL
+     * 2. Redirect user to the OAuth URL for consent
+     * 3. User is redirected back to your `redirect_uri` with an encrypted `inbox_token`
+     * 4. Use the token to list/fetch CAS files from their inbox (`/v4/inbox/cas`)
+     * 5. Files are uploaded to temporary cloud storage (URLs expire in 24 hours)
+     *
+     * **Security:**
+     * - Read-only access (we cannot send emails)
+     * - Tokens are encrypted with server-side secret
+     * - User can revoke access anytime via `/v4/inbox/disconnect`
+     */
     fun inbox(): InboxServiceAsync
 
+    /** Endpoints for generating new CAS documents via email mailback (KFintech). */
     fun kfintech(): KfintechServiceAsync
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     fun nsdl(): NsdlServiceAsync
 
+    /** Endpoints for parsing CAS PDF files from different sources. */
     fun smart(): SmartServiceAsync
 
+    /**
+     * Create dedicated inbound email addresses for investors to forward their CAS statements.
+     *
+     * **Use Case:** Your app wants to collect CAS statements from users without requiring OAuth or
+     * file upload.
+     *
+     * **How it works:**
+     * 1. Call `POST /v4/inbound-email` to create a unique inbound email address
+     * 2. Display this email to your user: "Forward your CAS statement to
+     *    ie_xxx@import.casparser.in"
+     * 3. When user forwards a CAS email, we verify sender authenticity (SPF/DKIM) and call your
+     *    webhook
+     * 4. Your webhook receives email metadata + attachment download URLs
+     *
+     * **Sender Validation:**
+     * - Only emails from verified CAS authorities are processed:
+     *     - CDSL: `eCAS@cdslstatement.com`
+     *     - NSDL: `NSDL-CAS@nsdl.co.in`
+     *     - CAMS: `donotreply@camsonline.com`
+     *     - KFintech: `samfS@kfintech.com`
+     * - Emails failing SPF/DKIM/DMARC are rejected
+     * - Forwarded emails must contain the original sender in headers
+     *
+     * **Billing:** 0.2 credits per successfully processed valid email
+     */
     fun inboundEmail(): InboundEmailServiceAsync
 
     /**
@@ -104,28 +173,97 @@ interface CasParserClientAsync {
             modifier: Consumer<ClientOptions.Builder>
         ): CasParserClientAsync.WithRawResponse
 
+        /**
+         * Endpoints for checking API quota and credits usage. These endpoints help you monitor your
+         * API usage and remaining quota.
+         */
         fun credits(): CreditServiceAsync.WithRawResponse
 
+        /**
+         * Endpoints for checking API quota and credits usage. These endpoints help you monitor your
+         * API usage and remaining quota.
+         */
         fun logs(): LogServiceAsync.WithRawResponse
 
+        /**
+         * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+         * short-lived `at_` prefixed tokens that can be safely passed to frontend applications.
+         * Access tokens can be used in place of API keys on all v4 endpoints.
+         */
         fun accessToken(): AccessTokenServiceAsync.WithRawResponse
 
+        /**
+         * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+         * short-lived `at_` prefixed tokens that can be safely passed to frontend applications.
+         * Access tokens can be used in place of API keys on all v4 endpoints.
+         */
         fun verifyToken(): VerifyTokenServiceAsync.WithRawResponse
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         fun camsKfintech(): CamsKfintechServiceAsync.WithRawResponse
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         fun cdsl(): CdslServiceAsync.WithRawResponse
 
+        /**
+         * Endpoints for parsing Contract Note PDF files from various SEBI brokers like Zerodha,
+         * Groww, Upstox, ICICI etc.
+         */
         fun contractNote(): ContractNoteServiceAsync.WithRawResponse
 
+        /**
+         * Endpoints for importing CAS files directly from user email inboxes.
+         *
+         * **Supported Providers:** Gmail (more coming soon)
+         *
+         * **How it works:**
+         * 1. Call `POST /v4/inbox/connect` to get an OAuth URL
+         * 2. Redirect user to the OAuth URL for consent
+         * 3. User is redirected back to your `redirect_uri` with an encrypted `inbox_token`
+         * 4. Use the token to list/fetch CAS files from their inbox (`/v4/inbox/cas`)
+         * 5. Files are uploaded to temporary cloud storage (URLs expire in 24 hours)
+         *
+         * **Security:**
+         * - Read-only access (we cannot send emails)
+         * - Tokens are encrypted with server-side secret
+         * - User can revoke access anytime via `/v4/inbox/disconnect`
+         */
         fun inbox(): InboxServiceAsync.WithRawResponse
 
+        /** Endpoints for generating new CAS documents via email mailback (KFintech). */
         fun kfintech(): KfintechServiceAsync.WithRawResponse
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         fun nsdl(): NsdlServiceAsync.WithRawResponse
 
+        /** Endpoints for parsing CAS PDF files from different sources. */
         fun smart(): SmartServiceAsync.WithRawResponse
 
+        /**
+         * Create dedicated inbound email addresses for investors to forward their CAS statements.
+         *
+         * **Use Case:** Your app wants to collect CAS statements from users without requiring OAuth
+         * or file upload.
+         *
+         * **How it works:**
+         * 1. Call `POST /v4/inbound-email` to create a unique inbound email address
+         * 2. Display this email to your user: "Forward your CAS statement to
+         *    ie_xxx@import.casparser.in"
+         * 3. When user forwards a CAS email, we verify sender authenticity (SPF/DKIM) and call your
+         *    webhook
+         * 4. Your webhook receives email metadata + attachment download URLs
+         *
+         * **Sender Validation:**
+         * - Only emails from verified CAS authorities are processed:
+         *     - CDSL: `eCAS@cdslstatement.com`
+         *     - NSDL: `NSDL-CAS@nsdl.co.in`
+         *     - CAMS: `donotreply@camsonline.com`
+         *     - KFintech: `samfS@kfintech.com`
+         * - Emails failing SPF/DKIM/DMARC are rejected
+         * - Forwarded emails must contain the original sender in headers
+         *
+         * **Billing:** 0.2 credits per successfully processed valid email
+         */
         fun inboundEmail(): InboundEmailServiceAsync.WithRawResponse
     }
 }

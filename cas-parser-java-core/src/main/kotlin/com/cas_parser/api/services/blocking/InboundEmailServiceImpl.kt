@@ -27,6 +27,29 @@ import com.cas_parser.api.models.inboundemail.InboundEmailRetrieveResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * Create dedicated inbound email addresses for investors to forward their CAS statements.
+ *
+ * **Use Case:** Your app wants to collect CAS statements from users without requiring OAuth or file
+ * upload.
+ *
+ * **How it works:**
+ * 1. Call `POST /v4/inbound-email` to create a unique inbound email address
+ * 2. Display this email to your user: "Forward your CAS statement to ie_xxx@import.casparser.in"
+ * 3. When user forwards a CAS email, we verify sender authenticity (SPF/DKIM) and call your webhook
+ * 4. Your webhook receives email metadata + attachment download URLs
+ *
+ * **Sender Validation:**
+ * - Only emails from verified CAS authorities are processed:
+ *     - CDSL: `eCAS@cdslstatement.com`
+ *     - NSDL: `NSDL-CAS@nsdl.co.in`
+ *     - CAMS: `donotreply@camsonline.com`
+ *     - KFintech: `samfS@kfintech.com`
+ * - Emails failing SPF/DKIM/DMARC are rejected
+ * - Forwarded emails must contain the original sender in headers
+ *
+ * **Billing:** 0.2 credits per successfully processed valid email
+ */
 class InboundEmailServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     InboundEmailService {
 

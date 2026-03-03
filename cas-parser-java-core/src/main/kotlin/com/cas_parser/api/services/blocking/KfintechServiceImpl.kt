@@ -19,6 +19,7 @@ import com.cas_parser.api.models.kfintech.KfintechGenerateCasParams
 import com.cas_parser.api.models.kfintech.KfintechGenerateCasResponse
 import java.util.function.Consumer
 
+/** Endpoints for generating new CAS documents via email mailback (KFintech). */
 class KfintechServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     KfintechService {
 

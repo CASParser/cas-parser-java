@@ -23,6 +23,10 @@ import com.cas_parser.api.models.cdsl.fetch.FetchVerifyOtpResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * Endpoints for fetching CAS documents with instant download. Currently supports CDSL via OTP
+ * authentication.
+ */
 class FetchServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     FetchService {
 

@@ -11,6 +11,7 @@ import com.cas_parser.api.services.blocking.cdsl.FetchService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
+/** Endpoints for parsing CAS PDF files from different sources. */
 interface CdslService {
 
     /**
@@ -25,6 +26,10 @@ interface CdslService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): CdslService
 
+    /**
+     * Endpoints for fetching CAS documents with instant download. Currently supports CDSL via OTP
+     * authentication.
+     */
     fun fetch(): FetchService
 
     /**
@@ -57,6 +62,10 @@ interface CdslService {
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): CdslService.WithRawResponse
 
+        /**
+         * Endpoints for fetching CAS documents with instant download. Currently supports CDSL via
+         * OTP authentication.
+         */
         fun fetch(): FetchService.WithRawResponse
 
         /**

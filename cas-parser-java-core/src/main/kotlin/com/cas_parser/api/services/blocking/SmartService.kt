@@ -10,6 +10,7 @@ import com.cas_parser.api.models.smart.SmartParseCasPdfParams
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
+/** Endpoints for parsing CAS PDF files from different sources. */
 interface SmartService {
 
     /**

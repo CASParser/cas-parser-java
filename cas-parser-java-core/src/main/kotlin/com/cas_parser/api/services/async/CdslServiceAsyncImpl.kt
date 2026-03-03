@@ -22,6 +22,7 @@ import com.cas_parser.api.services.async.cdsl.FetchServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/** Endpoints for parsing CAS PDF files from different sources. */
 class CdslServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     CdslServiceAsync {
 
@@ -36,6 +37,10 @@ class CdslServiceAsyncImpl internal constructor(private val clientOptions: Clien
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CdslServiceAsync =
         CdslServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * Endpoints for fetching CAS documents with instant download. Currently supports CDSL via OTP
+     * authentication.
+     */
     override fun fetch(): FetchServiceAsync = fetch
 
     override fun parsePdf(
@@ -62,6 +67,10 @@ class CdslServiceAsyncImpl internal constructor(private val clientOptions: Clien
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * Endpoints for fetching CAS documents with instant download. Currently supports CDSL via
+         * OTP authentication.
+         */
         override fun fetch(): FetchServiceAsync.WithRawResponse = fetch
 
         private val parsePdfHandler: Handler<UnifiedResponse> =

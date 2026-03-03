@@ -20,6 +20,11 @@ import com.cas_parser.api.models.accesstoken.AccessTokenCreateResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * Endpoints for managing access tokens for the Portfolio Connect SDK. Use these to generate
+ * short-lived `at_` prefixed tokens that can be safely passed to frontend applications. Access
+ * tokens can be used in place of API keys on all v4 endpoints.
+ */
 class AccessTokenServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     AccessTokenServiceAsync {
 
