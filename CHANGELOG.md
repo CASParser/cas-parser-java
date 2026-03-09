@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.2 (2026-03-07)
+
+Full Changelog: [v0.5.1...v0.5.2](https://github.com/CASParser/cas-parser-java/compare/v0.5.1...v0.5.2)
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([dec3cb0](https://github.com/CASParser/cas-parser-java/commit/dec3cb02c247fb8f3e4a02be8bade7158408a92b))
+* **internal:** bump palantir-java-format ([c01fac5](https://github.com/CASParser/cas-parser-java/commit/c01fac5193463a6d9a3ef26c7f337ac9579c4ca8))
+* **internal:** codegen related update ([281c2d1](https://github.com/CASParser/cas-parser-java/commit/281c2d11b2982d32ac2ee898694daefad660ff19))
+
 ## 0.5.1 (2026-03-03)
 
 Full Changelog: [v0.5.0...v0.5.1](https://github.com/CASParser/cas-parser-java/compare/v0.5.0...v0.5.1)
