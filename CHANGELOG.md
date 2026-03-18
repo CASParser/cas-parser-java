@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.3 (2026-03-18)
+
+Full Changelog: [v0.5.2...v0.5.3](https://github.com/CASParser/cas-parser-java/compare/v0.5.2...v0.5.3)
+
+### Bug Fixes
+
+* **client:** allow updating header/query affecting fields in `toBuilder()` ([e6f26f9](https://github.com/CASParser/cas-parser-java/commit/e6f26f994a9b14274463495b1d3b4b17f43769a4))
+* **client:** incorrect `Retry-After` parsing ([60bb6b1](https://github.com/CASParser/cas-parser-java/commit/60bb6b16e2d13932c0abd7ea7be8f51baea69199))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([c68ca4f](https://github.com/CASParser/cas-parser-java/commit/c68ca4fe51694cb795190a751941e5daf681dbed))
+* **internal:** update retry delay tests ([f3f3cda](https://github.com/CASParser/cas-parser-java/commit/f3f3cda6e61740d7eb1ebd37a91c27df34449c8c))
+
 ## 0.5.2 (2026-03-07)
 
 Full Changelog: [v0.5.1...v0.5.2](https://github.com/CASParser/cas-parser-java/compare/v0.5.1...v0.5.2)
