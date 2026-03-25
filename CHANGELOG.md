@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.4 (2026-03-25)
+
+Full Changelog: [v0.5.3...v0.5.4](https://github.com/CASParser/cas-parser-java/compare/v0.5.3...v0.5.4)
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([89956e4](https://github.com/CASParser/cas-parser-java/commit/89956e4048cbc55a81af8d051f53f82502e20f35))
+* **internal:** bump ktfmt ([2025e61](https://github.com/CASParser/cas-parser-java/commit/2025e61fad0e83bf7ba51c61481a1bdba1243df8))
+* **internal:** update gitignore ([01a52f2](https://github.com/CASParser/cas-parser-java/commit/01a52f2b2a1416aea6ef39bc7bfadc8ba1cb9646))
+
 ## 0.5.3 (2026-03-18)
 
 Full Changelog: [v0.5.2...v0.5.3](https://github.com/CASParser/cas-parser-java/compare/v0.5.2...v0.5.3)
