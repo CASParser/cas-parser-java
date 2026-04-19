@@ -9,14 +9,14 @@ internal class InboundEmailRetrieveParamsTest {
 
     @Test
     fun create() {
-        InboundEmailRetrieveParams.builder().inboundEmailId("ie_a1b2c3d4e5f6").build()
+        InboundEmailRetrieveParams.builder().inboundEmailId("inbound_email_id").build()
     }
 
     @Test
     fun pathParams() {
-        val params = InboundEmailRetrieveParams.builder().inboundEmailId("ie_a1b2c3d4e5f6").build()
+        val params = InboundEmailRetrieveParams.builder().inboundEmailId("inbound_email_id").build()
 
-        assertThat(params._pathParam(0)).isEqualTo("ie_a1b2c3d4e5f6")
+        assertThat(params._pathParam(0)).isEqualTo("inbound_email_id")
         // out-of-bound path param
         assertThat(params._pathParam(1)).isEqualTo("")
     }
