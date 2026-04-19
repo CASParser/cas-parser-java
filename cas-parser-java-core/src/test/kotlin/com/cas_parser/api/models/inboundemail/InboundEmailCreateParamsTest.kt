@@ -12,10 +12,10 @@ internal class InboundEmailCreateParamsTest {
     @Test
     fun create() {
         InboundEmailCreateParams.builder()
-            .callbackUrl("https://api.yourapp.com/webhooks/cas-email")
             .alias("john-portfolio")
             .addAllowedSource(InboundEmailCreateParams.AllowedSource.CDSL)
             .addAllowedSource(InboundEmailCreateParams.AllowedSource.NSDL)
+            .callbackUrl("https://api.yourapp.com/webhooks/cas-email")
             .metadata(
                 InboundEmailCreateParams.Metadata.builder()
                     .putAdditionalProperty("plan", JsonValue.from("premium"))
@@ -30,10 +30,10 @@ internal class InboundEmailCreateParamsTest {
     fun body() {
         val params =
             InboundEmailCreateParams.builder()
-                .callbackUrl("https://api.yourapp.com/webhooks/cas-email")
                 .alias("john-portfolio")
                 .addAllowedSource(InboundEmailCreateParams.AllowedSource.CDSL)
                 .addAllowedSource(InboundEmailCreateParams.AllowedSource.NSDL)
+                .callbackUrl("https://api.yourapp.com/webhooks/cas-email")
                 .metadata(
                     InboundEmailCreateParams.Metadata.builder()
                         .putAdditionalProperty("plan", JsonValue.from("premium"))
@@ -45,13 +45,13 @@ internal class InboundEmailCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body.callbackUrl()).isEqualTo("https://api.yourapp.com/webhooks/cas-email")
         assertThat(body.alias()).contains("john-portfolio")
         assertThat(body.allowedSources().getOrNull())
             .containsExactly(
                 InboundEmailCreateParams.AllowedSource.CDSL,
                 InboundEmailCreateParams.AllowedSource.NSDL,
             )
+        assertThat(body.callbackUrl()).contains("https://api.yourapp.com/webhooks/cas-email")
         assertThat(body.metadata())
             .contains(
                 InboundEmailCreateParams.Metadata.builder()
@@ -64,13 +64,8 @@ internal class InboundEmailCreateParamsTest {
 
     @Test
     fun bodyWithoutOptionalFields() {
-        val params =
-            InboundEmailCreateParams.builder()
-                .callbackUrl("https://api.yourapp.com/webhooks/cas-email")
-                .build()
+        val params = InboundEmailCreateParams.builder().build()
 
         val body = params._body()
-
-        assertThat(body.callbackUrl()).isEqualTo("https://api.yourapp.com/webhooks/cas-email")
     }
 }

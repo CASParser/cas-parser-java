@@ -9,7 +9,6 @@ import com.cas_parser.api.core.JsonMissing
 import com.cas_parser.api.core.JsonValue
 import com.cas_parser.api.core.Params
 import com.cas_parser.api.core.checkKnown
-import com.cas_parser.api.core.checkRequired
 import com.cas_parser.api.core.http.Headers
 import com.cas_parser.api.core.http.QueryParams
 import com.cas_parser.api.core.toImmutable
@@ -24,21 +23,14 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Create a dedicated inbound email address for collecting CAS statements via email forwarding.
+ * Create a dedicated inbound email address for collecting CAS statements via email forwarding. When
+ * an investor forwards a CAS email to this address, we verify the sender and make the file
+ * available to you.
  *
- * **How it works:**
- * 1. Create an inbound email with your webhook URL
- * 2. Display the email address to your user (e.g., "Forward your CAS to
- *    ie_xxx@import.casparser.in")
- * 3. When an investor forwards a CAS email, we verify the sender and deliver to your webhook
- *
- * **Webhook Delivery:**
- * - We POST to your `callback_url` with JSON body containing files (matching EmailCASFile schema)
- * - Failed deliveries are retried automatically with exponential backoff
- *
- * **Inactivity:**
- * - Inbound emails with no activity in 30 days are marked inactive
- * - Active inbound emails remain operational indefinitely
+ * `callback_url` is **optional**:
+ * - **Set it** — we POST each parsed email to your webhook as it arrives.
+ * - **Omit it** — retrieve files via `GET /v4/inbound-email/{id}/files` without building a webhook
+ *   consumer.
  */
 class InboundEmailCreateParams
 private constructor(
@@ -48,21 +40,9 @@ private constructor(
 ) : Params {
 
     /**
-     * Webhook URL where we POST email notifications. Must be HTTPS in production (HTTP allowed for
-     * localhost during development).
-     *
-     * @throws CasParserInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun callbackUrl(): String = body.callbackUrl()
-
-    /**
-     * Optional custom email prefix for user-friendly addresses.
-     * - Must be 3-32 characters
-     * - Alphanumeric + hyphens only
-     * - Must start and end with letter/number
-     * - Example: `john-portfolio@import.casparser.in`
-     * - If omitted, generates random ID like `ie_abc123xyz@import.casparser.in`
+     * Optional custom email prefix (e.g. `john-portfolio@import.casparser.in`). 3-32 chars,
+     * alphanumeric + hyphens, must start/end with a letter or number. If omitted, a random ID is
+     * generated.
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -80,6 +60,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun allowedSources(): Optional<List<AllowedSource>> = body.allowedSources()
+
+    /**
+     * Optional webhook URL where we POST parsed emails. Must be HTTPS in production (HTTP allowed
+     * for localhost). If omitted, retrieve files via `GET /v4/inbound-email/{id}/files`.
+     *
+     * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun callbackUrl(): Optional<String> = body.callbackUrl()
 
     /**
      * Optional key-value pairs (max 10) to include in webhook payload. Useful for passing context
@@ -100,13 +89,6 @@ private constructor(
     fun reference(): Optional<String> = body.reference()
 
     /**
-     * Returns the raw JSON value of [callbackUrl].
-     *
-     * Unlike [callbackUrl], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    fun _callbackUrl(): JsonField<String> = body._callbackUrl()
-
-    /**
      * Returns the raw JSON value of [alias].
      *
      * Unlike [alias], this method doesn't throw if the JSON field has an unexpected type.
@@ -119,6 +101,13 @@ private constructor(
      * Unlike [allowedSources], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _allowedSources(): JsonField<List<AllowedSource>> = body._allowedSources()
+
+    /**
+     * Returns the raw JSON value of [callbackUrl].
+     *
+     * Unlike [callbackUrl], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _callbackUrl(): JsonField<String> = body._callbackUrl()
 
     /**
      * Returns the raw JSON value of [metadata].
@@ -146,14 +135,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [InboundEmailCreateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .callbackUrl()
-         * ```
-         */
+        @JvmStatic fun none(): InboundEmailCreateParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [InboundEmailCreateParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -176,9 +160,9 @@ private constructor(
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
-         * - [callbackUrl]
          * - [alias]
          * - [allowedSources]
+         * - [callbackUrl]
          * - [metadata]
          * - [reference]
          * - etc.
@@ -186,27 +170,9 @@ private constructor(
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /**
-         * Webhook URL where we POST email notifications. Must be HTTPS in production (HTTP allowed
-         * for localhost during development).
-         */
-        fun callbackUrl(callbackUrl: String) = apply { body.callbackUrl(callbackUrl) }
-
-        /**
-         * Sets [Builder.callbackUrl] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.callbackUrl] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun callbackUrl(callbackUrl: JsonField<String>) = apply { body.callbackUrl(callbackUrl) }
-
-        /**
-         * Optional custom email prefix for user-friendly addresses.
-         * - Must be 3-32 characters
-         * - Alphanumeric + hyphens only
-         * - Must start and end with letter/number
-         * - Example: `john-portfolio@import.casparser.in`
-         * - If omitted, generates random ID like `ie_abc123xyz@import.casparser.in`
+         * Optional custom email prefix (e.g. `john-portfolio@import.casparser.in`). 3-32 chars,
+         * alphanumeric + hyphens, must start/end with a letter or number. If omitted, a random ID
+         * is generated.
          */
         fun alias(alias: String) = apply { body.alias(alias) }
 
@@ -248,6 +214,25 @@ private constructor(
         fun addAllowedSource(allowedSource: AllowedSource) = apply {
             body.addAllowedSource(allowedSource)
         }
+
+        /**
+         * Optional webhook URL where we POST parsed emails. Must be HTTPS in production (HTTP
+         * allowed for localhost). If omitted, retrieve files via `GET
+         * /v4/inbound-email/{id}/files`.
+         */
+        fun callbackUrl(callbackUrl: String?) = apply { body.callbackUrl(callbackUrl) }
+
+        /** Alias for calling [Builder.callbackUrl] with `callbackUrl.orElse(null)`. */
+        fun callbackUrl(callbackUrl: Optional<String>) = callbackUrl(callbackUrl.getOrNull())
+
+        /**
+         * Sets [Builder.callbackUrl] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.callbackUrl] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun callbackUrl(callbackUrl: JsonField<String>) = apply { body.callbackUrl(callbackUrl) }
 
         /**
          * Optional key-value pairs (max 10) to include in webhook payload. Useful for passing
@@ -400,13 +385,6 @@ private constructor(
          * Returns an immutable instance of [InboundEmailCreateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .callbackUrl()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): InboundEmailCreateParams =
             InboundEmailCreateParams(
@@ -425,9 +403,9 @@ private constructor(
     class Body
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val callbackUrl: JsonField<String>,
         private val alias: JsonField<String>,
         private val allowedSources: JsonField<List<AllowedSource>>,
+        private val callbackUrl: JsonField<String>,
         private val metadata: JsonField<Metadata>,
         private val reference: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -435,37 +413,25 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("callback_url")
-            @ExcludeMissing
-            callbackUrl: JsonField<String> = JsonMissing.of(),
             @JsonProperty("alias") @ExcludeMissing alias: JsonField<String> = JsonMissing.of(),
             @JsonProperty("allowed_sources")
             @ExcludeMissing
             allowedSources: JsonField<List<AllowedSource>> = JsonMissing.of(),
+            @JsonProperty("callback_url")
+            @ExcludeMissing
+            callbackUrl: JsonField<String> = JsonMissing.of(),
             @JsonProperty("metadata")
             @ExcludeMissing
             metadata: JsonField<Metadata> = JsonMissing.of(),
             @JsonProperty("reference")
             @ExcludeMissing
             reference: JsonField<String> = JsonMissing.of(),
-        ) : this(callbackUrl, alias, allowedSources, metadata, reference, mutableMapOf())
+        ) : this(alias, allowedSources, callbackUrl, metadata, reference, mutableMapOf())
 
         /**
-         * Webhook URL where we POST email notifications. Must be HTTPS in production (HTTP allowed
-         * for localhost during development).
-         *
-         * @throws CasParserInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun callbackUrl(): String = callbackUrl.getRequired("callback_url")
-
-        /**
-         * Optional custom email prefix for user-friendly addresses.
-         * - Must be 3-32 characters
-         * - Alphanumeric + hyphens only
-         * - Must start and end with letter/number
-         * - Example: `john-portfolio@import.casparser.in`
-         * - If omitted, generates random ID like `ie_abc123xyz@import.casparser.in`
+         * Optional custom email prefix (e.g. `john-portfolio@import.casparser.in`). 3-32 chars,
+         * alphanumeric + hyphens, must start/end with a letter or number. If omitted, a random ID
+         * is generated.
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -486,6 +452,16 @@ private constructor(
             allowedSources.getOptional("allowed_sources")
 
         /**
+         * Optional webhook URL where we POST parsed emails. Must be HTTPS in production (HTTP
+         * allowed for localhost). If omitted, retrieve files via `GET
+         * /v4/inbound-email/{id}/files`.
+         *
+         * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun callbackUrl(): Optional<String> = callbackUrl.getOptional("callback_url")
+
+        /**
          * Optional key-value pairs (max 10) to include in webhook payload. Useful for passing
          * context like plan_type, campaign_id, etc.
          *
@@ -504,15 +480,6 @@ private constructor(
         fun reference(): Optional<String> = reference.getOptional("reference")
 
         /**
-         * Returns the raw JSON value of [callbackUrl].
-         *
-         * Unlike [callbackUrl], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("callback_url")
-        @ExcludeMissing
-        fun _callbackUrl(): JsonField<String> = callbackUrl
-
-        /**
          * Returns the raw JSON value of [alias].
          *
          * Unlike [alias], this method doesn't throw if the JSON field has an unexpected type.
@@ -528,6 +495,15 @@ private constructor(
         @JsonProperty("allowed_sources")
         @ExcludeMissing
         fun _allowedSources(): JsonField<List<AllowedSource>> = allowedSources
+
+        /**
+         * Returns the raw JSON value of [callbackUrl].
+         *
+         * Unlike [callbackUrl], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("callback_url")
+        @ExcludeMissing
+        fun _callbackUrl(): JsonField<String> = callbackUrl
 
         /**
          * Returns the raw JSON value of [metadata].
@@ -557,61 +533,34 @@ private constructor(
 
         companion object {
 
-            /**
-             * Returns a mutable builder for constructing an instance of [Body].
-             *
-             * The following fields are required:
-             * ```java
-             * .callbackUrl()
-             * ```
-             */
+            /** Returns a mutable builder for constructing an instance of [Body]. */
             @JvmStatic fun builder() = Builder()
         }
 
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
-            private var callbackUrl: JsonField<String>? = null
             private var alias: JsonField<String> = JsonMissing.of()
             private var allowedSources: JsonField<MutableList<AllowedSource>>? = null
+            private var callbackUrl: JsonField<String> = JsonMissing.of()
             private var metadata: JsonField<Metadata> = JsonMissing.of()
             private var reference: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
-                callbackUrl = body.callbackUrl
                 alias = body.alias
                 allowedSources = body.allowedSources.map { it.toMutableList() }
+                callbackUrl = body.callbackUrl
                 metadata = body.metadata
                 reference = body.reference
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
-             * Webhook URL where we POST email notifications. Must be HTTPS in production (HTTP
-             * allowed for localhost during development).
-             */
-            fun callbackUrl(callbackUrl: String) = callbackUrl(JsonField.of(callbackUrl))
-
-            /**
-             * Sets [Builder.callbackUrl] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.callbackUrl] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun callbackUrl(callbackUrl: JsonField<String>) = apply {
-                this.callbackUrl = callbackUrl
-            }
-
-            /**
-             * Optional custom email prefix for user-friendly addresses.
-             * - Must be 3-32 characters
-             * - Alphanumeric + hyphens only
-             * - Must start and end with letter/number
-             * - Example: `john-portfolio@import.casparser.in`
-             * - If omitted, generates random ID like `ie_abc123xyz@import.casparser.in`
+             * Optional custom email prefix (e.g. `john-portfolio@import.casparser.in`). 3-32 chars,
+             * alphanumeric + hyphens, must start/end with a letter or number. If omitted, a random
+             * ID is generated.
              */
             fun alias(alias: String) = alias(JsonField.of(alias))
 
@@ -655,6 +604,27 @@ private constructor(
                     (allowedSources ?: JsonField.of(mutableListOf())).also {
                         checkKnown("allowedSources", it).add(allowedSource)
                     }
+            }
+
+            /**
+             * Optional webhook URL where we POST parsed emails. Must be HTTPS in production (HTTP
+             * allowed for localhost). If omitted, retrieve files via `GET
+             * /v4/inbound-email/{id}/files`.
+             */
+            fun callbackUrl(callbackUrl: String?) = callbackUrl(JsonField.ofNullable(callbackUrl))
+
+            /** Alias for calling [Builder.callbackUrl] with `callbackUrl.orElse(null)`. */
+            fun callbackUrl(callbackUrl: Optional<String>) = callbackUrl(callbackUrl.getOrNull())
+
+            /**
+             * Sets [Builder.callbackUrl] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.callbackUrl] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun callbackUrl(callbackUrl: JsonField<String>) = apply {
+                this.callbackUrl = callbackUrl
             }
 
             /**
@@ -710,19 +680,12 @@ private constructor(
              * Returns an immutable instance of [Body].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .callbackUrl()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Body =
                 Body(
-                    checkRequired("callbackUrl", callbackUrl),
                     alias,
                     (allowedSources ?: JsonMissing.of()).map { it.toImmutable() },
+                    callbackUrl,
                     metadata,
                     reference,
                     additionalProperties.toMutableMap(),
@@ -736,9 +699,9 @@ private constructor(
                 return@apply
             }
 
-            callbackUrl()
             alias()
             allowedSources().ifPresent { it.forEach { it.validate() } }
+            callbackUrl()
             metadata().ifPresent { it.validate() }
             reference()
             validated = true
@@ -760,9 +723,9 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (callbackUrl.asKnown().isPresent) 1 else 0) +
-                (if (alias.asKnown().isPresent) 1 else 0) +
+            (if (alias.asKnown().isPresent) 1 else 0) +
                 (allowedSources.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (callbackUrl.asKnown().isPresent) 1 else 0) +
                 (metadata.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (reference.asKnown().isPresent) 1 else 0)
 
@@ -772,9 +735,9 @@ private constructor(
             }
 
             return other is Body &&
-                callbackUrl == other.callbackUrl &&
                 alias == other.alias &&
                 allowedSources == other.allowedSources &&
+                callbackUrl == other.callbackUrl &&
                 metadata == other.metadata &&
                 reference == other.reference &&
                 additionalProperties == other.additionalProperties
@@ -782,9 +745,9 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
-                callbackUrl,
                 alias,
                 allowedSources,
+                callbackUrl,
                 metadata,
                 reference,
                 additionalProperties,
@@ -794,7 +757,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{callbackUrl=$callbackUrl, alias=$alias, allowedSources=$allowedSources, metadata=$metadata, reference=$reference, additionalProperties=$additionalProperties}"
+            "Body{alias=$alias, allowedSources=$allowedSources, callbackUrl=$callbackUrl, metadata=$metadata, reference=$reference, additionalProperties=$additionalProperties}"
     }
 
     class AllowedSource @JsonCreator private constructor(private val value: JsonField<String>) :
