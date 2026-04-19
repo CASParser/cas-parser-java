@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 (2026-04-19)
+
+Full Changelog: [v0.5.4...v0.6.0](https://github.com/CASParser/cas-parser-java/compare/v0.5.4...v0.6.0)
+
+### Features
+
+* **api:** api update ([cc71346](https://github.com/CASParser/cas-parser-java/commit/cc713467669ee9f6a2456ce9302b6485f0dfe434))
+* **api:** api update ([b6d20bb](https://github.com/CASParser/cas-parser-java/commit/b6d20bb4a78c9a8cf7328cb4336e2d4bf5375825))
+
 ## 0.5.4 (2026-03-25)
 
 Full Changelog: [v0.5.3...v0.5.4](https://github.com/CASParser/cas-parser-java/compare/v0.5.3...v0.5.4)
