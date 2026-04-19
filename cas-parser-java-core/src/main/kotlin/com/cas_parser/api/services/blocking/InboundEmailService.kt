@@ -55,30 +55,30 @@ interface InboundEmailService {
 
     /**
      * Create a dedicated inbound email address for collecting CAS statements via email forwarding.
+     * When an investor forwards a CAS email to this address, we verify the sender and make the file
+     * available to you.
      *
-     * **How it works:**
-     * 1. Create an inbound email with your webhook URL
-     * 2. Display the email address to your user (e.g., "Forward your CAS to
-     *    ie_xxx@import.casparser.in")
-     * 3. When an investor forwards a CAS email, we verify the sender and deliver to your webhook
-     *
-     * **Webhook Delivery:**
-     * - We POST to your `callback_url` with JSON body containing files (matching EmailCASFile
-     *   schema)
-     * - Failed deliveries are retried automatically with exponential backoff
-     *
-     * **Inactivity:**
-     * - Inbound emails with no activity in 30 days are marked inactive
-     * - Active inbound emails remain operational indefinitely
+     * `callback_url` is **optional**:
+     * - **Set it** — we POST each parsed email to your webhook as it arrives.
+     * - **Omit it** — retrieve files via `GET /v4/inbound-email/{id}/files` without building a
+     *   webhook consumer.
      */
-    fun create(params: InboundEmailCreateParams): InboundEmailCreateResponse =
-        create(params, RequestOptions.none())
+    fun create(): InboundEmailCreateResponse = create(InboundEmailCreateParams.none())
 
     /** @see create */
     fun create(
-        params: InboundEmailCreateParams,
+        params: InboundEmailCreateParams = InboundEmailCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): InboundEmailCreateResponse
+
+    /** @see create */
+    fun create(
+        params: InboundEmailCreateParams = InboundEmailCreateParams.none()
+    ): InboundEmailCreateResponse = create(params, RequestOptions.none())
+
+    /** @see create */
+    fun create(requestOptions: RequestOptions): InboundEmailCreateResponse =
+        create(InboundEmailCreateParams.none(), requestOptions)
 
     /** Retrieve details of a specific mailbox including statistics. */
     fun retrieve(inboundEmailId: String): InboundEmailRetrieveResponse =
@@ -192,15 +192,26 @@ interface InboundEmailService {
          * [InboundEmailService.create].
          */
         @MustBeClosed
-        fun create(params: InboundEmailCreateParams): HttpResponseFor<InboundEmailCreateResponse> =
-            create(params, RequestOptions.none())
+        fun create(): HttpResponseFor<InboundEmailCreateResponse> =
+            create(InboundEmailCreateParams.none())
 
         /** @see create */
         @MustBeClosed
         fun create(
-            params: InboundEmailCreateParams,
+            params: InboundEmailCreateParams = InboundEmailCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<InboundEmailCreateResponse>
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            params: InboundEmailCreateParams = InboundEmailCreateParams.none()
+        ): HttpResponseFor<InboundEmailCreateResponse> = create(params, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(requestOptions: RequestOptions): HttpResponseFor<InboundEmailCreateResponse> =
+            create(InboundEmailCreateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v4/inbound-email/{inbound_email_id}`, but is

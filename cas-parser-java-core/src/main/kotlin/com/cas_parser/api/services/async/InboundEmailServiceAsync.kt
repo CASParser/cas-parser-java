@@ -55,30 +55,31 @@ interface InboundEmailServiceAsync {
 
     /**
      * Create a dedicated inbound email address for collecting CAS statements via email forwarding.
+     * When an investor forwards a CAS email to this address, we verify the sender and make the file
+     * available to you.
      *
-     * **How it works:**
-     * 1. Create an inbound email with your webhook URL
-     * 2. Display the email address to your user (e.g., "Forward your CAS to
-     *    ie_xxx@import.casparser.in")
-     * 3. When an investor forwards a CAS email, we verify the sender and deliver to your webhook
-     *
-     * **Webhook Delivery:**
-     * - We POST to your `callback_url` with JSON body containing files (matching EmailCASFile
-     *   schema)
-     * - Failed deliveries are retried automatically with exponential backoff
-     *
-     * **Inactivity:**
-     * - Inbound emails with no activity in 30 days are marked inactive
-     * - Active inbound emails remain operational indefinitely
+     * `callback_url` is **optional**:
+     * - **Set it** — we POST each parsed email to your webhook as it arrives.
+     * - **Omit it** — retrieve files via `GET /v4/inbound-email/{id}/files` without building a
+     *   webhook consumer.
      */
-    fun create(params: InboundEmailCreateParams): CompletableFuture<InboundEmailCreateResponse> =
-        create(params, RequestOptions.none())
+    fun create(): CompletableFuture<InboundEmailCreateResponse> =
+        create(InboundEmailCreateParams.none())
 
     /** @see create */
     fun create(
-        params: InboundEmailCreateParams,
+        params: InboundEmailCreateParams = InboundEmailCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<InboundEmailCreateResponse>
+
+    /** @see create */
+    fun create(
+        params: InboundEmailCreateParams = InboundEmailCreateParams.none()
+    ): CompletableFuture<InboundEmailCreateResponse> = create(params, RequestOptions.none())
+
+    /** @see create */
+    fun create(requestOptions: RequestOptions): CompletableFuture<InboundEmailCreateResponse> =
+        create(InboundEmailCreateParams.none(), requestOptions)
 
     /** Retrieve details of a specific mailbox including statistics. */
     fun retrieve(inboundEmailId: String): CompletableFuture<InboundEmailRetrieveResponse> =
@@ -198,16 +199,26 @@ interface InboundEmailServiceAsync {
          * Returns a raw HTTP response for `post /v4/inbound-email`, but is otherwise the same as
          * [InboundEmailServiceAsync.create].
          */
+        fun create(): CompletableFuture<HttpResponseFor<InboundEmailCreateResponse>> =
+            create(InboundEmailCreateParams.none())
+
+        /** @see create */
         fun create(
-            params: InboundEmailCreateParams
+            params: InboundEmailCreateParams = InboundEmailCreateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<InboundEmailCreateResponse>>
+
+        /** @see create */
+        fun create(
+            params: InboundEmailCreateParams = InboundEmailCreateParams.none()
         ): CompletableFuture<HttpResponseFor<InboundEmailCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
-            params: InboundEmailCreateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<InboundEmailCreateResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<InboundEmailCreateResponse>> =
+            create(InboundEmailCreateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v4/inbound-email/{inbound_email_id}`, but is
