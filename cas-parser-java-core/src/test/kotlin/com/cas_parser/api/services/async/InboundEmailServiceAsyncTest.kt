@@ -20,10 +20,10 @@ internal class InboundEmailServiceAsyncTest {
         val inboundEmailFuture =
             inboundEmailServiceAsync.create(
                 InboundEmailCreateParams.builder()
-                    .callbackUrl("https://api.yourapp.com/webhooks/cas-email")
                     .alias("john-portfolio")
                     .addAllowedSource(InboundEmailCreateParams.AllowedSource.CDSL)
                     .addAllowedSource(InboundEmailCreateParams.AllowedSource.NSDL)
+                    .callbackUrl("https://api.yourapp.com/webhooks/cas-email")
                     .metadata(
                         InboundEmailCreateParams.Metadata.builder()
                             .putAdditionalProperty("plan", JsonValue.from("premium"))
@@ -44,7 +44,7 @@ internal class InboundEmailServiceAsyncTest {
         val client = CasParserOkHttpClientAsync.builder().apiKey("My API Key").build()
         val inboundEmailServiceAsync = client.inboundEmail()
 
-        val inboundEmailFuture = inboundEmailServiceAsync.retrieve("ie_a1b2c3d4e5f6")
+        val inboundEmailFuture = inboundEmailServiceAsync.retrieve("inbound_email_id")
 
         val inboundEmail = inboundEmailFuture.get()
         inboundEmail.validate()

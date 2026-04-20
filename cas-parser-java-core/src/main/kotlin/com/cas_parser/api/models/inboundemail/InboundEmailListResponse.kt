@@ -351,7 +351,8 @@ private constructor(
             allowedSources.getOptional("allowed_sources")
 
         /**
-         * Webhook URL for email notifications
+         * Webhook URL for email notifications. `null` means files are only retrievable via `GET
+         * /v4/inbound-email/{id}/files` (pull delivery).
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -562,8 +563,14 @@ private constructor(
                     }
             }
 
-            /** Webhook URL for email notifications */
-            fun callbackUrl(callbackUrl: String) = callbackUrl(JsonField.of(callbackUrl))
+            /**
+             * Webhook URL for email notifications. `null` means files are only retrievable via `GET
+             * /v4/inbound-email/{id}/files` (pull delivery).
+             */
+            fun callbackUrl(callbackUrl: String?) = callbackUrl(JsonField.ofNullable(callbackUrl))
+
+            /** Alias for calling [Builder.callbackUrl] with `callbackUrl.orElse(null)`. */
+            fun callbackUrl(callbackUrl: Optional<String>) = callbackUrl(callbackUrl.getOrNull())
 
             /**
              * Sets [Builder.callbackUrl] to an arbitrary JSON value.
