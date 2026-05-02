@@ -351,8 +351,8 @@ private constructor(
             allowedSources.getOptional("allowed_sources")
 
         /**
-         * Webhook URL for email notifications. Empty string (`""`) means files are only retrievable
-         * via `GET /v4/inbound-email/{id}/files` (SDK / pull mode).
+         * Webhook URL for email notifications. If set, we POST each parsed email here. If omitted,
+         * files are only retrievable via `GET /v4/inbound-email/{id}/files`.
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -564,8 +564,8 @@ private constructor(
             }
 
             /**
-             * Webhook URL for email notifications. Empty string (`""`) means files are only
-             * retrievable via `GET /v4/inbound-email/{id}/files` (SDK / pull mode).
+             * Webhook URL for email notifications. If set, we POST each parsed email here. If
+             * omitted, files are only retrievable via `GET /v4/inbound-email/{id}/files`.
              */
             fun callbackUrl(callbackUrl: String) = callbackUrl(JsonField.of(callbackUrl))
 
