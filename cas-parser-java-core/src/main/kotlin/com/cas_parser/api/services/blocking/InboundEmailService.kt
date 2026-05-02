@@ -80,7 +80,7 @@ interface InboundEmailService {
     fun create(requestOptions: RequestOptions): InboundEmailCreateResponse =
         create(InboundEmailCreateParams.none(), requestOptions)
 
-    /** Retrieve details of a specific mailbox including statistics. */
+    /** Retrieve details of a specific inbound email including statistics. */
     fun retrieve(inboundEmailId: String): InboundEmailRetrieveResponse =
         retrieve(inboundEmailId, InboundEmailRetrieveParams.none())
 
@@ -116,8 +116,8 @@ interface InboundEmailService {
         retrieve(inboundEmailId, InboundEmailRetrieveParams.none(), requestOptions)
 
     /**
-     * List all mailboxes associated with your API key. Returns active and inactive mailboxes
-     * (deleted mailboxes are excluded).
+     * List all inbound emails associated with your API key. Returns active and paused inbound
+     * emails (deleted ones are excluded).
      */
     fun list(): InboundEmailListResponse = list(InboundEmailListParams.none())
 
