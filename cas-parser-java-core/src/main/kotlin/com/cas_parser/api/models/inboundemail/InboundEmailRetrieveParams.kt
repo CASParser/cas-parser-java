@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieve details of a specific mailbox including statistics. */
+/** Retrieve details of a specific inbound email including statistics. */
 class InboundEmailRetrieveParams
 private constructor(
     private val inboundEmailId: String?,

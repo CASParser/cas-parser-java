@@ -81,7 +81,7 @@ interface InboundEmailServiceAsync {
     fun create(requestOptions: RequestOptions): CompletableFuture<InboundEmailCreateResponse> =
         create(InboundEmailCreateParams.none(), requestOptions)
 
-    /** Retrieve details of a specific mailbox including statistics. */
+    /** Retrieve details of a specific inbound email including statistics. */
     fun retrieve(inboundEmailId: String): CompletableFuture<InboundEmailRetrieveResponse> =
         retrieve(inboundEmailId, InboundEmailRetrieveParams.none())
 
@@ -119,8 +119,8 @@ interface InboundEmailServiceAsync {
         retrieve(inboundEmailId, InboundEmailRetrieveParams.none(), requestOptions)
 
     /**
-     * List all mailboxes associated with your API key. Returns active and inactive mailboxes
-     * (deleted mailboxes are excluded).
+     * List all inbound emails associated with your API key. Returns active and paused inbound
+     * emails (deleted ones are excluded).
      */
     fun list(): CompletableFuture<InboundEmailListResponse> = list(InboundEmailListParams.none())
 
