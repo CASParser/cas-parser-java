@@ -171,6 +171,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): ContractNoteParseResponse = apply {
         if (validated) {
             return@apply
@@ -592,6 +600,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -817,6 +834,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): BrokerInfo = apply {
                 if (validated) {
                     return@apply
@@ -961,6 +988,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): BrokerType = apply {
                     if (validated) {
                         return@apply
@@ -1488,6 +1525,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): ChargesSummary = apply {
                 if (validated) {
                     return@apply
@@ -1856,6 +1903,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): ClientInfo = apply {
                 if (validated) {
                     return@apply
@@ -2167,6 +2224,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): ContractNoteInfo = apply {
                 if (validated) {
                     return@apply
@@ -2586,6 +2653,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): DerivativesTransaction = apply {
                 if (validated) {
                     return@apply
@@ -3232,6 +3309,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): DetailedTrade = apply {
                 if (validated) {
                     return@apply
@@ -3792,6 +3879,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): EquityTransaction = apply {
                 if (validated) {
                     return@apply
