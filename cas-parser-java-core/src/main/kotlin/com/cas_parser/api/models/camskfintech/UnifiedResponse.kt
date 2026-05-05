@@ -342,6 +342,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): UnifiedResponse = apply {
         if (validated) {
             return@apply
@@ -784,6 +792,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): DematAccount = apply {
             if (validated) {
                 return@apply
@@ -1200,6 +1217,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): AdditionalInfo = apply {
                 if (validated) {
                     return@apply
@@ -1372,6 +1399,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): DematType = apply {
                 if (validated) {
                     return@apply
@@ -1733,6 +1770,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Holdings = apply {
                 if (validated) {
                     return@apply
@@ -2076,6 +2123,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Aif = apply {
                     if (validated) {
                         return@apply
@@ -2295,6 +2352,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws CasParserInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): AdditionalInfo = apply {
                         if (validated) {
                             return@apply
@@ -2687,6 +2754,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): CorporateBond = apply {
                     if (validated) {
                         return@apply
@@ -2906,6 +2983,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws CasParserInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): AdditionalInfo = apply {
                         if (validated) {
                             return@apply
@@ -3298,6 +3385,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): DematMutualFund = apply {
                     if (validated) {
                         return@apply
@@ -3517,6 +3614,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws CasParserInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): AdditionalInfo = apply {
                         if (validated) {
                             return@apply
@@ -3907,6 +4014,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Equity = apply {
                     if (validated) {
                         return@apply
@@ -4126,6 +4243,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws CasParserInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): AdditionalInfo = apply {
                         if (validated) {
                             return@apply
@@ -4520,6 +4647,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): GovernmentSecurity = apply {
                     if (validated) {
                         return@apply
@@ -4739,6 +4876,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws CasParserInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): AdditionalInfo = apply {
                         if (validated) {
                             return@apply
@@ -5013,6 +5160,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Insurance = apply {
             if (validated) {
                 return@apply
@@ -5456,6 +5612,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): LifeInsurancePolicy = apply {
                 if (validated) {
                     return@apply
@@ -5850,6 +6016,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Investor = apply {
             if (validated) {
                 return@apply
@@ -6090,6 +6265,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Meta = apply {
             if (validated) {
                 return@apply
@@ -6220,6 +6404,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): CasType = apply {
                 if (validated) {
                     return@apply
@@ -6391,6 +6585,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): StatementPeriod = apply {
                 if (validated) {
                     return@apply
@@ -6814,6 +7018,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): MutualFund = apply {
             if (validated) {
                 return@apply
@@ -7018,6 +7231,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): AdditionalInfo = apply {
                 if (validated) {
                     return@apply
@@ -7552,6 +7775,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Scheme = apply {
                 if (validated) {
                     return@apply
@@ -7881,6 +8114,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): AdditionalInfo = apply {
                     if (validated) {
                         return@apply
@@ -8092,6 +8335,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Gain = apply {
                     if (validated) {
                         return@apply
@@ -8247,6 +8500,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Type = apply {
                     if (validated) {
                         return@apply
@@ -8649,6 +8912,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Np = apply {
             if (validated) {
                 return@apply
@@ -8958,6 +9230,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Fund = apply {
                 if (validated) {
                     return@apply
@@ -9138,6 +9420,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): AdditionalInfo = apply {
                     if (validated) {
                         return@apply
@@ -9258,6 +9550,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws CasParserInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): Tier = apply {
                         if (validated) {
                             return@apply
@@ -9509,6 +9811,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Summary = apply {
             if (validated) {
                 return@apply
@@ -9741,6 +10052,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Accounts = apply {
                 if (validated) {
                     return@apply
@@ -9917,6 +10238,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Demat = apply {
                     if (validated) {
                         return@apply
@@ -10110,6 +10441,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Insurance = apply {
                     if (validated) {
                         return@apply
@@ -10303,6 +10644,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): MutualFunds = apply {
                     if (validated) {
                         return@apply
@@ -10495,6 +10846,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws CasParserInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Nps = apply {
                     if (validated) {
                         return@apply
