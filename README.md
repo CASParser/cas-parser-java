@@ -342,6 +342,21 @@ CasParserClient client = CasParserOkHttpClient.builder()
     .build();
 ```
 
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import com.cas_parser.api.client.CasParserClient;
+import com.cas_parser.api.client.okhttp.CasParserOkHttpClient;
+import com.cas_parser.api.core.http.ProxyAuthenticator;
+
+CasParserClient client = CasParserOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
 ### Connection pooling
 
 To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
