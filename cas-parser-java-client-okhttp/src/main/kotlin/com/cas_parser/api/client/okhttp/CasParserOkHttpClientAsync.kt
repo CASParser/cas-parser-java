@@ -5,6 +5,7 @@ package com.cas_parser.api.client.okhttp
 import com.cas_parser.api.client.CasParserClientAsync
 import com.cas_parser.api.client.CasParserClientAsyncImpl
 import com.cas_parser.api.core.ClientOptions
+import com.cas_parser.api.core.LogLevel
 import com.cas_parser.api.core.Sleeper
 import com.cas_parser.api.core.Timeout
 import com.cas_parser.api.core.http.Headers
@@ -276,6 +277,15 @@ class CasParserOkHttpClientAsync private constructor() {
          * Defaults to 2.
          */
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { clientOptions.logLevel(logLevel) }
 
         /** Your API key for authentication. Use `sandbox-with-json-responses` as Sandbox key. */
         fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
