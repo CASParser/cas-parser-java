@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.7.0 (2026-05-08)
+
+Full Changelog: [v0.6.0...v0.7.0](https://github.com/CASParser/cas-parser-java/compare/v0.6.0...v0.7.0)
+
+### Features
+
+* **api:** api update ([298bc41](https://github.com/CASParser/cas-parser-java/commit/298bc41836f9daa2d97dd46cb1cff7a2f8116117))
+* **api:** api update ([2744bf4](https://github.com/CASParser/cas-parser-java/commit/2744bf455786d58b2ccb12e2a7e8f125586b71b1))
+* **client:** improve logging ([61ed692](https://github.com/CASParser/cas-parser-java/commit/61ed692db29db103fcaebcceb0704c04ecff765d))
+* **client:** more robust error parsing ([98e6ec7](https://github.com/CASParser/cas-parser-java/commit/98e6ec79767f1c16a0cfff5262ae29dad9600873))
+* **client:** support proxy authentication ([2568fbd](https://github.com/CASParser/cas-parser-java/commit/2568fbd4e09f2788cb1b7f49ce00a83505bf2370))
+* support setting headers via env ([ee0b90d](https://github.com/CASParser/cas-parser-java/commit/ee0b90db7cf144c61c23891ff8d026b0b6c358da))
+
+
+### Performance Improvements
+
+* **client:** create one json mapper ([720bb86](https://github.com/CASParser/cas-parser-java/commit/720bb86a8c014e99d8e3a3adbd14b5b9ee4d337a))
+
+
+### Chores
+
+* redact api-key headers in debug logs ([5117271](https://github.com/CASParser/cas-parser-java/commit/5117271062edec94ae5dca288fbff8469e7ab73c))
+* remove duplicated dokka setup ([2265192](https://github.com/CASParser/cas-parser-java/commit/226519252d2ec845c0ca05a13902c3574e0d33e2))
+
+
+### Documentation
+
+* clarify forwards compat behavior ([1181b47](https://github.com/CASParser/cas-parser-java/commit/1181b475ff522b2753786939e5b36e783ab78690))
+
 ## 0.6.0 (2026-04-19)
 
 Full Changelog: [v0.5.4...v0.6.0](https://github.com/CASParser/cas-parser-java/compare/v0.5.4...v0.6.0)

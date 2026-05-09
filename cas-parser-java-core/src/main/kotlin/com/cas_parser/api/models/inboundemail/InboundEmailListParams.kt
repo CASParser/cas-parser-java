@@ -14,8 +14,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * List all mailboxes associated with your API key. Returns active and inactive mailboxes (deleted
- * mailboxes are excluded).
+ * List all inbound emails associated with your API key. Returns active and paused inbound emails
+ * (deleted ones are excluded).
  */
 class InboundEmailListParams
 private constructor(
@@ -322,6 +322,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Status = apply {
             if (validated) {
                 return@apply

@@ -13,11 +13,11 @@ internal class InboundEmailDeleteResponseTest {
     fun create() {
         val inboundEmailDeleteResponse =
             InboundEmailDeleteResponse.builder()
-                .msg("Mailbox deleted successfully")
+                .msg("Inbound email deleted successfully")
                 .status("success")
                 .build()
 
-        assertThat(inboundEmailDeleteResponse.msg()).contains("Mailbox deleted successfully")
+        assertThat(inboundEmailDeleteResponse.msg()).contains("Inbound email deleted successfully")
         assertThat(inboundEmailDeleteResponse.status()).contains("success")
     }
 
@@ -26,7 +26,7 @@ internal class InboundEmailDeleteResponseTest {
         val jsonMapper = jsonMapper()
         val inboundEmailDeleteResponse =
             InboundEmailDeleteResponse.builder()
-                .msg("Mailbox deleted successfully")
+                .msg("Inbound email deleted successfully")
                 .status("success")
                 .build()
 

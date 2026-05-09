@@ -192,6 +192,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): InboxListCasFilesResponse = apply {
         if (validated) {
             return@apply
@@ -285,7 +293,10 @@ private constructor(
         fun casType(): Optional<CasType> = casType.getOptional("cas_type")
 
         /**
-         * URL expiration time in seconds (default 86400 = 24 hours)
+         * URL expiration time in seconds. Defaults vary by source:
+         * - Gmail Inbox Import: 86400 (24h)
+         * - Inbound Email with `callback_url` set: 172800 (48h)
+         * - Inbound Email without `callback_url`: aligned with the session TTL (~30 min)
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -477,7 +488,12 @@ private constructor(
              */
             fun casType(casType: JsonField<CasType>) = apply { this.casType = casType }
 
-            /** URL expiration time in seconds (default 86400 = 24 hours) */
+            /**
+             * URL expiration time in seconds. Defaults vary by source:
+             * - Gmail Inbox Import: 86400 (24h)
+             * - Inbound Email with `callback_url` set: 172800 (48h)
+             * - Inbound Email without `callback_url`: aligned with the session TTL (~30 min)
+             */
             fun expiresIn(expiresIn: Long) = expiresIn(JsonField.of(expiresIn))
 
             /**
@@ -624,6 +640,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): File = apply {
             if (validated) {
                 return@apply
@@ -772,6 +797,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws CasParserInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): CasType = apply {
                 if (validated) {
                     return@apply

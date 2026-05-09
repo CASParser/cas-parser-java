@@ -80,8 +80,8 @@ private constructor(
         allowedSources.getOptional("allowed_sources")
 
     /**
-     * Webhook URL for email notifications. `null` means files are only retrievable via `GET
-     * /v4/inbound-email/{id}/files` (pull delivery).
+     * Webhook URL for email notifications. If set, we POST each parsed email here. If omitted,
+     * files are only retrievable via `GET /v4/inbound-email/{id}/files`.
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -89,7 +89,7 @@ private constructor(
     fun callbackUrl(): Optional<String> = callbackUrl.getOptional("callback_url")
 
     /**
-     * When the mailbox was created
+     * When the inbound email was created
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -129,7 +129,7 @@ private constructor(
     fun reference(): Optional<String> = reference.getOptional("reference")
 
     /**
-     * Current mailbox status
+     * Current inbound email lifecycle status
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -137,7 +137,7 @@ private constructor(
     fun status(): Optional<Status> = status.getOptional("status")
 
     /**
-     * When the mailbox was last updated
+     * When the inbound email was last updated
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -293,13 +293,10 @@ private constructor(
         }
 
         /**
-         * Webhook URL for email notifications. `null` means files are only retrievable via `GET
-         * /v4/inbound-email/{id}/files` (pull delivery).
+         * Webhook URL for email notifications. If set, we POST each parsed email here. If omitted,
+         * files are only retrievable via `GET /v4/inbound-email/{id}/files`.
          */
-        fun callbackUrl(callbackUrl: String?) = callbackUrl(JsonField.ofNullable(callbackUrl))
-
-        /** Alias for calling [Builder.callbackUrl] with `callbackUrl.orElse(null)`. */
-        fun callbackUrl(callbackUrl: Optional<String>) = callbackUrl(callbackUrl.getOrNull())
+        fun callbackUrl(callbackUrl: String) = callbackUrl(JsonField.of(callbackUrl))
 
         /**
          * Sets [Builder.callbackUrl] to an arbitrary JSON value.
@@ -310,7 +307,7 @@ private constructor(
          */
         fun callbackUrl(callbackUrl: JsonField<String>) = apply { this.callbackUrl = callbackUrl }
 
-        /** When the mailbox was created */
+        /** When the inbound email was created */
         fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
 
         /**
@@ -374,7 +371,7 @@ private constructor(
          */
         fun reference(reference: JsonField<String>) = apply { this.reference = reference }
 
-        /** Current mailbox status */
+        /** Current inbound email lifecycle status */
         fun status(status: Status) = status(JsonField.of(status))
 
         /**
@@ -385,7 +382,7 @@ private constructor(
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        /** When the mailbox was last updated */
+        /** When the inbound email was last updated */
         fun updatedAt(updatedAt: OffsetDateTime) = updatedAt(JsonField.of(updatedAt))
 
         /**
@@ -438,6 +435,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): InboundEmailCreateResponse = apply {
         if (validated) {
             return@apply
@@ -585,6 +590,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): AllowedSource = apply {
             if (validated) {
                 return@apply
@@ -682,6 +696,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Metadata = apply {
             if (validated) {
                 return@apply
@@ -723,7 +746,7 @@ private constructor(
         override fun toString() = "Metadata{additionalProperties=$additionalProperties}"
     }
 
-    /** Current mailbox status */
+    /** Current inbound email lifecycle status */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -813,6 +836,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws CasParserInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Status = apply {
             if (validated) {
                 return@apply

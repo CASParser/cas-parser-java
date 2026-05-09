@@ -5,6 +5,7 @@ package com.cas_parser.api.errors
 import com.cas_parser.api.core.JsonValue
 import com.cas_parser.api.core.checkRequired
 import com.cas_parser.api.core.http.Headers
+import com.cas_parser.api.core.jsonMapper
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
@@ -14,7 +15,11 @@ private constructor(
     private val headers: Headers,
     private val body: JsonValue,
     cause: Throwable?,
-) : CasParserServiceException("$statusCode: $body", cause) {
+) :
+    CasParserServiceException(
+        "$statusCode: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = statusCode
 
