@@ -110,7 +110,6 @@ interface CasParserClient {
      */
     fun inbox(): InboxService
 
-    /** Endpoints for generating new CAS documents via email mailback (KFintech). */
     fun kfintech(): KfintechService
 
     /** Endpoints for parsing CAS PDF files from different sources. */
@@ -226,7 +225,6 @@ interface CasParserClient {
          */
         fun inbox(): InboxService.WithRawResponse
 
-        /** Endpoints for generating new CAS documents via email mailback (KFintech). */
         fun kfintech(): KfintechService.WithRawResponse
 
         /** Endpoints for parsing CAS PDF files from different sources. */

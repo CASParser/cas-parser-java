@@ -147,7 +147,6 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
      */
     override fun inbox(): InboxService = inbox
 
-    /** Endpoints for generating new CAS documents via email mailback (KFintech). */
     override fun kfintech(): KfintechService = kfintech
 
     /** Endpoints for parsing CAS PDF files from different sources. */
@@ -300,7 +299,6 @@ class CasParserClientImpl(private val clientOptions: ClientOptions) : CasParserC
          */
         override fun inbox(): InboxService.WithRawResponse = inbox
 
-        /** Endpoints for generating new CAS documents via email mailback (KFintech). */
         override fun kfintech(): KfintechService.WithRawResponse = kfintech
 
         /** Endpoints for parsing CAS PDF files from different sources. */

@@ -153,7 +153,6 @@ class CasParserClientAsyncImpl(private val clientOptions: ClientOptions) : CasPa
      */
     override fun inbox(): InboxServiceAsync = inbox
 
-    /** Endpoints for generating new CAS documents via email mailback (KFintech). */
     override fun kfintech(): KfintechServiceAsync = kfintech
 
     /** Endpoints for parsing CAS PDF files from different sources. */
@@ -306,7 +305,6 @@ class CasParserClientAsyncImpl(private val clientOptions: ClientOptions) : CasPa
          */
         override fun inbox(): InboxServiceAsync.WithRawResponse = inbox
 
-        /** Endpoints for generating new CAS documents via email mailback (KFintech). */
         override fun kfintech(): KfintechServiceAsync.WithRawResponse = kfintech
 
         /** Endpoints for parsing CAS PDF files from different sources. */
