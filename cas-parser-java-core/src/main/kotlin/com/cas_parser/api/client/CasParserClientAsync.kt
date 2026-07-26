@@ -110,7 +110,6 @@ interface CasParserClientAsync {
      */
     fun inbox(): InboxServiceAsync
 
-    /** Endpoints for generating new CAS documents via email mailback (KFintech). */
     fun kfintech(): KfintechServiceAsync
 
     /** Endpoints for parsing CAS PDF files from different sources. */
@@ -230,7 +229,6 @@ interface CasParserClientAsync {
          */
         fun inbox(): InboxServiceAsync.WithRawResponse
 
-        /** Endpoints for generating new CAS documents via email mailback (KFintech). */
         fun kfintech(): KfintechServiceAsync.WithRawResponse
 
         /** Endpoints for parsing CAS PDF files from different sources. */
