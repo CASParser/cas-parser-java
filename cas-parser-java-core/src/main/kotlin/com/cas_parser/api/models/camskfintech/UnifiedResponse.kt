@@ -7839,6 +7839,7 @@ private constructor(
                 private val advisor: JsonField<String>,
                 private val amfi: JsonField<String>,
                 private val closeUnits: JsonField<Float>,
+                private val isDemat: JsonField<Boolean>,
                 private val openUnits: JsonField<Float>,
                 private val rtaCode: JsonField<String>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
@@ -7855,13 +7856,16 @@ private constructor(
                     @JsonProperty("close_units")
                     @ExcludeMissing
                     closeUnits: JsonField<Float> = JsonMissing.of(),
+                    @JsonProperty("is_demat")
+                    @ExcludeMissing
+                    isDemat: JsonField<Boolean> = JsonMissing.of(),
                     @JsonProperty("open_units")
                     @ExcludeMissing
                     openUnits: JsonField<Float> = JsonMissing.of(),
                     @JsonProperty("rta_code")
                     @ExcludeMissing
                     rtaCode: JsonField<String> = JsonMissing.of(),
-                ) : this(advisor, amfi, closeUnits, openUnits, rtaCode, mutableMapOf())
+                ) : this(advisor, amfi, closeUnits, isDemat, openUnits, rtaCode, mutableMapOf())
 
                 /**
                  * Financial advisor name (CAMS/KFintech)
@@ -7886,6 +7890,15 @@ private constructor(
                  *   (e.g. if the server responded with an unexpected value).
                  */
                 fun closeUnits(): Optional<Float> = closeUnits.getOptional("close_units")
+
+                /**
+                 * Whether the scheme is held in demat form (CAMS/KFintech). true = Demat, false =
+                 * Non-Demat, null = not specified.
+                 *
+                 * @throws CasParserInvalidDataException if the JSON field has an unexpected type
+                 *   (e.g. if the server responded with an unexpected value).
+                 */
+                fun isDemat(): Optional<Boolean> = isDemat.getOptional("is_demat")
 
                 /**
                  * Opening balance units for the statement period
@@ -7928,6 +7941,16 @@ private constructor(
                 @JsonProperty("close_units")
                 @ExcludeMissing
                 fun _closeUnits(): JsonField<Float> = closeUnits
+
+                /**
+                 * Returns the raw JSON value of [isDemat].
+                 *
+                 * Unlike [isDemat], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("is_demat")
+                @ExcludeMissing
+                fun _isDemat(): JsonField<Boolean> = isDemat
 
                 /**
                  * Returns the raw JSON value of [openUnits].
@@ -7975,6 +7998,7 @@ private constructor(
                     private var advisor: JsonField<String> = JsonMissing.of()
                     private var amfi: JsonField<String> = JsonMissing.of()
                     private var closeUnits: JsonField<Float> = JsonMissing.of()
+                    private var isDemat: JsonField<Boolean> = JsonMissing.of()
                     private var openUnits: JsonField<Float> = JsonMissing.of()
                     private var rtaCode: JsonField<String> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -7984,6 +8008,7 @@ private constructor(
                         advisor = additionalInfo.advisor
                         amfi = additionalInfo.amfi
                         closeUnits = additionalInfo.closeUnits
+                        isDemat = additionalInfo.isDemat
                         openUnits = additionalInfo.openUnits
                         rtaCode = additionalInfo.rtaCode
                         additionalProperties = additionalInfo.additionalProperties.toMutableMap()
@@ -8037,6 +8062,31 @@ private constructor(
                     fun closeUnits(closeUnits: JsonField<Float>) = apply {
                         this.closeUnits = closeUnits
                     }
+
+                    /**
+                     * Whether the scheme is held in demat form (CAMS/KFintech). true = Demat, false
+                     * = Non-Demat, null = not specified.
+                     */
+                    fun isDemat(isDemat: Boolean?) = isDemat(JsonField.ofNullable(isDemat))
+
+                    /**
+                     * Alias for [Builder.isDemat].
+                     *
+                     * This unboxed primitive overload exists for backwards compatibility.
+                     */
+                    fun isDemat(isDemat: Boolean) = isDemat(isDemat as Boolean?)
+
+                    /** Alias for calling [Builder.isDemat] with `isDemat.orElse(null)`. */
+                    fun isDemat(isDemat: Optional<Boolean>) = isDemat(isDemat.getOrNull())
+
+                    /**
+                     * Sets [Builder.isDemat] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.isDemat] with a well-typed [Boolean] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun isDemat(isDemat: JsonField<Boolean>) = apply { this.isDemat = isDemat }
 
                     /** Opening balance units for the statement period */
                     fun openUnits(openUnits: Float?) = openUnits(JsonField.ofNullable(openUnits))
@@ -8106,6 +8156,7 @@ private constructor(
                             advisor,
                             amfi,
                             closeUnits,
+                            isDemat,
                             openUnits,
                             rtaCode,
                             additionalProperties.toMutableMap(),
@@ -8132,6 +8183,7 @@ private constructor(
                     advisor()
                     amfi()
                     closeUnits()
+                    isDemat()
                     openUnits()
                     rtaCode()
                     validated = true
@@ -8156,6 +8208,7 @@ private constructor(
                     (if (advisor.asKnown().isPresent) 1 else 0) +
                         (if (amfi.asKnown().isPresent) 1 else 0) +
                         (if (closeUnits.asKnown().isPresent) 1 else 0) +
+                        (if (isDemat.asKnown().isPresent) 1 else 0) +
                         (if (openUnits.asKnown().isPresent) 1 else 0) +
                         (if (rtaCode.asKnown().isPresent) 1 else 0)
 
@@ -8168,6 +8221,7 @@ private constructor(
                         advisor == other.advisor &&
                         amfi == other.amfi &&
                         closeUnits == other.closeUnits &&
+                        isDemat == other.isDemat &&
                         openUnits == other.openUnits &&
                         rtaCode == other.rtaCode &&
                         additionalProperties == other.additionalProperties
@@ -8178,6 +8232,7 @@ private constructor(
                         advisor,
                         amfi,
                         closeUnits,
+                        isDemat,
                         openUnits,
                         rtaCode,
                         additionalProperties,
@@ -8187,7 +8242,7 @@ private constructor(
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "AdditionalInfo{advisor=$advisor, amfi=$amfi, closeUnits=$closeUnits, openUnits=$openUnits, rtaCode=$rtaCode, additionalProperties=$additionalProperties}"
+                    "AdditionalInfo{advisor=$advisor, amfi=$amfi, closeUnits=$closeUnits, isDemat=$isDemat, openUnits=$openUnits, rtaCode=$rtaCode, additionalProperties=$additionalProperties}"
             }
 
             class Gain
