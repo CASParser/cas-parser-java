@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.8.0 (2026-08-04)
+
+Full Changelog: [v0.7.1...v0.8.0](https://github.com/CASParser/cas-parser-java/compare/v0.7.1...v0.8.0)
+
+### Features
+
+* **api:** api update ([783168c](https://github.com/CASParser/cas-parser-java/commit/783168cdb417b201a85385312c4f50104c7329cc))
+* **api:** api update ([e7a4124](https://github.com/CASParser/cas-parser-java/commit/e7a412436755222651c663b85e5015b65ae17b44))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([33bd81b](https://github.com/CASParser/cas-parser-java/commit/33bd81b28c588c58043d7b3032ba5d8813c18e31))
+
+
+### Chores
+
+* **internal:** codegen related update ([0890efc](https://github.com/CASParser/cas-parser-java/commit/0890efc15ac9e373082e88837f2a686185b228de))
+
 ## 0.7.1 (2026-05-18)
 
 Full Changelog: [v0.7.0...v0.7.1](https://github.com/CASParser/cas-parser-java/compare/v0.7.0...v0.7.1)
