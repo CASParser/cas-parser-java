@@ -38,6 +38,7 @@ internal class InboxServiceAsyncTest {
             inboxServiceAsync.connectEmail(
                 InboxConnectEmailParams.builder()
                     .redirectUri("https://yourapp.com/oauth-callback")
+                    .provider(InboxConnectEmailParams.Provider.OUTLOOK)
                     .state("abc123")
                     .build()
             )

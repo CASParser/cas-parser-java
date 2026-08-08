@@ -15,12 +15,15 @@ internal class InboxConnectEmailResponseTest {
             InboxConnectEmailResponse.builder()
                 .expiresIn(600L)
                 .oauthUrl("https://accounts.google.com/o/oauth2/v2/auth?client_id=...")
+                .provider(InboxConnectEmailResponse.Provider.OUTLOOK)
                 .status("success")
                 .build()
 
         assertThat(inboxConnectEmailResponse.expiresIn()).contains(600L)
         assertThat(inboxConnectEmailResponse.oauthUrl())
             .contains("https://accounts.google.com/o/oauth2/v2/auth?client_id=...")
+        assertThat(inboxConnectEmailResponse.provider())
+            .contains(InboxConnectEmailResponse.Provider.OUTLOOK)
         assertThat(inboxConnectEmailResponse.status()).contains("success")
     }
 
@@ -31,6 +34,7 @@ internal class InboxConnectEmailResponseTest {
             InboxConnectEmailResponse.builder()
                 .expiresIn(600L)
                 .oauthUrl("https://accounts.google.com/o/oauth2/v2/auth?client_id=...")
+                .provider(InboxConnectEmailResponse.Provider.OUTLOOK)
                 .status("success")
                 .build()
 
