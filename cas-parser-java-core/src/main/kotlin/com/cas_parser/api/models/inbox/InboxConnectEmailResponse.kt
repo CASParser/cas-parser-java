@@ -270,6 +270,8 @@ private constructor(
 
             @JvmField val OUTLOOK = of("outlook")
 
+            @JvmField val ZOHO = of("zoho")
+
             @JvmStatic fun of(value: String) = Provider(JsonField.of(value))
         }
 
@@ -277,6 +279,7 @@ private constructor(
         enum class Known {
             GMAIL,
             OUTLOOK,
+            ZOHO,
         }
 
         /**
@@ -291,6 +294,7 @@ private constructor(
         enum class Value {
             GMAIL,
             OUTLOOK,
+            ZOHO,
             /** An enum member indicating that [Provider] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -306,6 +310,7 @@ private constructor(
             when (this) {
                 GMAIL -> Value.GMAIL
                 OUTLOOK -> Value.OUTLOOK
+                ZOHO -> Value.ZOHO
                 else -> Value._UNKNOWN
             }
 
@@ -322,6 +327,7 @@ private constructor(
             when (this) {
                 GMAIL -> Known.GMAIL
                 OUTLOOK -> Known.OUTLOOK
+                ZOHO -> Known.ZOHO
                 else -> throw CasParserInvalidDataException("Unknown Provider: $value")
             }
 
