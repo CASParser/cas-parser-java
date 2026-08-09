@@ -36,7 +36,10 @@ import kotlin.jvm.optionals.getOrNull
  * - `error` - Error code (e.g., `access_denied`, `token_exchange_failed`)
  * - `state` - Your original state parameter
  *
- * **Store the `inbox_token` client-side** and use it for all subsequent inbox API calls.
+ * **Store the `inbox_token` client-side** and use it for all subsequent inbox API calls. The token
+ * is long-lived (it stores an encrypted refresh token), so a single OAuth connect gives ongoing
+ * access to both historical and future CAS statements in the user's inbox. Reuse the same token
+ * until the user revokes access via `/v4/inbox/disconnect` or their provider's account settings.
  */
 class InboxConnectEmailParams
 private constructor(
@@ -55,11 +58,14 @@ private constructor(
 
     /**
      * Mail provider to connect. Defaults to `gmail`.
-     * - `gmail` - Google accounts
-     * - `outlook` - Microsoft accounts
+     * - `gmail` - Google accounts: `@gmail.com` and Google Workspace domains.
+     * - `outlook` - personal Microsoft accounts: `@outlook.com`, `@hotmail.com`, `@live.com`,
+     *   `@msn.com` and localised variants (`@hotmail.co.uk`, `@live.in`, `@hotmail.fr`). Any other
+     *   address registered as a personal Microsoft account also works, including custom domains.
+     * - `zoho` - Zoho Mail accounts, including custom domains hosted on Zoho.
      *
-     * Any value other than `outlook` is treated as `gmail`. The resolved provider is returned in
-     * the response.
+     * Any unrecognised value is treated as `gmail`. The resolved provider is returned in the
+     * response.
      *
      * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -157,11 +163,15 @@ private constructor(
 
         /**
          * Mail provider to connect. Defaults to `gmail`.
-         * - `gmail` - Google accounts
-         * - `outlook` - Microsoft accounts
+         * - `gmail` - Google accounts: `@gmail.com` and Google Workspace domains.
+         * - `outlook` - personal Microsoft accounts: `@outlook.com`, `@hotmail.com`, `@live.com`,
+         *   `@msn.com` and localised variants (`@hotmail.co.uk`, `@live.in`, `@hotmail.fr`). Any
+         *   other address registered as a personal Microsoft account also works, including custom
+         *   domains.
+         * - `zoho` - Zoho Mail accounts, including custom domains hosted on Zoho.
          *
-         * Any value other than `outlook` is treated as `gmail`. The resolved provider is returned
-         * in the response.
+         * Any unrecognised value is treated as `gmail`. The resolved provider is returned in the
+         * response.
          */
         fun provider(provider: Provider) = apply { body.provider(provider) }
 
@@ -358,11 +368,15 @@ private constructor(
 
         /**
          * Mail provider to connect. Defaults to `gmail`.
-         * - `gmail` - Google accounts
-         * - `outlook` - Microsoft accounts
+         * - `gmail` - Google accounts: `@gmail.com` and Google Workspace domains.
+         * - `outlook` - personal Microsoft accounts: `@outlook.com`, `@hotmail.com`, `@live.com`,
+         *   `@msn.com` and localised variants (`@hotmail.co.uk`, `@live.in`, `@hotmail.fr`). Any
+         *   other address registered as a personal Microsoft account also works, including custom
+         *   domains.
+         * - `zoho` - Zoho Mail accounts, including custom domains hosted on Zoho.
          *
-         * Any value other than `outlook` is treated as `gmail`. The resolved provider is returned
-         * in the response.
+         * Any unrecognised value is treated as `gmail`. The resolved provider is returned in the
+         * response.
          *
          * @throws CasParserInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -457,11 +471,15 @@ private constructor(
 
             /**
              * Mail provider to connect. Defaults to `gmail`.
-             * - `gmail` - Google accounts
-             * - `outlook` - Microsoft accounts
+             * - `gmail` - Google accounts: `@gmail.com` and Google Workspace domains.
+             * - `outlook` - personal Microsoft accounts: `@outlook.com`, `@hotmail.com`,
+             *   `@live.com`, `@msn.com` and localised variants (`@hotmail.co.uk`, `@live.in`,
+             *   `@hotmail.fr`). Any other address registered as a personal Microsoft account also
+             *   works, including custom domains.
+             * - `zoho` - Zoho Mail accounts, including custom domains hosted on Zoho.
              *
-             * Any value other than `outlook` is treated as `gmail`. The resolved provider is
-             * returned in the response.
+             * Any unrecognised value is treated as `gmail`. The resolved provider is returned in
+             * the response.
              */
             fun provider(provider: Provider) = provider(JsonField.of(provider))
 
@@ -592,11 +610,14 @@ private constructor(
 
     /**
      * Mail provider to connect. Defaults to `gmail`.
-     * - `gmail` - Google accounts
-     * - `outlook` - Microsoft accounts
+     * - `gmail` - Google accounts: `@gmail.com` and Google Workspace domains.
+     * - `outlook` - personal Microsoft accounts: `@outlook.com`, `@hotmail.com`, `@live.com`,
+     *   `@msn.com` and localised variants (`@hotmail.co.uk`, `@live.in`, `@hotmail.fr`). Any other
+     *   address registered as a personal Microsoft account also works, including custom domains.
+     * - `zoho` - Zoho Mail accounts, including custom domains hosted on Zoho.
      *
-     * Any value other than `outlook` is treated as `gmail`. The resolved provider is returned in
-     * the response.
+     * Any unrecognised value is treated as `gmail`. The resolved provider is returned in the
+     * response.
      */
     class Provider @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -616,6 +637,8 @@ private constructor(
 
             @JvmField val OUTLOOK = of("outlook")
 
+            @JvmField val ZOHO = of("zoho")
+
             @JvmStatic fun of(value: String) = Provider(JsonField.of(value))
         }
 
@@ -623,6 +646,7 @@ private constructor(
         enum class Known {
             GMAIL,
             OUTLOOK,
+            ZOHO,
         }
 
         /**
@@ -637,6 +661,7 @@ private constructor(
         enum class Value {
             GMAIL,
             OUTLOOK,
+            ZOHO,
             /** An enum member indicating that [Provider] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -652,6 +677,7 @@ private constructor(
             when (this) {
                 GMAIL -> Value.GMAIL
                 OUTLOOK -> Value.OUTLOOK
+                ZOHO -> Value.ZOHO
                 else -> Value._UNKNOWN
             }
 
@@ -668,6 +694,7 @@ private constructor(
             when (this) {
                 GMAIL -> Known.GMAIL
                 OUTLOOK -> Known.OUTLOOK
+                ZOHO -> Known.ZOHO
                 else -> throw CasParserInvalidDataException("Unknown Provider: $value")
             }
 

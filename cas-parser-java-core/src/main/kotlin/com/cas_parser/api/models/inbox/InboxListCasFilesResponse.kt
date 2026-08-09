@@ -294,7 +294,7 @@ private constructor(
 
         /**
          * URL expiration time in seconds. Defaults vary by source:
-         * - Gmail Inbox Import: 86400 (24h)
+         * - Email Inbox Import (Gmail, Outlook, Zoho): 86400 (24h)
          * - Inbound Email with `callback_url` set: 172800 (48h)
          * - Inbound Email without `callback_url`: aligned with the session TTL (~30 min)
          *
@@ -490,7 +490,7 @@ private constructor(
 
             /**
              * URL expiration time in seconds. Defaults vary by source:
-             * - Gmail Inbox Import: 86400 (24h)
+             * - Email Inbox Import (Gmail, Outlook, Zoho): 86400 (24h)
              * - Inbound Email with `callback_url` set: 172800 (48h)
              * - Inbound Email without `callback_url`: aligned with the session TTL (~30 min)
              */
