@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.cas_parser.api/cas-parser-java)](https://central.sonatype.com/artifact/com.cas_parser.api/cas-parser-java/0.8.0)
-[![javadoc](https://javadoc.io/badge2/com.cas_parser.api/cas-parser-java/0.8.0/javadoc.svg)](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.8.0)
+[![javadoc](https://javadoc.io/badge2/com.cas_parser.api/cas-parser-java/javadoc.svg)](https://javadoc.io/doc/com.cas_parser.api/cas-parser-java/0.8.0)
 
 <!-- x-release-please-end -->
 
