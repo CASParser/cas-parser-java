@@ -11,6 +11,7 @@ internal class InboxConnectEmailParamsTest {
     fun create() {
         InboxConnectEmailParams.builder()
             .redirectUri("https://yourapp.com/oauth-callback")
+            .provider(InboxConnectEmailParams.Provider.OUTLOOK)
             .state("abc123")
             .build()
     }
@@ -20,12 +21,14 @@ internal class InboxConnectEmailParamsTest {
         val params =
             InboxConnectEmailParams.builder()
                 .redirectUri("https://yourapp.com/oauth-callback")
+                .provider(InboxConnectEmailParams.Provider.OUTLOOK)
                 .state("abc123")
                 .build()
 
         val body = params._body()
 
         assertThat(body.redirectUri()).isEqualTo("https://yourapp.com/oauth-callback")
+        assertThat(body.provider()).contains(InboxConnectEmailParams.Provider.OUTLOOK)
         assertThat(body.state()).contains("abc123")
     }
 
