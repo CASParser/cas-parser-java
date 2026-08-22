@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.1 (2026-08-18)
+
+Full Changelog: [v0.9.0...v0.9.1](https://github.com/CASParser/cas-parser-java/compare/v0.9.0...v0.9.1)
+
+### Chores
+
+* **internal:** codegen related update ([65281ed](https://github.com/CASParser/cas-parser-java/commit/65281ed7de4fa6346bc1ade6ebcfa7e466b41da3))
+
 ## 0.9.0 (2026-08-14)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/CASParser/cas-parser-java/compare/v0.8.0...v0.9.0)
